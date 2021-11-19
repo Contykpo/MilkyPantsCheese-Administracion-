@@ -10,8 +10,8 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
-    [Migration("20211119221134_inicial")]
-    partial class inicial
+    [Migration("20211119235504_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,61 @@ namespace MilkyPantsCheese.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:Identity", "(1, 1)")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityUser<int>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
@@ -122,6 +177,56 @@ namespace MilkyPantsCheese.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("MilkyPantsCheese.ModeloCisterna", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Capacidad")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cisterna");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloFermento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("EstaDisponible")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaInicioFermentado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Observaciones")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<decimal>("Peso")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("decimal(3,2)");
+
+                    b.Property<int?>("TipoFermentoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TipoFermentoId");
+
+                    b.ToTable("Fermento");
+                });
+
             modelBuilder.Entity("MilkyPantsCheese.ModeloLoteDeLeche", b =>
                 {
                     b.Property<int>("Id")
@@ -130,6 +235,9 @@ namespace MilkyPantsCheese.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Acidez")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CisternaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("EstaDisponible")
@@ -150,13 +258,134 @@ namespace MilkyPantsCheese.Migrations
                         .HasPrecision(3, 2)
                         .HasColumnType("decimal(3,2)");
 
+                    b.Property<int?>("TamboDeProvenienciaId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Temperatura")
                         .HasPrecision(3, 2)
                         .HasColumnType("decimal(3,2)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CisternaId");
+
+                    b.HasIndex("TamboDeProvenienciaId");
+
                     b.ToTable("LoteDeLeche");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloLoteDeQueso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("FechaInicioCuracion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("FermentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LoteDeLecheId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Observaciones")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<int?>("TipoQuesoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FermentoId");
+
+                    b.HasIndex("LoteDeLecheId");
+
+                    b.HasIndex("TipoQuesoId");
+
+                    b.ToTable("LoteDeQueso");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloQueso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EstadoQueso")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LoteId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PesoPostCurado")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("decimal(3,2)");
+
+                    b.Property<decimal>("PesoPreCurado")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("decimal(3,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoteId");
+
+                    b.ToTable("Queso");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloTambo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Notas")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tambo");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloTipoFermento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TipoFermento");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloTipoQueso", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TipoQueso");
                 });
 
             modelBuilder.Entity("MilkyPantsCheese_Administracion.Modelos.ModeloRol", b =>
@@ -311,11 +540,89 @@ namespace MilkyPantsCheese.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MilkyPantsCheese.ModeloFermento", b =>
+                {
+                    b.HasOne("MilkyPantsCheese.ModeloTipoFermento", "TipoFermento")
+                        .WithMany()
+                        .HasForeignKey("TipoFermentoId");
+
+                    b.Navigation("TipoFermento");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloLoteDeLeche", b =>
+                {
+                    b.HasOne("MilkyPantsCheese.ModeloCisterna", "Cisterna")
+                        .WithMany("LotesDeLeche")
+                        .HasForeignKey("CisternaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MilkyPantsCheese.ModeloTambo", "TamboDeProveniencia")
+                        .WithMany("LotesDeLecheDeEsteTambo")
+                        .HasForeignKey("TamboDeProvenienciaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Cisterna");
+
+                    b.Navigation("TamboDeProveniencia");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloLoteDeQueso", b =>
+                {
+                    b.HasOne("MilkyPantsCheese.ModeloFermento", "Fermento")
+                        .WithMany()
+                        .HasForeignKey("FermentoId");
+
+                    b.HasOne("MilkyPantsCheese.ModeloLoteDeLeche", "LoteDeLeche")
+                        .WithMany("LotesDeQueso")
+                        .HasForeignKey("LoteDeLecheId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MilkyPantsCheese.ModeloTipoQueso", "TipoQueso")
+                        .WithMany()
+                        .HasForeignKey("TipoQuesoId");
+
+                    b.Navigation("Fermento");
+
+                    b.Navigation("LoteDeLeche");
+
+                    b.Navigation("TipoQueso");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloQueso", b =>
+                {
+                    b.HasOne("MilkyPantsCheese.ModeloLoteDeQueso", "Lote")
+                        .WithMany("Quesos")
+                        .HasForeignKey("LoteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Lote");
+                });
+
             modelBuilder.Entity("MilkyPantsCheese_Administracion.Modelos.ModeloRol", b =>
                 {
                     b.HasOne("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", null)
                         .WithMany("Roles")
                         .HasForeignKey("ModeloUsuarioId");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloCisterna", b =>
+                {
+                    b.Navigation("LotesDeLeche");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloLoteDeLeche", b =>
+                {
+                    b.Navigation("LotesDeQueso");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloLoteDeQueso", b =>
+                {
+                    b.Navigation("Quesos");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloTambo", b =>
+                {
+                    b.Navigation("LotesDeLecheDeEsteTambo");
                 });
 
             modelBuilder.Entity("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", b =>

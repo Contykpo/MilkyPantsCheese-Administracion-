@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MilkyPantsCheese_Administracion.Modelos;
 
 namespace MilkyPantsCheese
 {
@@ -46,5 +46,19 @@ namespace MilkyPantsCheese
 		/// </summary>
 		public DateTimeOffset Fecha { get; set; }
 
+		/// <summary>
+		/// Tambo del que proviene este lote de leche.
+		/// </summary>
+		public ModeloTambo TamboDeProveniencia { get; set; }
+
+		/// <summary>
+		/// Cisterna donde este lote de leche es almacenado.
+		/// </summary>
+		public ModeloCisterna Cisterna { get; set; }
+
+        /// <summary>
+        /// Lotes de queso que compone este lote.
+        /// </summary>
+        public virtual List<ModeloLoteDeQueso> LotesDeQueso { get; set; } = new List<ModeloLoteDeQueso>();
 	}
 }

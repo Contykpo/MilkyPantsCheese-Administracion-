@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MilkyPantsCheese_Administracion.Modelos
+namespace MilkyPantsCheese
 {
     /// <summary>
     /// Clase base de todos los modelos con una key
