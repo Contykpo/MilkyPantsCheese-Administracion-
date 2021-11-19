@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MilkyPantsCheese_Administracion
+namespace MilkyPantsCheese
 {
     public class Program
     {

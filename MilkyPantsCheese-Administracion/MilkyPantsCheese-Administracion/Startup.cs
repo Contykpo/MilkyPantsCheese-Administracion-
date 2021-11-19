@@ -14,8 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace MilkyPantsCheese_Administracion
+namespace MilkyPantsCheese
 {
     public class Startup
     {
@@ -31,6 +32,11 @@ namespace MilkyPantsCheese_Administracion
         {
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+
+            var connString = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<MilkyDbContext>(config =>
+	            config.UseSqlServer(connString));
 
             services.AddAuthorization(options =>
             {
