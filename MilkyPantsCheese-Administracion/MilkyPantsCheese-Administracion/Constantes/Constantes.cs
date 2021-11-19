@@ -1,4 +1,4 @@
-﻿namespace MilkyPantsCheese_Administracion
+﻿namespace MilkyPantsCheese
 {
     /// <summary>
     /// Valores constantes accesibles en toda la aplicacion.
