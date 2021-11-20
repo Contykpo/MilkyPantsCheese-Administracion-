@@ -29,19 +29,18 @@ namespace MilkyPantsCheese
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(config =>
-            {
-	            config.RequireAuthenticatedSignIn = false;
-            });
+	        services.AddAuthentication("Identity.Application")
+		        .AddCookie("Identity.Application");
 
-            var connString = Configuration.GetConnectionString("DefaultConnection");
+	        var connString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<MilkyDbContext>(config =>
 	            config.UseSqlServer(connString));
 
             services.AddIdentityCore<ModeloUsuario>()
 	            .AddRoles<ModeloRol>()
-	            .AddEntityFrameworkStores<MilkyDbContext>();
+	            .AddEntityFrameworkStores<MilkyDbContext>()
+	            .AddSignInManager<SignInManager<ModeloUsuario>>();
 
             //Configuramos el servicio de autenticacion
             services.Configure<IdentityOptions>(configIdentity =>
