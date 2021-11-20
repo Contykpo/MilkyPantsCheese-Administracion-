@@ -67,7 +67,7 @@ namespace MilkyPantsCheese.Pages
 			//Si llegamos hasta este punto significa que comprobamos los datos ingresados asi que iniciamos sesion
 	        await _signInManager.SignInAsync(usuarioEncontrado, new AuthenticationProperties
 	        {
-		        ExpiresUtc = DateTimeOffset.Now + TimeSpan.FromHours(1),
+		        ExpiresUtc = DateTimeOffset.Now + usuarioEncontrado.DuracionSesion,
 		        IssuedUtc = DateTimeOffset.Now
 	        });
 

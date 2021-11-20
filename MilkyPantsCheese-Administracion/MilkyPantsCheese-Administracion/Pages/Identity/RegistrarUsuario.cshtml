@@ -10,22 +10,22 @@
         
         <label asp-for="NombreUsuario"></label>
         <input asp-for="NombreUsuario" type="text" class="form-text"/>
-        @Html.ValidationMessageFor(m => m.NombreUsuario)
+        @Html.ValidationMessageFor(m => m.NombreUsuario, string.Empty, new { @class = "text-danger" })
     </div>
     
     @*Contraseña*@
-    <div class="d-flex flex-row">
+    <div class="d-flex flex-row flex-wrap">
         
         <div class="form-group">
             <label asp-for="Contraseña"></label>
             <input asp-for="Contraseña" type="password" class="form-text" />
-            @Html.ValidationMessageFor(m => m.Contraseña)
+            @Html.ValidationMessageFor(m => m.Contraseña, string.Empty, new { @class = "text-danger" })
         </div>
         
         <div class="form-group ml-2 flex-sm-wrap">
             <label asp-for="ConfirmacionContraseña"></label>
             <input asp-for="ConfirmacionContraseña" type="password" class="form-text" />
-            @Html.ValidationMessageFor(m => m.ConfirmacionContraseña)
+            @Html.ValidationMessageFor(m => m.ConfirmacionContraseña, string.Empty, new { @class = "text-danger" })
         </div>
     </div>
 
@@ -38,11 +38,24 @@
         @Html.ValidationMessageFor(u => u.TipoDeUsuarioSeleccionado, string.Empty, new {@class = "text-danger"})
     </div>
     
+    @*Duracion de la sesion de este usuario*@
     <div class="form-group">
-        
-        <input asp-for="DuracionSesion" type="time"/>
+
+        <label asp-for="DuracionSesion" data-toggle="tooltip" data-placement="top" title="Duracion de la sesion del usuario en horas. Si se deja en cero la sesion no se cerrara nunca"></label>
+        <input asp-for="DuracionSesion" type="time" style="display: block;"/>
+        @Html.ValidationMessageFor(u => u.DuracionSesion, string.Empty, new {@class = "text-danger"})
     </div>
 
-    <input type="submit" class="btn btn-primary" value="Registrar Usuario"/>
+    <input type="submit" class="btn btn-primary mt-5" value="Registrar Usuario"/>
 
 </form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        @*Inicializamos todos los tooltip de la pagina*@
+        $("[data-toggle='tooltip']").tooltip();
+
+    </script>
+}
