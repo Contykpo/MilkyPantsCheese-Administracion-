@@ -27,7 +27,7 @@ namespace MilkyPantsCheese
         /// <summary>
         /// Fecha en la que se inicio el fermentado.
         /// </summary>
-        public DateTime FechaInicioFermentado { get; set; }
+        public DateTimeOffset FechaInicioFermentado { get; set; }
 
         /// <summary>
         /// Tipo de fermentado.

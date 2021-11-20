@@ -3,6 +3,7 @@
 @using MilkyPantsCheese_Administracion.Modelos
 @using Microsoft.AspNetCore.Identity
 @using MilkyPantsCheese
+@using Castle.Core.Internal
 
 @model MilkyPantsCheese.Pages.MilkyMan.AdministrarLotesDeLecheModel
 
@@ -26,17 +27,59 @@
                     <h4 class="text-left">Cisternas:</h4>
                 </div>
 
-                @foreach (var cisterna in cisternas)
+                @if (cisternas.IsNullOrEmpty())
                 {
-                    <div class="pl-4 pr-4 d-flex flex-row border border-primary rounded-pill">
+                    <label class="text-center">No hay cisternas disponibles</label>
+                }
+                else
+                {
+                    @foreach (var cisterna in cisternas)
+                    {
+                        <div class="pl-4 pr-4 d-flex flex-row border border-primary rounded-pill">
 
-                        <div class="d-flex flex-column">
-                            <label class="text-left">Nombre: @cisterna.Nombre</label>
-                            <label class="text-left">Capacidad: @cisterna.Capacidad</label>
-                            <label class="text-left">Total lotes: @cisterna.LotesDeLeche.Count</label>
+                            <div class="d-flex flex-column">
+                                <label class="text-left">Nombre: @cisterna.Nombre</label>
+                                <label class="text-left">Capacidad: @cisterna.Capacidad</label>
+                                <label class="text-left">Total lotes: @cisterna.LotesDeLeche.Count</label>
+                            </div>
+
                         </div>
+                    }
+                }
+                
+                <!--Boton para acceder a la pagina de creacion de cisternas-->
+                <div class="ml-5 align-bottom">
+                
+                    <a class="form-text btn btn-primary" asp-page="CreacionCisterna">Crear Cita</a>
 
-                    </div>
+                </div>
+
+            </div>
+
+            <div class="ml-5 p-3 overflow-auto border border-warning rounded">
+
+                <div class="pb-3">
+                    <h4 class="text-left">Lotes:</h4>
+                </div>
+
+                @if (Model.CisternaSeleccionada is null)
+                {
+                    <label class="text-center">No hay lotes disponibles</label>
+                }
+                else
+                {
+                    @foreach (var lote in @Model.CisternaSeleccionada.LotesDeLeche)
+                    {
+                        <div class="pl-4 pr-4 d-flex flex-row border border-primary rounded-pill">
+
+                            <div class="d-flex flex-column">
+                                <label class="text-left">ID: @lote.Id</label>
+                                <label class="text-left">Esta disponible: @BooleanHelpers.ObtenerSiNo(lote.EstaDisponible)</label>
+                                <label class="text-left">Fecha llegada: @lote.Fecha.ToString("HH:mm tt zz")</label>
+                            </div>
+
+                        </div>
+                    }
                 }
 
             </div>

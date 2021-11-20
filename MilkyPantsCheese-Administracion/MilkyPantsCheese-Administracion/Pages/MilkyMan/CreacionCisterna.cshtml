@@ -1,0 +1,49 @@
+﻿@page
+@using MilkyPantsCheese
+
+@model MilkyPantsCheese.Pages.CreacionCisternaModel
+
+@{
+    @if (!User.IsInRole(Constantes.NombreRolMilkyMan))
+    {
+        <div class="container p-3 border border-warning rounded">
+
+            <div>
+                <h4 class="text-left">Nueva cisterna:</h4>
+            </div>
+
+            <form method="post"
+                  enctype="multipart/form-data"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-url="CreacionCita">
+
+                <!--Nombre clave asignado a la cisterna-->
+                <div class="form-group">
+
+                    <label asp-for="Nombre"></label>
+                    <textarea asp-for="Nombre" class="form-text overflow-auto w-100"></textarea>
+
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+
+                </div>
+                
+                <!--Capacidad total en litros de la cisterna-->
+                <div class="form-group">
+
+                    <label asp-for="CapacidadLitros"></label>
+                    <input asp-for="CapacidadLitros" type="text" class="form-text"/>
+
+                    @Html.ValidationMessageFor(m => m.CapacidadLitros, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Boton submit-->
+                <div class="form-group mt-4">
+                    <input type="submit" value="Crear" class="form-text btn btn-primary" />
+                </div>
+            </form>
+
+        </div>
+    }
+}

@@ -18,7 +18,7 @@ namespace MilkyPantsCheese
         /// <summary>
         /// Fecha de inicio de curacion del queso.
         /// </summary>
-        public DateTime FechaInicioCuracion { get; set; }
+        public DateTimeOffset FechaInicioCuracion { get; set; }
 
         /// <summary>
         /// Lote de leche del que se compone.
