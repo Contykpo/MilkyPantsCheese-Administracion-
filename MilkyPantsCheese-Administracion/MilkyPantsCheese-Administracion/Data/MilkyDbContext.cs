@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MilkyPantsCheese_Administracion.Modelos;
 
 namespace MilkyPantsCheese
@@ -19,7 +20,7 @@ namespace MilkyPantsCheese
         public DbSet<ModeloCisterna> Tambos { get; set; }
 
         public MilkyDbContext(DbContextOptions<MilkyDbContext> options)
-			:base(options){}
+	        : base(options) {}
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
@@ -28,6 +29,13 @@ namespace MilkyPantsCheese
             #region Usuario
 
             builder.Entity<IdentityUser<int>>().Property(u => u.Id).HasAnnotation("SqlServer:Identity", "(1, 1)");
+
+            builder.Entity<ModeloUsuario>()
+	            .Property(u => u.DuracionSesion)
+	            .HasConversion(new TimeSpanToTicksConverter());
+
+            builder.Entity<ModeloUsuario>()
+	            .HasMany(u => u.HistorialDeIniciosDeSesion);
 
             #endregion
 
@@ -166,6 +174,13 @@ namespace MilkyPantsCheese
                 .OnDelete(DeleteBehavior.Cascade);
 
             #endregion
-        }
+
+            #region DateTimeOffset Wrapper
+
+            builder.Entity<ModeloDateTimeOffsetWrapper>()
+	            .ToTable("DateTimeOffsetWrapper");
+
+            #endregion
+		}
 	}
 }

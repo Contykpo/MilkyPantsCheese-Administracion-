@@ -10,9 +10,11 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MilkyPantsCheese_Administracion.Modelos;
 
 namespace MilkyPantsCheese
@@ -29,18 +31,18 @@ namespace MilkyPantsCheese
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-	        services.AddAuthentication("Identity.Application")
-		        .AddCookie("Identity.Application");
+	        services.AddAuthentication();
 
 	        var connString = Configuration.GetConnectionString("DefaultConnection");
-
+            
             services.AddDbContext<MilkyDbContext>(config =>
-	            config.UseSqlServer(connString));
+	            config.UseLazyLoadingProxies()
+		              .UseSqlServer(connString));
 
-            services.AddIdentityCore<ModeloUsuario>()
+            services.AddDefaultIdentity<ModeloUsuario>()
 	            .AddRoles<ModeloRol>()
 	            .AddEntityFrameworkStores<MilkyDbContext>()
-	            .AddSignInManager<SignInManager<ModeloUsuario>>();
+	            .AddSignInManager<MilkySignInManager>();
 
             //Configuramos el servicio de autenticacion
             services.Configure<IdentityOptions>(configIdentity =>

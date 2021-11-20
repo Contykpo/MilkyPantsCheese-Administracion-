@@ -17,10 +17,10 @@ namespace MilkyPantsCheese.Pages
     public class LoginModel : PageModel
     {
 	    public readonly UserManager<ModeloUsuario> _userManager;
-	    public readonly SignInManager<ModeloUsuario> _signInManager;
+	    public readonly MilkySignInManager _signInManager;
 	    public readonly MilkyDbContext _dbContext;
 
-	    public LoginModel(UserManager<ModeloUsuario> userManager, SignInManager<ModeloUsuario> signInManager, MilkyDbContext dbContext)
+	    public LoginModel(UserManager<ModeloUsuario> userManager, MilkySignInManager signInManager, MilkyDbContext dbContext)
 	    {
 		    _userManager = userManager;
 		    _signInManager = signInManager;
@@ -45,8 +45,18 @@ namespace MilkyPantsCheese.Pages
 	        if (!ModelState.IsValid)
 		        return Page();
 
-	        var usuarioEncontrado = await _dbContext.Users.FirstOrDefaultAsync(u => string.Equals(Nombre, Nombre, StringComparison.Ordinal));
+			//Intentamos encontrar el usuario con el nombre especificado
+	        var usuarioEncontrado = await _dbContext.Users.FirstOrDefaultAsync(u => Nombre == u.UserName);
 
+			//Si no se pudo encontrar un usuario con ese nombre añadirmos un mensaje de error y recargamos la pagina
+	        if (usuarioEncontrado == null)
+	        {
+		        ModelState.AddModelError(nameof(Nombre), "Usuario incorrecto");
+
+		        return Page();
+	        }
+
+			//Si pudimos encontrar el usuario entonces procedemos a comprobar la contraseña. Si la comprobacion falla, añadimos un mensaje de error y recargamos la pagina
 	        if (_userManager.PasswordHasher.VerifyHashedPassword(usuarioEncontrado, usuarioEncontrado.PasswordHash, Contraseña) != PasswordVerificationResult.Success)
 	        {
 				ModelState.AddModelError(nameof(Contraseña), "Contraseña incorrecta");
@@ -54,6 +64,7 @@ namespace MilkyPantsCheese.Pages
 				return Page();
 	        }
 
+			//Si llegamos hasta este punto significa que comprobamos los datos ingresados asi que iniciamos sesion
 	        await _signInManager.SignInAsync(usuarioEncontrado, new AuthenticationProperties
 	        {
 		        ExpiresUtc = DateTimeOffset.Now + TimeSpan.FromHours(1),
