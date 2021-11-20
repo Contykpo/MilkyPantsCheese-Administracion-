@@ -1,5 +1,46 @@
 ﻿@page
-@model MilkyPantsCheese.Pages.MilkyMan.AdministrarLotesDeLecheModel
-@{
 
+@using MilkyPantsCheese_Administracion.Modelos
+@using Microsoft.AspNetCore.Identity
+@using MilkyPantsCheese
+
+@model MilkyPantsCheese.Pages.MilkyMan.AdministrarLotesDeLecheModel
+
+@inject MilkyDbContext dbContext
+@inject UserManager<ModeloUsuario> _userManager
+
+@{
+    //Obtenemos el modelo del usuario actual.
+    var usuario = await _userManager.GetUserAsync(User);
+
+    //Verificamos si el usuario actual tiene el rol de paciente o medico. La muestra y gestion de citas dependera del rol del usuario.
+    if (User.IsInRole(Constantes.NombreRolMilkyMan))
+    {
+        var cisternas = dbContext.Cisternas;
+
+        <div class="d-flex flex-row h-75 w-75 position-absolute">
+
+            <div class="ml-5 p-3 overflow-auto border border-warning rounded">
+
+                <div class="pb-3">
+                    <h4 class="text-left">Citas:</h4>
+                </div>
+
+                @foreach (var cisterna in cisternas)
+                {
+                    <div class="pl-4 pr-4 d-flex flex-row border border-primary rounded-pill">
+
+                        <div class="d-flex flex-column">
+                            <label class="text-left">Nombre: @cisterna.Nombre</label>
+                            <label class="text-left">Capacidad: @cisterna.Capacidad</label>
+                            <label class="text-left">Total lotes: @cisterna.LotesDeLeche.Count</label>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    }
 }

@@ -49,12 +49,12 @@ namespace MilkyPantsCheese
 		/// <summary>
 		/// Tambo del que proviene este lote de leche.
 		/// </summary>
-		public ModeloTambo TamboDeProveniencia { get; set; }
+		public virtual ModeloTambo TamboDeProveniencia { get; set; }
 
 		/// <summary>
 		/// Cisterna donde este lote de leche es almacenado.
 		/// </summary>
-		public ModeloCisterna Cisterna { get; set; }
+		public virtual ModeloCisterna Cisterna { get; set; }
 
         /// <summary>
         /// Lotes de queso que compone este lote.

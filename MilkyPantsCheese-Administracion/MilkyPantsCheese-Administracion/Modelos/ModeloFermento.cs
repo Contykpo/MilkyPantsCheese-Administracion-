@@ -32,6 +32,6 @@ namespace MilkyPantsCheese
         /// <summary>
         /// Tipo de fermentado.
         /// </summary>
-        public ModeloTipoFermento TipoFermento { get; set; }
+        public virtual ModeloTipoFermento TipoFermento { get; set; }
     }
 }

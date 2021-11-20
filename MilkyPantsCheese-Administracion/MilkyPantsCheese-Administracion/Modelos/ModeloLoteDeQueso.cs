@@ -23,17 +23,17 @@ namespace MilkyPantsCheese
         /// <summary>
         /// Lote de leche del que se compone.
         /// </summary>
-        public ModeloLoteDeLeche LoteDeLeche { get; set; }
+        public virtual ModeloLoteDeLeche LoteDeLeche { get; set; }
 
         /// <summary>
         /// Fermento del que se compone.
         /// </summary>
-        public ModeloFermento Fermento { get; set; }
+        public virtual ModeloFermento Fermento { get; set; }
 
         /// <summary>
         /// Tipo del queso.
         /// </summary>
-        public ModeloTipoQueso TipoQueso { get; set; }
+        public virtual ModeloTipoQueso TipoQueso { get; set; }
 
         /// <summary>
         /// Quesos que componen al lote.

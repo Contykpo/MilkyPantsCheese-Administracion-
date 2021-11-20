@@ -23,6 +23,6 @@
         /// <summary>
         /// Lote que compone este queso.
         /// </summary>
-        public ModeloLoteDeQueso Lote { get; set; }
+        public virtual ModeloLoteDeQueso Lote { get; set; }
     }
 }

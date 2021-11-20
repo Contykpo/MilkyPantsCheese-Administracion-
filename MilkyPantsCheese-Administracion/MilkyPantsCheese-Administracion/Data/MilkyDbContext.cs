@@ -14,6 +14,10 @@ namespace MilkyPantsCheese
 
         public DbSet<ModeloLoteDeQueso> LotesDeQuesos { get; set; }
 
+        public DbSet<ModeloCisterna> Cisternas { get; set; }
+
+        public DbSet<ModeloCisterna> Tambos { get; set; }
+
         public MilkyDbContext(DbContextOptions<MilkyDbContext> options)
 			:base(options){}
 
