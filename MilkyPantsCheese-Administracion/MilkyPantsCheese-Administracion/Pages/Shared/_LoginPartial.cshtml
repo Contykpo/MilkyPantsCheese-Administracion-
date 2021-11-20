@@ -2,14 +2,18 @@
 <ul class="navbar-nav">
 @if (User.Identity.IsAuthenticated)
 {
+    <!--Boton cerrar sesion-->
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Cerrar sesion</a>
-        </li>
+        <form method="post" asp-page="/Identity/Logout">
+            <input type="submit" value="Cerrar sesion" class="btn btn-light"/>
+        </form>
+    </li>
 }
 else
 {
+    <!--Boton ingresar-->
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-page="./Identity/Login">Ingresar</a>
+        <a class="nav-link text-dark" asp-page="/Identity/Login">Ingresar</a>
         </li>
 }
 </ul>

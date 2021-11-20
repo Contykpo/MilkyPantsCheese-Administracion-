@@ -17,8 +17,15 @@ namespace MilkyPantsCheese_Administracion.Modelos
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override int Id { get; set; }
 
+        /// <summary>
+        /// Indica si este usuario se encuentra habilitado
+        /// </summary>
+        public bool EstaHabilitado { get; set; } = true;
 
-        public List<ModeloRol> Roles { get; set; } = new List<ModeloRol>();
+        /// <summary>
+        /// Fecha y hora en la que acaba la suspension de este usuario
+        /// </summary>
+        public DateTimeOffset FinSuspension { get; set; }
 
         public ModeloUsuario()
         {
