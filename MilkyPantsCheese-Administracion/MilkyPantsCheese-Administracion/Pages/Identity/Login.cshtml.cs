@@ -17,10 +17,10 @@ namespace MilkyPantsCheese.Pages
     public class LoginModel : PageModel
     {
 	    public readonly UserManager<ModeloUsuario> _userManager;
-	    public readonly SignInManager<ModeloUsuario> _signInManager;
+	    public readonly MilkySignInManager _signInManager;
 	    public readonly MilkyDbContext _dbContext;
 
-	    public LoginModel(UserManager<ModeloUsuario> userManager, SignInManager<ModeloUsuario> signInManager, MilkyDbContext dbContext)
+	    public LoginModel(UserManager<ModeloUsuario> userManager, MilkySignInManager signInManager, MilkyDbContext dbContext)
 	    {
 		    _userManager = userManager;
 		    _signInManager = signInManager;

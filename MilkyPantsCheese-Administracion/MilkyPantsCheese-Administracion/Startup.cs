@@ -36,11 +36,13 @@ namespace MilkyPantsCheese
 	        var connString = Configuration.GetConnectionString("DefaultConnection");
             
             services.AddDbContext<MilkyDbContext>(config =>
-	            config.UseSqlServer(connString));
+	            config.UseLazyLoadingProxies()
+		              .UseSqlServer(connString));
 
             services.AddDefaultIdentity<ModeloUsuario>()
 	            .AddRoles<ModeloRol>()
-	            .AddEntityFrameworkStores<MilkyDbContext>();
+	            .AddEntityFrameworkStores<MilkyDbContext>()
+	            .AddSignInManager<MilkySignInManager>();
 
             //Configuramos el servicio de autenticacion
             services.Configure<IdentityOptions>(configIdentity =>

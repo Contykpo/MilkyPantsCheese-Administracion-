@@ -44,6 +44,8 @@ namespace MilkyPantsCheese.Pages
         [DisplayName("Tipo de usuario")]
         public string TipoDeUsuarioSeleccionado { get; set; }
 
+        public TimeSpan DuracionSesion { get; set; } = TimeSpan.FromHours(1);
+
         public List<SelectListItem> TiposUsuarioDisponibles { get; set; } = UserHelpers.ObtenerTiposDeUsuarioDisponibles();
 
         public void OnGet()

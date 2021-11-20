@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
-namespace MilkyPantsCheese_Administracion.Modelos
+namespace MilkyPantsCheese
 {
     /// <summary>
     /// Clase base para el modelo de un usuario
@@ -23,9 +22,29 @@ namespace MilkyPantsCheese_Administracion.Modelos
         public bool EstaHabilitado { get; set; } = true;
 
         /// <summary>
+        /// <para>
+        ///     Indica si el usuario tiene la sesion abierta.
+        /// </para>
+        /// <para>
+        ///     ¡No utilizar para verificar si un usuario esta logueado! En su lugar utilizar el metodo <see cref="MilkySignInManager.IsSignedIn"/>
+        /// </para>
+        /// </summary>
+        public bool TieneSesionAbierta { get; set; }
+
+        /// <summary>
         /// Fecha y hora en la que acaba la suspension de este usuario
         /// </summary>
         public DateTimeOffset FinSuspension { get; set; }
+
+        /// <summary>
+        /// Duracion de la sesion del usuario
+        /// </summary>
+        public TimeSpan DuracionSesion { get; set; }
+
+        /// <summary>
+        /// Fecha y hora del ultimo inicio de sesion
+        /// </summary>
+        public virtual List<ModeloDateTimeOffsetWrapper> HistorialDeIniciosDeSesion { get; set; } = new List<ModeloDateTimeOffsetWrapper>();
 
         public ModeloUsuario()
         {

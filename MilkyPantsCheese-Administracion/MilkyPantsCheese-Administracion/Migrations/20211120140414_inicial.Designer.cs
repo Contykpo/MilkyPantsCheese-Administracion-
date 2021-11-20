@@ -10,8 +10,8 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
-    [Migration("20211119235504_Inicial")]
-    partial class Inicial
+    [Migration("20211120140414_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -125,10 +125,12 @@ namespace MilkyPantsCheese.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -164,10 +166,12 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -194,6 +198,26 @@ namespace MilkyPantsCheese.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cisterna");
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloDateTimeOffsetWrapper", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTimeOffset>("Fecha")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("ModeloUsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModeloUsuarioId");
+
+                    b.ToTable("DateTimeOffsetWrapper");
                 });
 
             modelBuilder.Entity("MilkyPantsCheese.ModeloFermento", b =>
@@ -388,41 +412,7 @@ namespace MilkyPantsCheese.Migrations
                     b.ToTable("TipoQueso");
                 });
 
-            modelBuilder.Entity("MilkyPantsCheese_Administracion.Modelos.ModeloRol", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ModeloUsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ModeloUsuarioId");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
-                });
-
-            modelBuilder.Entity("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", b =>
+            modelBuilder.Entity("MilkyPantsCheese.ModeloUsuario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -436,12 +426,21 @@ namespace MilkyPantsCheese.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("DuracionSesion")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<bool>("EstaHabilitado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("FinSuspension")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -469,6 +468,9 @@ namespace MilkyPantsCheese.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("TieneSesionAbierta")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -489,6 +491,35 @@ namespace MilkyPantsCheese.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MilkyPantsCheese_Administracion.Modelos.ModeloRol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("MilkyPantsCheese_Administracion.Modelos.ModeloRol", null)
@@ -500,7 +531,7 @@ namespace MilkyPantsCheese.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", null)
+                    b.HasOne("MilkyPantsCheese.ModeloUsuario", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -509,7 +540,7 @@ namespace MilkyPantsCheese.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", null)
+                    b.HasOne("MilkyPantsCheese.ModeloUsuario", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -524,7 +555,7 @@ namespace MilkyPantsCheese.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", null)
+                    b.HasOne("MilkyPantsCheese.ModeloUsuario", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -533,11 +564,18 @@ namespace MilkyPantsCheese.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", null)
+                    b.HasOne("MilkyPantsCheese.ModeloUsuario", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MilkyPantsCheese.ModeloDateTimeOffsetWrapper", b =>
+                {
+                    b.HasOne("MilkyPantsCheese.ModeloUsuario", null)
+                        .WithMany("HistorialDeIniciosDeSesion")
+                        .HasForeignKey("ModeloUsuarioId");
                 });
 
             modelBuilder.Entity("MilkyPantsCheese.ModeloFermento", b =>
@@ -598,13 +636,6 @@ namespace MilkyPantsCheese.Migrations
                     b.Navigation("Lote");
                 });
 
-            modelBuilder.Entity("MilkyPantsCheese_Administracion.Modelos.ModeloRol", b =>
-                {
-                    b.HasOne("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("ModeloUsuarioId");
-                });
-
             modelBuilder.Entity("MilkyPantsCheese.ModeloCisterna", b =>
                 {
                     b.Navigation("LotesDeLeche");
@@ -625,9 +656,9 @@ namespace MilkyPantsCheese.Migrations
                     b.Navigation("LotesDeLecheDeEsteTambo");
                 });
 
-            modelBuilder.Entity("MilkyPantsCheese_Administracion.Modelos.ModeloUsuario", b =>
+            modelBuilder.Entity("MilkyPantsCheese.ModeloUsuario", b =>
                 {
-                    b.Navigation("Roles");
+                    b.Navigation("HistorialDeIniciosDeSesion");
                 });
 #pragma warning restore 612, 618
         }
