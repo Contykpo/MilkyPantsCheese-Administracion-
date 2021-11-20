@@ -2,17 +2,14 @@
 <ul class="navbar-nav">
 @if (User.Identity.IsAuthenticated)
 {
-        <li class="nav-item">
-            <span class="navbar-text text-dark">Hello @User.Identity.Name!</span>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Sign out</a>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Cerrar sesion</a>
         </li>
 }
 else
 {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">Sign in</a>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-page="./Identity/Login">Ingresar</a>
         </li>
 }
 </ul>
