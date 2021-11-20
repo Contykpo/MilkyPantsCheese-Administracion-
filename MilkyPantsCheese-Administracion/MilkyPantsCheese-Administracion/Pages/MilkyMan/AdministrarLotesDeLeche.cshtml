@@ -14,7 +14,7 @@
     var usuario = await _userManager.GetUserAsync(User);
 
     //Verificamos si el usuario actual tiene el rol de paciente o medico. La muestra y gestion de citas dependera del rol del usuario.
-    if (User.IsInRole(Constantes.NombreRolMilkyMan))
+    if (!User.IsInRole(Constantes.NombreRolMilkyMan))
     {
         var cisternas = dbContext.Cisternas;
 
@@ -23,7 +23,7 @@
             <div class="ml-5 p-3 overflow-auto border border-warning rounded">
 
                 <div class="pb-3">
-                    <h4 class="text-left">Citas:</h4>
+                    <h4 class="text-left">Cisternas:</h4>
                 </div>
 
                 @foreach (var cisterna in cisternas)

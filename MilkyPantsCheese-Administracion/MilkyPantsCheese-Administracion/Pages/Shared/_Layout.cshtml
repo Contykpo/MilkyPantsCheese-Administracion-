@@ -33,9 +33,9 @@
 
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                        @if (User.IsInRole(Constantes.NombreRolMilkyMan))
+                        @if (!User.IsInRole(Constantes.NombreRolMilkyMan))
                         {
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AdministrarLotesDeLeche">Administrar lotes de leche</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
                         }
 
                         <div class="align-self-end">
