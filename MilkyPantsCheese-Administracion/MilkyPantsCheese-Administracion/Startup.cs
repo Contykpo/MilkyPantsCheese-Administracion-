@@ -188,6 +188,7 @@ namespace MilkyPantsCheese
             ModeloUsuario nuevoUsuario = new ModeloUsuario
             {
 	            UserName = "Administrador",
+                DuracionSesion = TimeSpan.FromMinutes(30)
             };
 
             nuevoUsuario.PasswordHash = userManager.PasswordHasher.HashPassword(nuevoUsuario, @"*&//--ElJefe--\\=¿?");

@@ -37,6 +37,10 @@
                         {
                             <a class="nav-link text-dark" asp-area="" asp-page="/AdministrarLotesDeLeche">Administrar lotes de leche</a>
                         }
+                        else if (User.IsInRole(Constantes.NombreRolAdministrador))
+                        {
+                            <a class="nav-link text-dark" asp-page="/Identity/RegistrarUsuario">Administrar usuarios</a>
+                        }
 
                         <div class="align-self-end">
                             <partial name="_LoginPartial" />
