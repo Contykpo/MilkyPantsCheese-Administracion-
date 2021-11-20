@@ -1,15 +1,15 @@
-
 <ul class="navbar-nav">
-@if (User.Identity.IsAuthenticated)
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Cerrar sesion</a>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">Cerrar sesion</a>
         </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-page="./Identity/Login">Ingresar</a>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-page="./Identity/Login">Ingresar</a>
         </li>
-}
+    }
 </ul>
