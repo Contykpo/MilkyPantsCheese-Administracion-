@@ -143,7 +143,7 @@ namespace MilkyPantsCheese
 	        if (!await roleManager.RoleExistsAsync(Constantes.NombreRolCheeseDoctor))
 		        await roleManager.CreateAsync(new ModeloRol(Constantes.NombreRolCheeseDoctor));
 
-            //Rol mr x
+            //Rol señor de los fermentados
 	        if (!await roleManager.RoleExistsAsync(Constantes.NombreRolCheeseScientist))
 		        await roleManager.CreateAsync(new ModeloRol(Constantes.NombreRolCheeseScientist));
 
