@@ -84,7 +84,7 @@ namespace MilkyPantsCheese
 				return false;
 
 			//Si no ha expirado la sesion y no se cerro manualmente devolvemos verdadero
-			return ultimoInicioDeSesion.Fecha + usuario.DuracionSesion > DateTimeOffset.UtcNow && usuario.TieneSesionAbierta;
+			return ultimoInicioDeSesion.Fecha.UtcDateTime.Add(usuario.DuracionSesion) > DateTimeOffset.UtcNow && usuario.TieneSesionAbierta;
 		}
 	}
 }

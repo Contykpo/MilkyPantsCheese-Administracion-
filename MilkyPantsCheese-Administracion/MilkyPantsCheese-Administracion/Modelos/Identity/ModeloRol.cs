@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace MilkyPantsCheese_Administracion.Modelos
+namespace MilkyPantsCheese
 {
     /// <summary>
     /// Modelo para un rol en Milky Pants Cheese
     /// </summary>
     public class ModeloRol : IdentityRole<int>
     {
+	    /// <summary>
+	    /// Usuarios que tienen este rol
+	    /// </summary>
+	    public virtual List<ModeloUsuario> Usuarios { get; set; } = new List<ModeloUsuario>();
+
         /// <summary>
         /// Constructor por defecto
         /// </summary>

@@ -12,21 +12,24 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MilkyPantsCheese_Administracion.Modelos;
+using Microsoft.Extensions.Logging;
 
 namespace MilkyPantsCheese
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; init; }
+        public IWebHostEnvironment Environment { get; init; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -39,10 +42,26 @@ namespace MilkyPantsCheese
 	            config.UseLazyLoadingProxies()
 		              .UseSqlServer(connString));
 
-            services.AddDefaultIdentity<ModeloUsuario>()
-	            .AddRoles<ModeloRol>()
+            services.AddIdentity<ModeloUsuario, ModeloRol>()
 	            .AddEntityFrameworkStores<MilkyDbContext>()
+	            .AddUserManager<MilkyUserManager>()
 	            .AddSignInManager<MilkySignInManager>();
+
+            services.ConfigureApplicationCookie(config =>
+            {
+	            config.LoginPath = "/Identity/Login";
+	            config.LogoutPath = "/Identity/Logout";
+	            config.AccessDeniedPath = "/Identity/AccesoDenegado";
+            });
+
+            if (Environment.IsDevelopment())
+            {
+	            services.AddLogging(config =>
+	            {
+		            config.ClearProviders();
+		            config.AddConsole();
+	            });
+            }
 
             //Configuramos el servicio de autenticacion
             services.Configure<IdentityOptions>(configIdentity =>
@@ -110,11 +129,19 @@ namespace MilkyPantsCheese
                 endpoints.MapRazorPages();
             });
 
+            var logger = servicios.GetRequiredService<ILogger<Startup>>();
+
+            logger.Log(LogLevel.Trace, "Creando base de datos");
+
             //Nos aseguramos de que la base de datos exista y las migraciones esten aplicadas
             CrearBaseDeDatos(servicios).Wait();
 
+            logger.Log(LogLevel.Trace, "Creando roles");
+
             //Nos aseguramos de que todos los roles esten creados
             CrearRolesSiNoExisten((RoleManager<ModeloRol>)servicios.GetService(typeof(RoleManager<ModeloRol>))).Wait();
+
+            logger.Log(LogLevel.Trace, "Creando usuario administrador");
 
             //Creamos el usuario del administrador en caso de que no exista
             CrearUsuarioAdministrador(servicios).Wait();
@@ -126,7 +153,7 @@ namespace MilkyPantsCheese
         /// <param name="servicios">Proveedor de servicios que contiene el <see cref="MilkyDbContext"/></param>
         private async Task CrearBaseDeDatos(IServiceProvider servicios)
         {
-            await using var dbContext = servicios.CreateScope().ServiceProvider.GetRequiredService<MilkyDbContext>();
+	        await using var dbContext = servicios.CreateScope().ServiceProvider.GetRequiredService<MilkyDbContext>();
 
             await dbContext.Database.MigrateAsync();
         }
@@ -176,7 +203,7 @@ namespace MilkyPantsCheese
         /// <param name="servicios">Proveedor de servicios que contiene el <see cref="MilkyDbContext"/> y el <see cref="UserManager{TUser}"/></param>
         private async Task CrearUsuarioAdministrador(IServiceProvider servicios)
         {
-	        var userManager = servicios.GetRequiredService<UserManager<ModeloUsuario>>();
+	        var userManager = servicios.GetRequiredService<MilkyUserManager>();
 
 	        await using var dbContext = servicios.CreateScope().ServiceProvider.GetRequiredService<MilkyDbContext>();
 

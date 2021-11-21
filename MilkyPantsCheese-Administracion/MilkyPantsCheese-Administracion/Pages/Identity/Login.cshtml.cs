@@ -10,17 +10,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using MilkyPantsCheese_Administracion.Modelos;
 
 namespace MilkyPantsCheese.Pages
 {
     public class LoginModel : PageModel
     {
-	    public readonly UserManager<ModeloUsuario> _userManager;
+	    public readonly MilkyUserManager _userManager;
 	    public readonly MilkySignInManager _signInManager;
 	    public readonly MilkyDbContext _dbContext;
 
-	    public LoginModel(UserManager<ModeloUsuario> userManager, MilkySignInManager signInManager, MilkyDbContext dbContext)
+	    public LoginModel(MilkyUserManager userManager, MilkySignInManager signInManager, MilkyDbContext dbContext)
 	    {
 		    _userManager = userManager;
 		    _signInManager = signInManager;
@@ -35,10 +34,6 @@ namespace MilkyPantsCheese.Pages
         [PasswordPropertyText(true)]
         [Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         public string Contraseña { get; set; }
-
-        public void OnGet()
-        {
-        }
 
         public async Task<IActionResult> OnPost()
         {
@@ -67,8 +62,8 @@ namespace MilkyPantsCheese.Pages
 			//Si llegamos hasta este punto significa que comprobamos los datos ingresados asi que iniciamos sesion
 	        await _signInManager.SignInAsync(usuarioEncontrado, new AuthenticationProperties
 	        {
-		        ExpiresUtc = DateTimeOffset.Now + usuarioEncontrado.DuracionSesion,
-		        IssuedUtc = DateTimeOffset.Now
+		        ExpiresUtc = DateTimeOffset.UtcNow.Add(usuarioEncontrado.DuracionSesion),
+		        IssuedUtc = DateTimeOffset.UtcNow
 	        });
 
 	        return RedirectToPage("/Index");

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MilkyPantsCheese_Administracion.Modelos;
 
 namespace MilkyPantsCheese
 {
@@ -36,6 +35,10 @@ namespace MilkyPantsCheese
 
             builder.Entity<ModeloUsuario>()
 	            .HasMany(u => u.HistorialDeIniciosDeSesion);
+
+            builder.Entity<ModeloUsuario>()
+	            .HasMany(u => u.Roles)
+	            .WithMany(r => r.Usuarios);
 
             #endregion
 

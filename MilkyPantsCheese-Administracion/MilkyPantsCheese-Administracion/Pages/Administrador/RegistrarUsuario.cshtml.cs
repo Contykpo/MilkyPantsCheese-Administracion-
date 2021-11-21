@@ -2,22 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 
 namespace MilkyPantsCheese.Pages
 {
     [Authorize(Roles = Constantes.NombreRolAdministrador)]
     public class RegistrarUsuarioModel : PageModel
     {
-	    public readonly UserManager<ModeloUsuario> _userManager;
+	    public readonly MilkyUserManager _userManager;
 	    public readonly MilkyDbContext _dbContext;
 
-        public RegistrarUsuarioModel(UserManager<ModeloUsuario> userManager, MilkyDbContext dbContext)
+	    public readonly ILogger<RegistrarUsuarioModel> _logger;
+
+        public RegistrarUsuarioModel(MilkyUserManager userManager, MilkyDbContext dbContext, ILogger<RegistrarUsuarioModel> logger)
         {
 	        _userManager = userManager;
 	        _dbContext = dbContext;
@@ -89,6 +93,8 @@ namespace MilkyPantsCheese.Pages
 	        }
 	        catch (Exception ex)
 	        {
+                _logger.Log(LogLevel.Trace, ex, "Error al crear usuario");
+
 		        return RedirectToPage("/Error");
 	        }
 

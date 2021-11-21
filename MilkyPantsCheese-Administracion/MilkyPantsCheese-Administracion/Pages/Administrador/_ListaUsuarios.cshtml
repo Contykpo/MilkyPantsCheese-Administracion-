@@ -1,0 +1,125 @@
+﻿@model MilkyPantsCheese.Pages.AdministrarUsuariosModel
+@inject MilkySignInManager signInManager
+
+@*Por cada usuario que cumple con el filtro aplicado*@
+@foreach (var usuario in Model.UsuariosFiltrados)
+{
+    @*Vemos si el usuario esta online*@
+    var usuarioActualEstaOnline = signInManager.IsSignedIn(usuario);
+
+    <div class="table bg-light rounded">
+        
+        <div class="row">
+            
+            @*Nombre del usuario*@
+            <div class="col-md-2 col-sm-3">@usuario.UserName</div>
+            
+            @*Indicador estado usuario*@
+            <div class="col-md-2 col-sm-3 d-flex flex-row">
+                <div class="rounded-circle align-self-center mr-2 @(usuarioActualEstaOnline ? "bg-success" : "bg-danger")" style="width: 10px; height: 10px;"></div>
+                <div>@(usuarioActualEstaOnline ? "Online" : "Offline")</div>
+            </div>
+            
+            @*Opciones de edicion*@
+            <div class="d-inline-flex col-3">
+
+                @*Boton editar*@
+                <div style="padding-right: 20px">
+                    <a asp-page="/Administrador/EditarUsuario" asp-route-id="@usuario.Id">Editar</a>
+                </div>
+                
+                @*Boton suspender*@
+                <div style="padding-right: 20px">
+                    <a href="#" onclick="Suspender(@usuario.Id)">Suspender</a>
+                </div>
+                
+                @*Boton deshabilitar*@
+                <div>
+                    <a href="#" onclick="ToggleHabilitado(@usuario.Id)" id="botonDeshabilitar_@usuario.Id">@(usuario.EstaHabilitado ? "Deshabilitar" : "Habilitar")</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    @*Url que utilizar para la peticion ajax*@
+    var urlActual;
+
+    @*Id del usuario actualmente seleccionado*@
+    var idUsuarioActual = 0;
+
+    @*Indica si la opcion seleccinada es deshabilitar/habilitar*@
+    var esMensajeConfirmacionDeshabilitar = false;
+
+    @*Funcion llamada cuando el usuario presiona el boton suspender*@
+    function Suspender(idUsuario)
+    {
+        esMensajeConfirmacionDeshabilitar = false;
+        idUsuarioActual = idUsuario;
+
+        @*Actualizamos el contenido del mensaje de confirmacion*@
+        $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; top: 50%; transform: translateY(-50%);">\n\
+            <h2>Ingresar datos de la suspension</h2>\n\
+            <p class="mt-md-5 mt-sm-2">Fecha en la que finalizara la suspension:</p>\n\
+            <input class="align-self-center" name="FechaFinSuspension" type="date" />\n\
+            <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
+            <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
+            <button class="botonAceptarSuspension btn btn-primary" onclick="AceptarPresionadoHandler(event, contenidoMensaje)">Aceptar</button>\n\
+            </div>\n\
+            </div>');
+
+        urlActual = "AdministrarUsuarios?handler=Suspender&id=" + idUsuarioActual;
+
+        ToggleVisibilidadMensaje();
+    }
+
+    @*Funcion llamada cuando el usuario presiona el boton deshabilitar/habilitar*@
+    function ToggleHabilitado(idUsuario)
+    {
+        esMensajeConfirmacionDeshabilitar = true;
+        idUsuarioActual = idUsuario;
+
+        console.log('#botonDeshabilitar' + idUsuarioActual);
+
+        @*Actualizamos el contenido del mensaje de confirmacion*@
+        $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
+            <h2>¿Esta seguro de ' + $('#botonDeshabilitar_'+idUsuarioActual).html().toLowerCase() + ' a este usuario?</h2>\n\
+            <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
+            <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
+            <button class="botonAceptarSuspension btn btn-primary" onclick="AceptarPresionadoHandler(event, contenidoMensaje)">Aceptar</button>\n\
+            </div>');
+
+        urlActual = "AdministrarUsuarios?handler=ToggleUsuarioDeshabilitado&id=" + idUsuarioActual;
+
+        ToggleVisibilidadMensaje();
+    }
+
+    @*Funcion llamada cuando el boton aceptar del mensaje de confirmacion es presionado*@
+    function AceptarPresionadoHandler(event, form) {
+
+        ToggleVisibilidadMensaje();
+
+        event.preventDefault();
+
+        $.ajax({
+            type: "put",
+            url: urlActual,
+            dataType: "application/json",
+            data: $(form).serialize(),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("RequestVerificationToken", $('input:hidden[name=__RequestVerificationToken]').val());
+            }
+        });
+
+        @*Si la opcion seleccionada es deshabilitar/habilitar actualizamos el texto del boton para que muestre la opcion contraria*@
+        if (esMensajeConfirmacionDeshabilitar === true)
+        {
+            var botonDeshabilitar = $('#botonDeshabilitar_'+idUsuarioActual);
+
+            botonDeshabilitar.html(botonDeshabilitar.html() === "Deshabilitar" ? "Habilitar" : "Deshabilitar");
+        }
+    }
+</script>

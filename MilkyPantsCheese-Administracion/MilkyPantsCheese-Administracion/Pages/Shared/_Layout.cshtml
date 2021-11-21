@@ -2,26 +2,25 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="es">
 
     <head>
-        
+    
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        
+    
         <title>Milky Pants Cheese</title>
-
+    
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-
     </head>
 
     <body>
 
         <header>
-            
+
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                
+
                 <div class="container">
 
                     <a class="navbar-brand" asp-area="" asp-page="/Index">Milky Pants Cheese</a>
@@ -39,7 +38,7 @@
                         }
                         else if (User.IsInRole(Constantes.NombreRolAdministrador))
                         {
-                            <a class="nav-link text-dark" asp-page="/Identity/RegistrarUsuario">Administrar usuarios</a>
+                            <a class="nav-link text-dark" asp-page="/Administrador/AdministrarUsuarios">Administrar usuarios</a>
                         }
 
                         <div class="align-self-end">
@@ -49,18 +48,21 @@
                     </div>
 
                 </div>
-            
+
             </nav>
 
         </header>
 
         <div class="container">
-            
+
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
-        
+
         </div>
+
+        @*Mensaje de confirmacion*@
+        <partial name="Shared/_MensajeConfirmacion" />
 
         <footer class="border-top footer text-muted">
 
@@ -74,6 +76,7 @@
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+
 
         @await RenderSectionAsync("Scripts", required: false)
 

@@ -178,8 +178,8 @@ namespace MilkyPantsCheese.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -223,8 +223,8 @@ namespace MilkyPantsCheese.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -256,6 +256,30 @@ namespace MilkyPantsCheese.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ModeloRolModeloUsuario",
+                columns: table => new
+                {
+                    RolesId = table.Column<int>(type: "int", nullable: false),
+                    UsuariosId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ModeloRolModeloUsuario", x => new { x.RolesId, x.UsuariosId });
+                    table.ForeignKey(
+                        name: "FK_ModeloRolModeloUsuario_AspNetRoles_RolesId",
+                        column: x => x.RolesId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModeloRolModeloUsuario_AspNetUsers_UsuariosId",
+                        column: x => x.UsuariosId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -446,6 +470,11 @@ namespace MilkyPantsCheese.Migrations
                 column: "TipoQuesoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ModeloRolModeloUsuario_UsuariosId",
+                table: "ModeloRolModeloUsuario",
+                column: "UsuariosId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Queso_LoteId",
                 table: "Queso",
                 column: "LoteId");
@@ -473,6 +502,9 @@ namespace MilkyPantsCheese.Migrations
 
             migrationBuilder.DropTable(
                 name: "IdentityUser<int>");
+
+            migrationBuilder.DropTable(
+                name: "ModeloRolModeloUsuario");
 
             migrationBuilder.DropTable(
                 name: "Queso");
