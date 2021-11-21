@@ -22,7 +22,7 @@ namespace MilkyPantsCheese
 		/// <summary>
 		/// Acidez de la leche, medida en grados Dornic
 		/// </summary>
-		public int Acidez { get; set; }
+		public decimal Acidez { get; set; }
 
 		/// <summary>
 		/// Indica si este lote esta disponible para ser utilizado
@@ -32,7 +32,7 @@ namespace MilkyPantsCheese
 		/// <summary>
 		/// Imagen de la planilla de este lote
 		/// </summary>
-		[MaxLength(20971520)]
+        [MaxLength(20971520)]
 		public byte[] ImagenPlanilla { get; set; }
 
 		/// <summary>

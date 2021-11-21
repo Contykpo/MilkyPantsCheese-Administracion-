@@ -10,7 +10,7 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
-    [Migration("20211120145451_Inicial")]
+    [Migration("20211121230734_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -230,8 +230,8 @@ namespace MilkyPantsCheese.Migrations
                     b.Property<bool>("EstaDisponible")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("FechaInicioFermentado")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("FechaInicioFermentado")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Observaciones")
                         .HasMaxLength(1024)
@@ -258,8 +258,9 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Acidez")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Acidez")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("decimal(3,2)");
 
                     b.Property<int?>("CisternaId")
                         .HasColumnType("int");
@@ -305,8 +306,8 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("FechaInicioCuracion")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("FechaInicioCuracion")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int?>("FermentoId")
                         .HasColumnType("int");

@@ -266,7 +266,7 @@ namespace MilkyPantsCheese.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PorcentajeDeAgua = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
                     Temperatura = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    Acidez = table.Column<int>(type: "int", nullable: false),
+                    Acidez = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
                     ImagenPlanilla = table.Column<byte[]>(type: "varbinary(max)", maxLength: 20971520, nullable: true),
                     NotasAdicionales = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
@@ -300,7 +300,7 @@ namespace MilkyPantsCheese.Migrations
                     Peso = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
                     Observaciones = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
-                    FechaInicioFermentado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaInicioFermentado = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     TipoFermentoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -321,7 +321,7 @@ namespace MilkyPantsCheese.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Observaciones = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
-                    FechaInicioCuracion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaInicioCuracion = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     LoteDeLecheId = table.Column<int>(type: "int", nullable: true),
                     FermentoId = table.Column<int>(type: "int", nullable: true),
                     TipoQuesoId = table.Column<int>(type: "int", nullable: true)

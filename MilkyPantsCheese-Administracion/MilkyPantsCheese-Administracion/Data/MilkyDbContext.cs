@@ -17,7 +17,7 @@ namespace MilkyPantsCheese
 
         public DbSet<ModeloCisterna> Cisternas { get; set; }
 
-        public DbSet<ModeloCisterna> Tambos { get; set; }
+        public DbSet<ModeloTambo> Tambos { get; set; }
 
         public MilkyDbContext(DbContextOptions<MilkyDbContext> options)
 	        : base(options) {}
@@ -50,6 +50,10 @@ namespace MilkyPantsCheese
 
             builder.Entity<ModeloLoteDeLeche>()
                 .Property(l => l.Temperatura)
+                .HasPrecision(3, 2);
+
+            builder.Entity<ModeloLoteDeLeche>()
+                .Property(l => l.Acidez)
                 .HasPrecision(3, 2);
 
             // --- LoteDeLeche LoteDeQueso

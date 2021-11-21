@@ -1,5 +1,4 @@
-﻿
-namespace MilkyPantsCheese
+﻿namespace MilkyPantsCheese
 {
     public static class BooleanHelpers
     {

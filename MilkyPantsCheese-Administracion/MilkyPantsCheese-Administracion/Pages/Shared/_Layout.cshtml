@@ -35,7 +35,14 @@
 
                         @if (!User.IsInRole(Constantes.NombreRolMilkyMan))
                         {
-                            <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/CreacionTambo">Agregar tambo</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
+                                </li>
+                            </ul>
                         }
                         else if (User.IsInRole(Constantes.NombreRolAdministrador))
                         {
