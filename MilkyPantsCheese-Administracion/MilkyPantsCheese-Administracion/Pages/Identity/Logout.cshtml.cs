@@ -3,16 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MilkyPantsCheese_Administracion.Modelos;
 
 namespace MilkyPantsCheese.Pages
 {
 	[Authorize]
     public class LogoutModel : PageModel
     {
-	    public readonly SignInManager<ModeloUsuario> _signInManager;
+	    public readonly MilkySignInManager _signInManager;
 
-	    public LogoutModel(SignInManager<ModeloUsuario> signInManager)
+	    public LogoutModel(MilkySignInManager signInManager)
 	    {
 		    _signInManager = signInManager;
 	    }

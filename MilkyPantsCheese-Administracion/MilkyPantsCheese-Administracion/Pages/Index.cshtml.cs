@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MilkyPantsCheese_Administracion.Pages
+namespace MilkyPantsCheese.Pages
 {
     public class IndexModel : PageModel
     {

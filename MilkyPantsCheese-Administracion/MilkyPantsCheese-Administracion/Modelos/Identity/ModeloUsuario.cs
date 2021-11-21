@@ -46,6 +46,11 @@ namespace MilkyPantsCheese
         /// </summary>
         public virtual List<ModeloDateTimeOffsetWrapper> HistorialDeIniciosDeSesion { get; set; } = new List<ModeloDateTimeOffsetWrapper>();
 
+        /// <summary>
+        /// Roles del usuario
+        /// </summary>
+        public virtual List<ModeloRol> Roles { get; set; } = new List<ModeloRol>();
+
         public ModeloUsuario()
         {
             SecurityStamp = Guid.NewGuid().ToString();

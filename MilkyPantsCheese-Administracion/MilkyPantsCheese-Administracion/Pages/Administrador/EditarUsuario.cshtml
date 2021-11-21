@@ -1,0 +1,93 @@
+﻿@page
+@model MilkyPantsCheese.Pages.EditarUsuarioModel
+
+<form method="post">
+
+    @*Nombre del usuario*@
+    <div class="form-group">
+
+        <label asp-for="NombreUsuario"></label>
+        <input asp-for="NombreUsuario" type="text" class="form-text" />
+        @Html.ValidationMessageFor(m => m.NombreUsuario, string.Empty, new { @class = "text-danger" })
+    </div>
+
+    @*Contraseña*@
+    <div class="d-flex flex-row flex-wrap">
+
+        <div class="form-group">
+            <label asp-for="NuevaContraseña"></label>
+            <input asp-for="NuevaContraseña" type="password" id="inputNuevaContraseña" class="form-text" />
+            @Html.ValidationMessageFor(m => m.NuevaContraseña, string.Empty, new { @class = "text-danger d-inline-block", @style="max-width: 200px" })
+        </div>
+
+        <div class="form-group ml-2 flex-sm-wrap">
+            <label asp-for="ConfirmacionNuevaContraseña"></label>
+            <input asp-for="ConfirmacionNuevaContraseña" type="password" class="form-text" />
+            @Html.ValidationMessageFor(m => m.ConfirmacionNuevaContraseña, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*Seleccion tipo de usuario*@
+    <div class="form-group">
+
+        <label asp-for="RolSeleccionado"></label>
+        <select asp-for="RolSeleccionado" asp-items="@Model.RolesUsuarioDisponibles" class="custom-select"></select>
+
+        @Html.ValidationMessageFor(u => u.RolSeleccionado, string.Empty, new { @class = "text-danger" })
+    </div>
+
+    @*Duracion de la sesion de este usuario*@
+    <div class="form-group">
+
+        <label asp-for="DuracionSesion" data-toggle="tooltip" data-placement="top" title="Duracion de la sesion del usuario en horas. Si se deja en cero la sesion no se cerrara nunca"></label>
+        <input asp-for="DuracionSesion" type="time" style="display: block;" />
+        @Html.ValidationMessageFor(u => u.DuracionSesion, string.Empty, new { @class = "text-danger" })
+    </div>
+    
+    <input type="hidden" asp-for="IdUsuarioSiendoEditado" value="@Model.UsuarioSiendoEditado.Id"/>
+
+    <input type="submit" class="btn btn-primary mt-5" value="Confirmar cambios" onclick="OnConfirmarCambios(event)"/>
+    <input type="submit" class="d-none" id="submitDirecto"/>
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script type="text/javascript">
+
+        function OnConfirmarCambios(evento) {
+
+            if ($("#inputNuevaContraseña").val().length !== 0) {
+
+                console.log("nada");
+
+                evento.preventDefault();
+
+                $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
+                <h2>¿Esta seguro de modificar la contraseña de este usuario?</h2>\n\
+                <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
+                <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
+                <button class="botonAceptarSuspension btn btn-primary" onclick="AceptarPresionadoHandler(event, contenidoMensaje)">Aceptar</button>\n\
+                </div>');
+
+                ToggleVisibilidadMensaje();
+            }
+        }
+
+        function AceptarPresionadoHandler(evento, contenidoMensake) {
+
+            evento.preventDefault();
+
+            $('#submitDirecto').click();
+
+            ToggleVisibilidadMensaje();
+        }
+
+        @*Inicializamos todos los tooltip de la pagina*@
+        $("[data-toggle='tooltip']").tooltip();
+
+        $('select[name=@nameof(Model.RolSeleccionado)]').val(@Model.RolSeleccionado);
+
+    </script>
+}
