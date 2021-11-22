@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -18,30 +17,18 @@ namespace MilkyPantsCheese.Pages
     public class AdministrarLotesDeLecheModel : PageModel
     {
         private readonly MilkyDbContext _dbContext;
-        private readonly UserManager<ModeloUsuario> _userManager;
         
         private readonly IConfiguration _config;
-
-        /// <summary>
-        /// Cisterna que esta siendo seleccionada por el usuario.
-        /// </summary>
-        public ModeloCisterna CisternaSeleccionada { get; set; }
-
-        /// <summary>
-        /// Lote de leche que esta siendo seleccionado por el usuario.
-        /// </summary>
-        public ModeloLoteDeLeche LoteDeLecheSeleccionado { get; set; }
 
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="userManager"></param>
-        public AdministrarLotesDeLecheModel(MilkyDbContext dbContext, UserManager<ModeloUsuario> userManager, IConfiguration config)
+        public AdministrarLotesDeLecheModel(MilkyDbContext dbContext, IConfiguration config)
         {
             _dbContext = dbContext;
-            _userManager = userManager;
-            _config      = config;
+            _config    = config;
         }
 
         public void OnGet()
@@ -80,6 +67,7 @@ namespace MilkyPantsCheese.Pages
             if(ModelState.ErrorCount > 0)
                 return Page();
 
+            var cisternas = (from c in _dbContext.Cisternas select c).ToList();
             var tambos = (from c in _dbContext.Tambos select c).ToList();
 
             //Creamos el nuevo lote de leche.
@@ -91,7 +79,7 @@ namespace MilkyPantsCheese.Pages
                 Acidez              = decimal.Parse(Acidez),
                 EstaDisponible      = EstaDisponible, 
                 NotasAdicionales    = NotasAdicionales,
-                Cisterna            = CisternaSeleccionada,
+                Cisterna            = cisternas.Single(m => m.Id == CisternaId),
                 TamboDeProveniencia = tambos.Single(m => m.Id == TamboId)
             };
 
@@ -109,7 +97,7 @@ namespace MilkyPantsCheese.Pages
             {
                 _dbContext.Attach(nuevoLoteDeLeche).State = EntityState.Added;
 
-                CisternaSeleccionada.LotesDeLeche.Add(nuevoLoteDeLeche);
+                cisternas.Single(m => m.Id == CisternaId).LotesDeLeche.Add(nuevoLoteDeLeche);
                 
                 tambos.Single(m => m.Id == TamboId).LotesDeLecheDeEsteTambo.Add(nuevoLoteDeLeche);
 
@@ -157,6 +145,11 @@ namespace MilkyPantsCheese.Pages
         [Display(Name = "Notas adicionales")]
         [BindProperty]
         public string NotasAdicionales { get; set; } = string.Empty;
+
+        [Display(Name = "Cisterna")]
+        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
+        [BindProperty]
+        public int CisternaId { get; set; } = 1;
 
         [Display(Name = "Tambo")]
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
