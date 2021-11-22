@@ -1,0 +1,18 @@
+﻿@model MilkyPantsCheese.Pages.AdministrarFermentosModel
+
+@foreach (var fermento in Model.FermentosConcordantes)
+{
+    <div class="d-flex flex-row bg-light rounded mb-3">
+    
+        <div class="col-2">
+            <label class="p-0">Id: @fermento.Id</label>
+        </div>
+    
+        <div class="col-2">
+            <label class="p-0">@(fermento.EstaDisponible ? "Disponible" : "No disponible")</label>
+        </div>
+    
+        <a class="nav-link mr-3" asp-page="/CheeseScientist/EditarFermento" asp-route-id="@fermento.Id">Editar</a>
+        <input type="submit" class="btn btn-primary" value="Eliminar"/>
+    </div>
+}

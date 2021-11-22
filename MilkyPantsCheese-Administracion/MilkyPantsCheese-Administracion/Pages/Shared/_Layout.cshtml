@@ -32,13 +32,17 @@
 
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                        @if (!User.IsInRole(Constantes.NombreRolMilkyMan))
+                        @if (User.IsInRole(Constantes.NombreRolMilkyMan))
                         {
                             <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
                         }
                         else if (User.IsInRole(Constantes.NombreRolAdministrador))
                         {
                             <a class="nav-link text-dark" asp-page="/Administrador/AdministrarUsuarios">Administrar usuarios</a>
+                        }
+                        else if (User.IsInRole(Constantes.NombreRolCheeseScientist))
+                        {
+                            <a class="nav-link text-dark" asp-page="/CheeseScientist/AdministrarFermentos">Administrar fermentos</a>
                         }
 
                         <div class="align-self-end">

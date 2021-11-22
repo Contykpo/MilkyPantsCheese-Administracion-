@@ -18,6 +18,10 @@ namespace MilkyPantsCheese
 
         public DbSet<ModeloCisterna> Tambos { get; set; }
 
+        public DbSet<ModeloFermento> Fermentos { get; set; }
+
+        public DbSet<ModeloTipoFermento> TiposDeFermento { get; set; }
+
         public MilkyDbContext(DbContextOptions<MilkyDbContext> options)
 	        : base(options) {}
 

@@ -1,0 +1,75 @@
+﻿@page
+@model MilkyPantsCheese.Pages.AdministrarFermentosModel
+
+<div class="d-flex flex-column">
+
+    <label for="selectTipoVista">Tipo de busqueda</label>
+
+    <form
+        method="post"
+        
+        data-ajax="true"
+        data-ajax-method="post"
+        data-ajax-mode="replace"
+        data-ajax-update="#resultadoBusqueda"
+
+        class="d-flex flex-column border-bottom">
+        
+        @*Select tipo vista*@
+        <select class="custom-select mb-4" asp-for="VistaSeleccionada" asp-items="@Html.GetEnumSelectList<EVistaAdministradorFermentos>()"></select>
+
+        @*Id del fermento*@
+        <div class="form-group">
+
+            <label asp-for="IdFermento"></label>
+            <input type="number" asp-for="IdFermento" class="form-text"/>
+
+        </div>
+
+        @*Fecha de elaboracion del fermento*@
+        <div class="form-group">
+
+            <label asp-for="FechaElaboracion" class="d-inline-block" style="max-width: 100%"></label>
+            <input id="inputFechaElaboracion" type="date" asp-for="FechaElaboracion" class="form-control"/>
+
+        </div>
+
+        @*Modo de comparacion de la fecha*@
+        <div class="form-group">
+
+            <label asp-for="ModoComparacionFechaSeleccionado"></label>
+            <select id="inputModoComparacionFecha" asp-for="ModoComparacionFechaSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
+
+        </div>
+
+        @*Botones inferiores*@
+        <div class="d-flex flex-row mb-3">
+
+            @*Boton buscar*@
+            <input type="submit" class="col-md-2 col-sm-3 btn btn-primary" value="Buscar"/>
+
+            <div class="col-1"></div>
+
+            @*Boton crear*@
+            <a asp-page="/CheeseScientist/CrearFermento" class="col-md-2 col-sm-3 btn btn-primary d-inline-flex align-items-center justify-content-center">Crear</a>
+
+            <div class="col-1"></div>
+
+            @*Boton crear tipo*@
+            <a asp-page="/CheeseScientist/CrearTipoFermento" class="col-md-2 col-sm-3 btn btn-primary">Crear tipo</a>
+
+        </div>
+
+    </form>
+    
+    <div id="resultadoBusqueda" class="d-flex flex-column mt-3">
+        
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+}

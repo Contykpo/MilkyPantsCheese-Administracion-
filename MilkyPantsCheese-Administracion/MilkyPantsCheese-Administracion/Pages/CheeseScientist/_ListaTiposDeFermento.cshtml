@@ -1,0 +1,25 @@
+﻿@model MilkyPantsCheese.Pages.AdministrarFermentosModel
+
+@foreach (var tipoFermento in Model.TiposDeFermentoConcordantes)
+{
+    <div class="d-flex flex-row bg-light rounded mb-2">
+    
+        @*Id del tipo de fermento*@
+        <div class="col-md-2 col-2">
+            <label>Id: @tipoFermento.Id</label>
+        </div>
+    
+        @*Nombre del tipo de fermento*@
+        <div class="col-md-2 col-3">
+            <label>Nombre: @tipoFermento.Nombre</label>
+        </div>
+        
+        <div class="d-md-inline" style="display: none">
+            <label class="col-1 d-md-inline" style="padding: 0">Descripcion:</label>
+        </div>
+        
+        <div class="col-md-4 col-7">
+            <textarea class="form-control d-inline-block" style="resize: none; width: 100%; height: 80px;" readonly="readonly">@tipoFermento.Descripcion</textarea>
+        </div>
+    </div>
+}

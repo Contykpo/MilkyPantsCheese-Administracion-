@@ -63,6 +63,9 @@ namespace MilkyPantsCheese
 
 			var usuarioActual = await UserManager.GetUserAsync(Context.User);
 			
+			if(usuarioActual == null)
+				return;
+
 			usuarioActual.TieneSesionAbierta = false;
 
 			await _dbContext.SaveChangesAsync();

@@ -9,50 +9,48 @@
       data-ajax-mode="replace"
       data-ajax-update="#listaUsuarios">
 
-    <div >
-        <div class="container border-bottom">
+      <div class="container border-bottom">
 
-            <div class="row">
+          <div class="row">
 
-                @*Nombre del usuario*@
-                <div class="col-6">
+              @*Nombre del usuario*@
+              <div class="col-6">
 
-                    <label asp-for="NombreUsuario"></label>
-                    <input class="d-block" type="text" asp-for="NombreUsuario" />
-                </div>
+                  <label asp-for="NombreUsuario"></label>
+                  <input class="d-block" type="text" asp-for="NombreUsuario" />
+              </div>
 
-                <div class="col-2"></div>
+              <div class="col-2"></div>
 
-                <div class="col-4">
-                    <input type="submit" class="btn btn-primary" value="Buscar" style="width: 75px"/>
-                </div>
-            </div>
+              <div class="col-4">
+                  <input type="submit" class="btn btn-primary" value="Buscar" style="width: 75px"/>
+              </div>
+          </div>
 
-            @*Tipos de usuario buscados*@
-            <div class="row mt-2">
-                <div class="form-group col-6">
+          @*Tipos de usuario buscados*@
+          <div class="row mt-2">
+              <div class="form-group col-6">
 
-                    <label asp-for="TiposDeUsuarioSeleccionados"></label>
-                    <select class="selectpicker d-block" title="Nada seleccionado" asp-for="TiposDeUsuarioSeleccionados" asp-items="@Model.TiposDeUsuarioDisponibles" multiple></select>
-                </div>
+                  <label asp-for="TiposDeUsuarioSeleccionados"></label>
+                  <select class="selectpicker d-block" title="Nada seleccionado" asp-for="TiposDeUsuarioSeleccionados" asp-items="@Model.TiposDeUsuarioDisponibles" multiple></select>
+              </div>
 
-                <div class="col-2"></div>
+              <div class="col-2"></div>
 
-                <div class="col-4">
-                    <a asp-page="/Administrador/RegistrarUsuario" class="btn btn-primary" style="width: 75px">Crear</a>
-                </div>
-            </div>
+              <div class="col-4">
+                  <a asp-page="/Administrador/RegistrarUsuario" class="btn btn-primary" style="width: 75px">Crear</a>
+              </div>
+          </div>
 
-            @*Indica si mostrar los usuarios que se encuentran deshabilitados*@
-            <div class="row mt-2">
-                <div class="form-group col-6">
+          @*Indica si mostrar los usuarios que se encuentran deshabilitados*@
+          <div class="row mt-2">
+              <div class="form-group col-6">
 
-                    <input type="checkbox" asp-for="MostrarUsuariosDeshabilitados" />
-                    <label class="form-check-label" asp-for="MostrarUsuariosDeshabilitados"></label>
-                </div>
-            </div>
-        </div>
-    </div>
+                  <input type="checkbox" asp-for="MostrarUsuariosDeshabilitados" />
+                  <label class="form-check-label" asp-for="MostrarUsuariosDeshabilitados"></label>
+              </div>
+          </div>
+      </div>
 
 </form>
 

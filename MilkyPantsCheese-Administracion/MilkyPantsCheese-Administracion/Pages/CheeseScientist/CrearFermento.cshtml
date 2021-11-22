@@ -1,0 +1,47 @@
+﻿@page
+@model MilkyPantsCheese.Pages.CrearFermentoModel
+
+<form method="post"
+      class="d-flex flex-column">
+    
+    @*Peso del fermento*@
+    <div class="form-group">
+        <label asp-for="PesoFermento"></label>
+        <input type="text" asp-for="PesoFermento" class="form-text" placeholder="Peso del fermento"/>
+        @Html.ValidationMessageFor(m => m.PesoFermento, string.Empty, new {@class="text-danger"})
+    </div>
+    
+    @*Checkbox obtener fecha automaticamente*@
+    <div class="form-group">
+        <label asp-for="ObtenerFechaAutomaticamente"></label>
+        <input type="checkbox" asp-for="ObtenerFechaAutomaticamente" class="custom-checkbox">
+    </div>
+
+    @*Ingreso fecha*@
+    <div class="form-group">
+
+        <label asp-for="FechaFermento"></label>
+        <input type="date" asp-for="FechaFermento" class="form-control"/>
+        @Html.ValidationMessageFor(m => m.FechaFermento, string.Empty, new {@class="text-danger"})
+    </div>
+    
+    @*Seleccion del tipo del fermento*@
+    <div class="form-group">
+        
+        <label asp-for="IdTipoDeFermentoSeleccionado"></label>
+        <select asp-for="IdTipoDeFermentoSeleccionado" asp-items="Model.TiposDeFermentoDisponibles" class="custom-select"></select>
+        @Html.ValidationMessageFor(m => m.IdTipoDeFermentoSeleccionado, string.Empty, new {@class="text-danger"})
+
+    </div>
+    
+    @*Observaciones*@
+    <div class="form-group">
+        
+        <label asp-for="Observaciones"></label>
+        <textarea asp-for="Observaciones" class="form-text" style="resize: both; max-width: 800px; max-height: 100px"></textarea>
+        @Html.ValidationMessageFor(m => m.Observaciones, string.Empty, new {@class="text-danger"})
+    </div>
+    
+    <input type="submit" value="Crear" class="btn btn-primary align-self-start" style="width: 100px"/>
+
+</form>

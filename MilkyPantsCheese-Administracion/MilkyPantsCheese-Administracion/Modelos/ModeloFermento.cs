@@ -25,9 +25,9 @@ namespace MilkyPantsCheese
         public string Observaciones { get; set; }
 
         /// <summary>
-        /// Fecha en la que se inicio el fermentado.
+        /// Fecha en la que se elaboro el fermento.
         /// </summary>
-        public DateTimeOffset FechaInicioFermentado { get; set; }
+        public DateTimeOffset FechaElaboracion { get; set; }
 
         /// <summary>
         /// Tipo de fermentado.
