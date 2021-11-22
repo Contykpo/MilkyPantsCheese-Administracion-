@@ -1,0 +1,31 @@
+﻿@page
+@model MilkyPantsCheese.Pages.EditarTipoFermentoModel
+
+<form method="post"
+      class="d-flex flex-column">
+    
+    @*Mensaje de error general*@
+    @Html.ValidationMessageFor(m => m.IdTipoFermentoSiendoEditado, string.Empty, new {@class="text-danger"})
+
+    @*Nombre del tipo de fermento*@
+    <div class="form-group">
+
+        <label asp-for="Nombre"></label>
+        <input type="text" asp-for="Nombre" class="form-text"/>
+        @Html.ValidationMessageFor(m => m.Nombre, string.Empty, new {@class = "text-danger"})
+    </div>
+
+    @*Descripcion del fermento*@
+    <div class="form-group">
+
+        <label asp-for="Descripcion"></label>
+        <textarea asp-for="Descripcion" class="form-text" style="resize: both; max-width: 800px; max-height: 200px"></textarea>
+    </div>
+    
+    @*Id del modelo siendo editado*@
+    <input type="hidden" asp-for="IdTipoFermentoSiendoEditado"/>
+
+    @*Boton crear*@
+    <input type="submit" value="Editar" class="btn btn-primary align-self-start" style="width: 100px"/>
+
+</form>

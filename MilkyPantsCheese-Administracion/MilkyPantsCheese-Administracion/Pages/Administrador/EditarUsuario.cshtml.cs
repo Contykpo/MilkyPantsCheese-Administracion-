@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MilkyPantsCheese.Pages
@@ -90,17 +89,17 @@ namespace MilkyPantsCheese.Pages
 		/// <summary>
 		/// Aplica los cambios al <see cref="ModeloUsuario"/> siendo editado
 		/// </summary>
-		public async Task OnPost()
+		public async Task<IActionResult> OnPost()
 		{
 			//Validamos el modelo
 			if(!ModelState.IsValid)
-				return;
+				return Page();
 
 			UsuarioSiendoEditado = await _userManager.GetUserByIdAsync(IdUsuarioSiendoEditado);
 
 			//Nos aseguramos de que se haya podido obtener el usuario
 			if (UsuarioSiendoEditado == null)
-				return;
+				return Page();
 
 			UsuarioSiendoEditado.UserName       = NombreUsuario;
 			UsuarioSiendoEditado.DuracionSesion = DuracionSesion;
@@ -114,7 +113,7 @@ namespace MilkyPantsCheese.Pages
 					{
 						ModelState.AddModelError(nameof(NuevaContraseña), "La contraseña no cumple con los requisitos de seguridad");
 
-						return;
+						return Page();
 					}
 				}
 
@@ -132,15 +131,10 @@ namespace MilkyPantsCheese.Pages
 				await _userManager.AddToRoleAsync(UsuarioSiendoEditado, RolSeleccionado);
 			}
 
-			try
-			{
-				//Guardamos los cambios
-				await _dbContext.SaveChangesAsync();
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex, "Error al editar usuario");
-			}
+			if (await _dbContext.IntentarGuardarCambios(_logger, ModelState, nameof(IdUsuarioSiendoEditado)))
+				return RedirectToPage("/Administrador/AdministrarUsuarios");
+
+			return Page();
 		}
     }
 }

@@ -2,17 +2,90 @@
 
 @foreach (var fermento in Model.FermentosConcordantes)
 {
-    <div class="d-flex flex-row bg-light rounded mb-3">
+    <div id="@fermento.Id" class="d-flex flex-row bg-light rounded mb-3">
     
-        <div class="col-2">
-            <label class="p-0">Id: @fermento.Id</label>
+        @*Id del fermento*@
+        <div class="col-md-1 col-2 px-0">
+            <label>Id: @fermento.Id</label>
+        </div>
+        
+        @*Peso*@
+        <div class="col-md-1 col-2 px-0 d-md-inline d-none">
+            <label>Peso: @fermento.Peso.ToString("F") KG</label>
         </div>
     
-        <div class="col-2">
-            <label class="p-0">@(fermento.EstaDisponible ? "Disponible" : "No disponible")</label>
+        @*Disponibilidad*@
+        <div class="col-md-1 col-2 px-0">
+            <label>@(fermento.EstaDisponible ? "Disponible" : "No disponible")</label>
+        </div>
+        
+        <div class="d-md-inline col-1 px-0" style="display: none">
+            <label>Descripcion:</label>
         </div>
     
-        <a class="nav-link mr-3" asp-page="/CheeseScientist/EditarFermento" asp-route-id="@fermento.Id">Editar</a>
-        <input type="submit" class="btn btn-primary" value="Eliminar"/>
+        @*Descripcion*@
+        <div class="col-md-4 d-md-inline d-none" style="padding: 0">
+            <textarea class="form-control d-inline-block" style="resize: none; width: 100%; height: 50px;" readonly="readonly">@fermento.Observaciones</textarea>
+        </div>
+    
+        @*Boton editar*@
+        <div class="col-md-1 col-2 text-center" style="padding: 0;">
+            <a asp-page="/CheeseScientist/EditarFermento" asp-route-id="@fermento.Id">Editar</a>
+        </div>
+        
+        @*Boton eliminar*@
+        <div class="col-md-1 col-2 px-sm-0 px-md-2">
+            
+            @*Si el fermento ya se ha utilizado en algun lote entonces no debemos permitir que sea eliminado*@
+            @if (fermento.LoteEnElQueSeLoUtilizo == null)
+            {
+                <input type="submit" class="btn btn-primary" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @fermento.Id)"/>
+            }
+            else
+            {
+                <input type="submit" class="btn btn-primary" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @fermento.Id)" disabled="disabled"/>
+            }
+
+        </div>
+
+        <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarFermento" asp-route-id="@fermento.Id" class="d-none"/>
     </div>
 }
+
+<script type="text/javascript">
+
+    function BotonEliminarPresionadoHandler(evento, id) {
+
+        evento.preventDefault();
+
+        $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
+                <h2>¿Esta seguro de eliminar este fermento?</h2>\n\
+                <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
+                <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
+                <button class="btn btn-primary" onclick="AceptarPresionadoHandler(event, ' + id + ')">Aceptar</button>\n\
+                </div>');
+
+        ToggleVisibilidadMensaje();
+    }
+
+    function AceptarPresionadoHandler(evento, id) {
+
+        evento.preventDefault();
+
+        $.ajax({
+            type: "delete",
+            url: "/CheeseScientist/AdministrarFermentos?handler=Fermento&id=" + id,
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("RequestVerificationToken", $('input:hidden[name=__RequestVerificationToken]').val())
+            }
+        }).done(function (xhr) {
+
+            if (xhr === "@Constantes.TrueString") {
+                $('#' + id).html('');
+            }
+        });
+
+        ToggleVisibilidadMensaje();
+    }
+
+</script>

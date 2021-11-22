@@ -1,6 +1,12 @@
 ﻿@page
 @model MilkyPantsCheese.Pages.CrearFermentoModel
 
+@inject MilkyDbContext dbContext
+
+@{
+    Model.TiposDeFermentoDisponibles = await dbContext.ObtenerSelectListDeTiposDeFermentos();
+}
+
 <form method="post"
       class="d-flex flex-column">
     
@@ -14,14 +20,14 @@
     @*Checkbox obtener fecha automaticamente*@
     <div class="form-group">
         <label asp-for="ObtenerFechaAutomaticamente"></label>
-        <input type="checkbox" asp-for="ObtenerFechaAutomaticamente" class="custom-checkbox">
+        <input type="checkbox" asp-for="ObtenerFechaAutomaticamente" class="custom-checkbox" onchange="ObtenerFechaAutomaticamenteCambio(checked)">
     </div>
 
     @*Ingreso fecha*@
     <div class="form-group">
 
         <label asp-for="FechaFermento"></label>
-        <input type="date" asp-for="FechaFermento" class="form-control"/>
+        <input id="ingresoFechaFermento" type="date" asp-for="FechaFermento" class="form-control" disabled/>
         @Html.ValidationMessageFor(m => m.FechaFermento, string.Empty, new {@class="text-danger"})
     </div>
     
@@ -38,10 +44,23 @@
     <div class="form-group">
         
         <label asp-for="Observaciones"></label>
-        <textarea asp-for="Observaciones" class="form-text" style="resize: both; max-width: 800px; max-height: 100px"></textarea>
+        <textarea asp-for="Observaciones" class="form-text" cols="35" rows="10" style="resize: both; max-width: 800px; max-height: 100px"></textarea>
         @Html.ValidationMessageFor(m => m.Observaciones, string.Empty, new {@class="text-danger"})
     </div>
     
     <input type="submit" value="Crear" class="btn btn-primary align-self-start" style="width: 100px"/>
 
 </form>
+
+@section Scripts{
+    
+    <script type="text/javascript">
+
+        function ObtenerFechaAutomaticamenteCambio(obtenerFechaAutomaticamente) {
+
+            $('#ingresoFechaFermento').prop('disabled', obtenerFechaAutomaticamente);
+        }
+
+    </script>
+    
+}

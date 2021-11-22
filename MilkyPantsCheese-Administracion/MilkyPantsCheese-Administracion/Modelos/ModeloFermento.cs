@@ -33,5 +33,10 @@ namespace MilkyPantsCheese
         /// Tipo de fermentado.
         /// </summary>
         public virtual ModeloTipoFermento TipoFermento { get; set; }
+
+        /// <summary>
+        /// Lote de leche en el que se utilizo este fermento
+        /// </summary>
+        public virtual ModeloLoteDeLeche LoteEnElQueSeLoUtilizo { get; set; }
     }
 }
