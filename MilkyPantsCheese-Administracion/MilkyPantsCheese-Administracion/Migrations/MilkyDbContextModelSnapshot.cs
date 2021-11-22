@@ -252,8 +252,9 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Acidez")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Acidez")
+                        .HasPrecision(3, 2)
+                        .HasColumnType("decimal(3,2)");
 
                     b.Property<int?>("CisternaId")
                         .HasColumnType("int");

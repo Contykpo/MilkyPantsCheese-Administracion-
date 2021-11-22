@@ -11,7 +11,7 @@
 
 @{
     //Verificamos si el usuario actual tiene el rol de 'MilkyMan'.
-    if (!User.IsInRole(Constantes.NombreRolMilkyMan))
+    if (User.IsInRole(Constantes.NombreRolMilkyMan))
     {
         var cisternas = (from c in dbContext.Cisternas select c).ToList();
 
@@ -70,6 +70,7 @@
 
                     <label asp-for="CisternaId"></label>
                     <select asp-for="CisternaId" asp-items="@SelectItemListHelpers.ToSelectListItemListCisterna(cisternas)" onchange="cambioItemSeleccionado" class="custom-select"></select>
+                    <input type="submit"/>
 
                 </div>
 

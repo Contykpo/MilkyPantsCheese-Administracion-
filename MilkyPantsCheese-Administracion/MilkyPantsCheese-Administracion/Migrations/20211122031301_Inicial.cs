@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MilkyPantsCheese.Migrations
 {
-    public partial class inicial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -291,7 +291,7 @@ namespace MilkyPantsCheese.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PorcentajeDeAgua = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
                     Temperatura = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    Acidez = table.Column<int>(type: "int", nullable: false),
+                    Acidez = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
                     ImagenPlanilla = table.Column<byte[]>(type: "varbinary(max)", maxLength: 20971520, nullable: true),
                     NotasAdicionales = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
