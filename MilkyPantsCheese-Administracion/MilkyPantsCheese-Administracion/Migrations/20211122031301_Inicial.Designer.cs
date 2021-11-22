@@ -10,8 +10,13 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
+<<<<<<< HEAD:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211122031301_Inicial.Designer.cs
     [Migration("20211122031301_Inicial")]
     partial class Inicial
+=======
+    [Migration("20211122173707_inicial")]
+    partial class inicial
+>>>>>>> Scirica:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211122173707_inicial.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -229,6 +234,9 @@ namespace MilkyPantsCheese.Migrations
                     b.Property<DateTimeOffset>("FechaElaboracion")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int?>("LoteEnElQueSeLoUtilizoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Observaciones")
                         .HasMaxLength(1024)
                         .HasColumnType("nvarchar(1024)");
@@ -241,6 +249,8 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LoteEnElQueSeLoUtilizoId");
 
                     b.HasIndex("TipoFermentoId");
 
@@ -597,9 +607,15 @@ namespace MilkyPantsCheese.Migrations
 
             modelBuilder.Entity("MilkyPantsCheese.ModeloFermento", b =>
                 {
+                    b.HasOne("MilkyPantsCheese.ModeloLoteDeLeche", "LoteEnElQueSeLoUtilizo")
+                        .WithMany()
+                        .HasForeignKey("LoteEnElQueSeLoUtilizoId");
+
                     b.HasOne("MilkyPantsCheese.ModeloTipoFermento", "TipoFermento")
                         .WithMany()
                         .HasForeignKey("TipoFermentoId");
+
+                    b.Navigation("LoteEnElQueSeLoUtilizo");
 
                     b.Navigation("TipoFermento");
                 });

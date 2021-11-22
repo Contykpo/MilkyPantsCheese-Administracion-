@@ -25,6 +25,7 @@ namespace MilkyPantsCheese.Pages
         {
 	        _userManager = userManager;
 	        _dbContext = dbContext;
+	        _logger = logger;
         }
         
         [BindProperty]

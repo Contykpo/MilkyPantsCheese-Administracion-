@@ -22,6 +22,8 @@ namespace MilkyPantsCheese
 
         public DbSet<ModeloTipoFermento> TiposDeFermento { get; set; }
 
+        public DbSet<ModeloDatosSensorCurado> DatosSensorCurado { get; set; }
+
         public MilkyDbContext(DbContextOptions<MilkyDbContext> options)
 	        : base(options) {}
 
@@ -192,6 +194,25 @@ namespace MilkyPantsCheese
 	            .ToTable("DateTimeOffsetWrapper");
 
             #endregion
-		}
+
+            #region DatosSensorCurado
+
+            builder.Entity<ModeloDatosSensorCurado>()
+	            .ToTable("DatosSensorCurado");
+
+            builder.Entity<ModeloDatosSensorCurado>()
+	            .Property(s => s.Temperatura)
+	            .HasPrecision(3, 1);
+
+            builder.Entity<ModeloDatosSensorCurado>()
+	            .Property(s => s.Humedad)
+	            .HasPrecision(3, 1);
+
+            builder.Entity<ModeloDatosSensorCurado>()
+	            .Property(s => s.DioxidoDeCarbono)
+	            .HasPrecision(5, 5);
+
+            #endregion
+        }
 	}
 }

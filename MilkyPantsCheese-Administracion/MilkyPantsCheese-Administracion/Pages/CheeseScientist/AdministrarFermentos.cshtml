@@ -4,49 +4,54 @@
 <div class="d-flex flex-column">
 
     <label for="selectTipoVista">Tipo de busqueda</label>
+    
+    <form method="post"
+          data-ajax="true"
+          data-ajax-method="post"
+          data-ajax-mode="replace"
+          data-ajax-update="#resultadoBusqueda"
+          class="d-flex flex-column border-bottom">
 
-    <form
-        method="post"
-        
-        data-ajax="true"
-        data-ajax-method="post"
-        data-ajax-mode="replace"
-        data-ajax-update="#resultadoBusqueda"
-
-        class="d-flex flex-column border-bottom">
-        
         @*Select tipo vista*@
-        <select class="custom-select mb-4" asp-for="VistaSeleccionada" asp-items="@Html.GetEnumSelectList<EVistaAdministradorFermentos>()"></select>
+        <select class="custom-select mb-4" asp-for="VistaSeleccionada" asp-items="@Html.GetEnumSelectList<EVistaAdministradorFermentos>()" onclick="VistaSeleccionadaCambioHandler(options[selectedIndex].value)"></select>
 
         @*Id del fermento*@
         <div class="form-group">
 
             <label asp-for="IdFermento"></label>
-            <input type="number" asp-for="IdFermento" class="form-text"/>
+            <input type="number" asp-for="IdFermento" class="form-text" />
+
+        </div>
+
+        @*Nombre del fermento*@
+        <div id="inputNombreTipoFermento" class="form-group d-none">
+
+            <label asp-for="NombreTipoFermento"></label>
+            <input type="text" asp-for="NombreTipoFermento" class="form-text" />
 
         </div>
 
         @*Fecha de elaboracion del fermento*@
-        <div class="form-group">
+        <div id="inputFechaElaboracion" class="form-group">
 
             <label asp-for="FechaElaboracion" class="d-inline-block" style="max-width: 100%"></label>
-            <input id="inputFechaElaboracion" type="date" asp-for="FechaElaboracion" class="form-control"/>
+            <input type="date" asp-for="FechaElaboracion" class="form-control" />
 
         </div>
 
         @*Modo de comparacion de la fecha*@
-        <div class="form-group">
+    <div id="selectTipoComparacion" class="form-group">
 
-            <label asp-for="ModoComparacionFechaSeleccionado"></label>
-            <select id="inputModoComparacionFecha" asp-for="ModoComparacionFechaSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
+        <label asp-for="ModoComparacionFechaSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho"></label>
+        <select id="inputModoComparacionFecha" asp-for="ModoComparacionFechaSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
 
-        </div>
+    </div>
 
         @*Botones inferiores*@
         <div class="d-flex flex-row mb-3">
 
             @*Boton buscar*@
-            <input type="submit" class="col-md-2 col-sm-3 btn btn-primary" value="Buscar"/>
+            <input type="submit" class="col-md-2 col-sm-3 btn btn-primary" value="Buscar" />
 
             <div class="col-1"></div>
 
@@ -72,4 +77,26 @@
 @section Scripts
 {
     <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    
+    <script type="text/javascript">
+
+        $("[data-toggle='tooltip']").tooltip();
+
+        function VistaSeleccionadaCambioHandler(valorSeleccionado) {
+
+            if (valorSeleccionado == @((int)EVistaAdministradorFermentos.Fermentos)) {
+
+                $('#inputNombreTipoFermento').addClass('d-none');
+                $('#inputFechaElaboracion').removeClass('d-none');
+                $('#inputModoComparacionFecha').removeClass('d-none');
+
+            } else {
+
+                $('#inputNombreTipoFermento').removeClass('d-none');
+                $('#inputFechaElaboracion').addClass('d-none');
+                $('#inputModoComparacionFecha').addClass('d-none');
+
+            }
+        }
+    </script>
 }

@@ -326,11 +326,18 @@ namespace MilkyPantsCheese.Migrations
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
                     Observaciones = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
                     FechaElaboracion = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    TipoFermentoId = table.Column<int>(type: "int", nullable: true)
+                    TipoFermentoId = table.Column<int>(type: "int", nullable: true),
+                    LoteEnElQueSeLoUtilizoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Fermento", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Fermento_LoteDeLeche_LoteEnElQueSeLoUtilizoId",
+                        column: x => x.LoteEnElQueSeLoUtilizoId,
+                        principalTable: "LoteDeLeche",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Fermento_TipoFermento_TipoFermentoId",
                         column: x => x.TipoFermentoId,
@@ -441,6 +448,11 @@ namespace MilkyPantsCheese.Migrations
                 column: "ModeloUsuarioId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Fermento_LoteEnElQueSeLoUtilizoId",
+                table: "Fermento",
+                column: "LoteEnElQueSeLoUtilizoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Fermento_TipoFermentoId",
                 table: "Fermento",
                 column: "TipoFermentoId");
@@ -523,10 +535,10 @@ namespace MilkyPantsCheese.Migrations
                 name: "Fermento");
 
             migrationBuilder.DropTable(
-                name: "LoteDeLeche");
+                name: "TipoQueso");
 
             migrationBuilder.DropTable(
-                name: "TipoQueso");
+                name: "LoteDeLeche");
 
             migrationBuilder.DropTable(
                 name: "TipoFermento");

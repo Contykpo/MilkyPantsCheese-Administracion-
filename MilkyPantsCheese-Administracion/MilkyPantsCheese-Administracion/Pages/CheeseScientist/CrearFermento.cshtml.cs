@@ -28,7 +28,7 @@ namespace MilkyPantsCheese.Pages
 
         [BindProperty]
         [Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
-        [DisplayName("Peso del fermento")]
+        [DisplayName("Peso del fermento (en KG)")]
         public string PesoFermento { get; set; }
 
         [BindProperty]
@@ -37,7 +37,6 @@ namespace MilkyPantsCheese.Pages
         public bool ObtenerFechaAutomaticamente { get; set; } = true;
 
         [BindProperty]
-        [Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [DisplayName("Fecha del fermento")]
         public DateTimeOffset FechaFermento { get; set; } = DateTimeOffset.Now;
 
@@ -51,11 +50,6 @@ namespace MilkyPantsCheese.Pages
         public string Observaciones { get; set; }
 
         public List<SelectListItem> TiposDeFermentoDisponibles { get; set; }
-
-        public async Task OnGet()
-        {
-	        TiposDeFermentoDisponibles = await _dbContext.ObtenerSelectListDeTiposDeFermentos();
-        }
 
         public async Task<IActionResult> OnPost()
         {
