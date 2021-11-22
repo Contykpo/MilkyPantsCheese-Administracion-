@@ -4,70 +4,86 @@
 @using MilkyPantsCheese
 @using Castle.Core.Internal
 
-@model MilkyPantsCheese.Pages.MilkyMan.AdministrarLotesDeLecheModel
+@model MilkyPantsCheese.Pages.AdministrarLotesDeLecheModel
 
 @inject MilkyDbContext dbContext
 @inject UserManager<ModeloUsuario> _userManager
 
 @{
-    //Obtenemos el modelo del usuario actual.
-    var usuario = await _userManager.GetUserAsync(User);
-
-    //Verificamos si el usuario actual tiene el rol de paciente o medico. La muestra y gestion de citas dependera del rol del usuario.
+    //Verificamos si el usuario actual tiene el rol de 'MilkyMan'.
     if (!User.IsInRole(Constantes.NombreRolMilkyMan))
     {
-        var cisternas = dbContext.Cisternas;
+        var cisternas = (from c in dbContext.Cisternas select c).ToList();
 
-        <div class="d-flex flex-row h-75 w-75 position-absolute">
+        var tambos = (from c in dbContext.Tambos select c).ToList();
+        
+    <div class="d-flex flex-row h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
 
-            <div class="ml-5 p-3 overflow-auto border border-warning rounded">
+        <div class="ml-5 p-3 overflow-auto border border-warning rounded">
 
-                <div class="pb-3">
-                    <h4 class="text-left">Cisternas:</h4>
-                </div>
+            <div class="pb-3">
+                <h4 class="text-left">Cisternas:</h4>
+            </div>
 
-                @if (cisternas.IsNullOrEmpty())
+            @if (cisternas.IsNullOrEmpty())
+            {
+                <label class="text-center">No hay cisternas disponibles</label>
+            }
+            else
+            {
+                @foreach (var cisterna in cisternas)
                 {
-                    <label class="text-center">No hay cisternas disponibles</label>
-                }
-                else
-                {
-                    @foreach (var cisterna in cisternas)
-                    {
-                        <div class="pl-4 pr-4 d-flex flex-row border border-primary rounded-pill">
+                    <div class="pl-4 pr-4 d-flex flex-row border border-primary rounded-pill">
 
-                            <div class="d-flex flex-column">
-                                <label class="text-left">Nombre: @cisterna.Nombre</label>
-                                <label class="text-left">Capacidad: @cisterna.Capacidad</label>
-                                <label class="text-left">Total lotes: @cisterna.LotesDeLeche.Count</label>
-                            </div>
-
+                        <div class="d-flex flex-column">
+                            <label class="text-left">Nombre: @cisterna.Nombre</label>
+                            <label class="text-left">Capacidad: @cisterna.Capacidad</label>
+                            <label class="text-left">Total lotes: @cisterna.LotesDeLeche.Count</label>
                         </div>
-                    }
-                }
-                
-                <!--Boton para acceder a la pagina de creacion de cisternas-->
-                <div class="ml-5 align-bottom">
-                
-                    <a class="form-text btn btn-primary" asp-page="CreacionCisterna">Crear Cita</a>
 
-                </div>
+                    </div>
+                }
+            }
+
+            <!--Boton para acceder a la pagina de creacion de cisternas-->
+            <div class="ml-5 align-bottom position-absolute mb-3" style="bottom: 0;">
+
+                <a class="form-text btn btn-primary" asp-page="CreacionCisterna">Crear Cisterna</a>
 
             </div>
 
-            <div class="ml-5 p-3 overflow-auto border border-warning rounded">
+        </div>
 
-                <div class="pb-3">
-                    <h4 class="text-left">Lotes:</h4>
+        <div class="ml-5 p-3 overflow-auto border border-warning rounded">
+
+            <div class="pb-3">
+                <h4 class="text-left">Lotes:</h4>
+            </div>
+            
+            <form id="formLotes"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-url="AdministrarLotesDeLeche/FiltradoLotes"
+                  data-ajax-update="#listaLotes">
+                
+                <div>
+
+                    <label asp-for="CisternaId"></label>
+                    <select asp-for="CisternaId" asp-items="@SelectItemListHelpers.ToSelectListItemListCisterna(cisternas)" onchange="cambioItemSeleccionado" class="custom-select"></select>
+
                 </div>
 
-                @if (Model.CisternaSeleccionada is null)
+            </form>
+
+            <div id="listaLotes">
+                
+                @if (cisternas.IsNullOrEmpty())
                 {
                     <label class="text-center">No hay lotes disponibles</label>
                 }
                 else
                 {
-                    @foreach (var lote in @Model.CisternaSeleccionada.LotesDeLeche)
+                    @foreach (var lote in cisternas.Single(m => m.Id == @Model.CisternaId).LotesDeLeche)
                     {
                         <div class="pl-4 pr-4 d-flex flex-row border border-primary rounded-pill">
 
@@ -84,5 +100,136 @@
             </div>
 
         </div>
+
+        <div class="ml-5 p-3 overflow-auto border border-warning rounded">
+
+            <div class="pb-3">
+                <h4 class="text-left">Añadir lote:</h4>
+            </div>
+
+            <form method="post">
+
+                <!--Seleccion fecha y horario de ingreso del nuevo lote-->
+                <div class="form-group">
+
+                    <label asp-for="FechaIngreso"></label>
+                    <input asp-for="FechaIngreso" type="date" class="form-control" value="@DateTimeOffset.Now" />
+
+                </div>
+
+                <div class="form-group d-flex flex-row">
+
+                    <!--Porcentaje de agua en la leche-->
+                    <div>
+
+                        <label asp-for="PorcentajeAgua"></label>
+                        <input type="text" class="form-text" asp-for="PorcentajeAgua" />
+
+                        @Html.ValidationMessageFor(m => m.PorcentajeAgua, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Temperatura de la leche-->
+                    <div class="ml-5">
+
+                        <label asp-for="Temperatura"></label>
+                        <input type="text" class="form-text" asp-for="Temperatura" />
+
+                        @Html.ValidationMessageFor(m => m.Temperatura, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Acidez de la leche-->
+                    <div class="ml-5">
+
+                        <label asp-for="Acidez"></label>
+                        <input type="text" class="form-text" asp-for="Acidez" />
+
+                        @Html.ValidationMessageFor(m => m.Acidez, "", new { @class = "text-danger" })
+
+                    </div>
+
+                </div>
+
+                <!--Disponibilidad del lote-->
+                <div class="form-group d-flex flex-row">
+
+                    <input type="checkbox" class="form-text" asp-for="EstaDisponible" />
+                    <label asp-for="EstaDisponible" class="ml-3"></label>
+
+                </div>
+
+                <!--Notas adicionales sobre la leche -->
+                <div class="form-group">
+
+                    <label asp-for="NotasAdicionales"></label>
+                    <textarea class="form-text overflow-auto w-100" asp-for="NotasAdicionales"></textarea>
+
+                </div>
+
+                <!--Imagen de planilla opcional con mayores detalles-->
+                <div class="form-group custom-file mt-2">
+
+                    <input type="file" id="imagenPlantilla" class="custom-file-input" accept="image/jpg, image/png, image/jpeg" asp-for="ImagenPlanillita" />
+                    <label class="custom-file-label" asp-for="ImagenPlanillita"></label>
+
+                    @Html.ValidationMessageFor(m => m.ImagenPlanillita, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Tambo del que proviene la leche-->
+                <div class="form-group mt-5">
+
+                    <label asp-for="TamboId"></label>
+                    <select asp-for="TamboId" asp-items="@SelectItemListHelpers.ToSelectListItemListTambos(tambos)" class="custom-select"></select>
+
+                    @Html.ValidationMessageFor(m => m.TamboId, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Boton submit-->
+                <div class="form-group position-absolute mb-3" style="bottom: 0;">
+                    
+                    <input type="submit" value="Añadir" class="form-text btn btn-primary" />
+
+                </div>
+
+            </form>
+
+        </div>
+
+        @section Scripts
+            {
+
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+            <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+                
+            <script>
+
+                function cambioItemSeleccionado(parameters) {
+                    $.ajax({
+                        type: "post",
+                        data: $('#formLotes').serialize()
+                    });
+                }
+
+            </script>
+
+            <script type="text/javascript">
+
+                $('#imagenPlantilla').on('change', archivoSeleccionadoHandler);
+
+                @* Metodo llamado cuando el archivo seleccionado cambio*@
+                function archivoSeleccionadoHandler(evento) {
+                    var target = evento.target;
+
+                    target.nextElementSibling.innerText = target.files[0].name;
+                }
+
+            </script>
+        }
+
+    </div>
     }
 }
