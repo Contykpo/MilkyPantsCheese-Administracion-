@@ -10,8 +10,13 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
+<<<<<<< HEAD:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211123015353_inicial.Designer.cs
     [Migration("20211123015353_inicial")]
     partial class inicial
+=======
+    [Migration("20211123001338_Inicial")]
+    partial class Inicial
+>>>>>>> Furlanich:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211123001338_Inicial.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -287,8 +292,8 @@ namespace MilkyPantsCheese.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Acidez")
-                        .HasPrecision(3, 2)
-                        .HasColumnType("decimal(3,2)");
+                        .HasPrecision(5, 5)
+                        .HasColumnType("decimal(5,5)");
 
                     b.Property<int?>("CisternaId")
                         .HasColumnType("int");
@@ -308,15 +313,15 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("nvarchar(1024)");
 
                     b.Property<decimal>("PorcentajeDeAgua")
-                        .HasPrecision(3, 2)
-                        .HasColumnType("decimal(3,2)");
+                        .HasPrecision(5, 5)
+                        .HasColumnType("decimal(5,5)");
 
                     b.Property<int?>("TamboDeProvenienciaId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Temperatura")
-                        .HasPrecision(3, 2)
-                        .HasColumnType("decimal(3,2)");
+                        .HasPrecision(5, 5)
+                        .HasColumnType("decimal(5,5)");
 
                     b.HasKey("Id");
 

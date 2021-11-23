@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -16,13 +13,11 @@ namespace MilkyPantsCheese.Pages
     public class CreacionCisternaModel : PageModel
     {
         private readonly MilkyDbContext _dbcontext;
-        private readonly UserManager<ModeloUsuario> _userManager;
 
 
-        public CreacionCisternaModel(MilkyDbContext dbContext, UserManager<ModeloUsuario> userManager)
+        public CreacionCisternaModel(MilkyDbContext dbContext)
         {
             _dbcontext   = dbContext;
-            _userManager = userManager;
         }
 
         public void OnGet()
@@ -45,7 +40,7 @@ namespace MilkyPantsCheese.Pages
             ModeloCisterna nuevaCisterna = new ModeloCisterna
             {
                 Nombre    = Nombre,
-                Capacidad = int.Parse(CapacidadLitros)
+                Capacidad = capacidadLitros
             };
 
             //Intentamos crear la cisterna y guardarla en la base de datos
