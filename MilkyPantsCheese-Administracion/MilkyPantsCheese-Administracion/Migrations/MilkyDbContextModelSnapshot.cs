@@ -214,6 +214,33 @@ namespace MilkyPantsCheese.Migrations
                     b.ToTable("DateTimeOffsetWrapper");
                 });
 
+            modelBuilder.Entity("MilkyPantsCheese.ModeloDatosSensorCurado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("DioxidoDeCarbono")
+                        .HasPrecision(10, 5)
+                        .HasColumnType("decimal(10,5)");
+
+                    b.Property<DateTimeOffset>("Fecha")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<decimal>("Humedad")
+                        .HasPrecision(4, 1)
+                        .HasColumnType("decimal(4,1)");
+
+                    b.Property<decimal>("Temperatura")
+                        .HasPrecision(4, 1)
+                        .HasColumnType("decimal(4,1)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DatosSensorCurado");
+                });
+
             modelBuilder.Entity("MilkyPantsCheese.ModeloFermento", b =>
                 {
                     b.Property<int>("Id")
@@ -235,8 +262,8 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("nvarchar(1024)");
 
                     b.Property<decimal>("Peso")
-                        .HasPrecision(3, 2)
-                        .HasColumnType("decimal(3,2)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<int?>("TipoFermentoId")
                         .HasColumnType("int");

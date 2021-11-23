@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MilkyPantsCheese.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,6 +64,22 @@ namespace MilkyPantsCheese.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cisterna", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DatosSensorCurado",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Temperatura = table.Column<decimal>(type: "decimal(4,1)", precision: 4, scale: 1, nullable: false),
+                    Humedad = table.Column<decimal>(type: "decimal(4,1)", precision: 4, scale: 1, nullable: false),
+                    DioxidoDeCarbono = table.Column<decimal>(type: "decimal(10,5)", precision: 10, scale: 5, nullable: false),
+                    Fecha = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DatosSensorCurado", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,7 +338,7 @@ namespace MilkyPantsCheese.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Peso = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
+                    Peso = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
                     Observaciones = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
                     FechaElaboracion = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -512,6 +528,9 @@ namespace MilkyPantsCheese.Migrations
 
             migrationBuilder.DropTable(
                 name: "DateTimeOffsetWrapper");
+
+            migrationBuilder.DropTable(
+                name: "DatosSensorCurado");
 
             migrationBuilder.DropTable(
                 name: "IdentityUser<int>");

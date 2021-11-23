@@ -147,7 +147,7 @@ namespace MilkyPantsCheese
 
             builder.Entity<ModeloFermento>()
                 .Property(l => l.Peso)
-                .HasPrecision(3, 2);
+                .HasPrecision(5, 2);
 
             // --- Fermento TipoFermento
             builder.Entity<ModeloFermento>()
@@ -202,15 +202,15 @@ namespace MilkyPantsCheese
 
             builder.Entity<ModeloDatosSensorCurado>()
 	            .Property(s => s.Temperatura)
-	            .HasPrecision(3, 1);
+	            .HasPrecision(4, 1);
 
             builder.Entity<ModeloDatosSensorCurado>()
 	            .Property(s => s.Humedad)
-	            .HasPrecision(3, 1);
+	            .HasPrecision(4, 1);
 
             builder.Entity<ModeloDatosSensorCurado>()
 	            .Property(s => s.DioxidoDeCarbono)
-	            .HasPrecision(5, 5);
+	            .HasPrecision(10, 5);
 
             #endregion
         }
