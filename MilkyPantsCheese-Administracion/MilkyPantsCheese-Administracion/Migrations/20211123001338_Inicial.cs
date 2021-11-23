@@ -289,9 +289,9 @@ namespace MilkyPantsCheese.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PorcentajeDeAgua = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    Temperatura = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    Acidez = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
+                    PorcentajeDeAgua = table.Column<decimal>(type: "decimal(5,5)", precision: 5, scale: 5, nullable: false),
+                    Temperatura = table.Column<decimal>(type: "decimal(5,5)", precision: 5, scale: 5, nullable: false),
+                    Acidez = table.Column<decimal>(type: "decimal(5,5)", precision: 5, scale: 5, nullable: false),
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
                     ImagenPlanilla = table.Column<byte[]>(type: "varbinary(max)", maxLength: 20971520, nullable: true),
                     NotasAdicionales = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),

@@ -1,0 +1,34 @@
+﻿@using Castle.Core.Internal
+
+@model MilkyPantsCheese.Pages.AdministrarLotesDeLecheModel
+
+@inject MilkyDbContext dbContext
+
+@{
+
+    var cisternas = (from c in dbContext.Cisternas select c).ToList();
+
+    <div>
+
+        @if (cisternas.IsNullOrEmpty() || @Model.CisternaLotesId < 1)
+        {
+            <label class="text-center">No hay lotes disponibles</label>
+        }
+        else
+        {
+            @foreach (var lote in cisternas.Single(m => m.Id == @Model.CisternaLotesId).LotesDeLeche)
+            {
+                <div class="pl-4 pr-4 d-flex flex-row border border-warning rounded-pill">
+
+                    <div class="d-flex flex-column">
+                        <label class="text-left">ID: @lote.Id</label>
+                        <label class="text-left">Esta disponible: @BooleanHelpers.ObtenerSiNo(lote.EstaDisponible)</label>
+                        <label class="text-left">Fecha llegada: @lote.Fecha.ToString("HH:mm tt zz")</label>
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+}

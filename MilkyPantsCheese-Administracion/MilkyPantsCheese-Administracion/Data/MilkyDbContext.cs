@@ -14,6 +14,10 @@ namespace MilkyPantsCheese
 
         public DbSet<ModeloLoteDeQueso> LotesDeQuesos { get; set; }
 
+        public DbSet<ModeloQueso> Quesos { get; set; }
+
+        public DbSet<ModeloTipoQueso> TiposDeQuesos { get; set; }
+        
         public DbSet<ModeloCisterna> Cisternas { get; set; }
 
         public DbSet<ModeloTambo> Tambos { get; set; }

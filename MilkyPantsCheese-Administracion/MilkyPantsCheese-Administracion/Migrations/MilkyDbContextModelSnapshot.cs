@@ -253,8 +253,8 @@ namespace MilkyPantsCheese.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("Acidez")
-                        .HasPrecision(3, 2)
-                        .HasColumnType("decimal(3,2)");
+                        .HasPrecision(5, 5)
+                        .HasColumnType("decimal(5,5)");
 
                     b.Property<int?>("CisternaId")
                         .HasColumnType("int");
@@ -274,15 +274,15 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("nvarchar(1024)");
 
                     b.Property<decimal>("PorcentajeDeAgua")
-                        .HasPrecision(3, 2)
-                        .HasColumnType("decimal(3,2)");
+                        .HasPrecision(5, 5)
+                        .HasColumnType("decimal(5,5)");
 
                     b.Property<int?>("TamboDeProvenienciaId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Temperatura")
-                        .HasPrecision(3, 2)
-                        .HasColumnType("decimal(3,2)");
+                        .HasPrecision(5, 5)
+                        .HasColumnType("decimal(5,5)");
 
                     b.HasKey("Id");
 

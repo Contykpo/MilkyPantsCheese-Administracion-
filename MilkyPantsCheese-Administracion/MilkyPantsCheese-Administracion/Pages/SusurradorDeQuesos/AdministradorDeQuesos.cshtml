@@ -1,0 +1,120 @@
+﻿@page
+
+@using Microsoft.AspNetCore.Identity
+@using Castle.Core.Internal
+
+@model MilkyPantsCheese.Pages.AdministradorDeQuesosModel
+
+@inject MilkyDbContext dbContext
+@inject UserManager<ModeloUsuario> _userManager
+
+@{
+    //Verificamos si el usuario actual tiene el rol de 'SusurradorDeQuesos'.
+    if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
+    {
+        var lotesQueso = (from c in dbContext.LotesDeQuesos select c).ToList();
+
+        var lotesLeche = (from c in dbContext.LotesDeLeche select c).ToList();
+
+        var tiposQuesos = (from c in dbContext.TiposDeQuesos select c).ToList();
+
+        var fermentos = (from c in dbContext.Fermentos select c).ToList();
+
+        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
+
+            <div class="p-2 border border-warning rounded">
+
+                <div class="pb-3">
+                    <h4 class="text-left">Añadir lote:</h4>
+                </div>
+
+                <form method="post">
+
+                    <!--Seleccion fecha y horario de inicio de curacion del queso-->
+                    <div class="form-group">
+
+                        <label asp-for="FechaInicio"></label>
+                        <input asp-for="FechaInicio" type="date" class="form-control" value="@DateTimeOffset.Now" />
+
+                    </div>
+
+                    <!--Lotes de leche a utilizar-->
+                    <div class="form-group mt-5">
+
+                        <label asp-for="LoteLecheId"></label>
+                        <select asp-for="LoteLecheId" asp-items="@SelectItemListHelpers.ToSelectListItemListLotesDeLeche(lotesLeche)" class="custom-select"></select>
+
+                        @Html.ValidationMessageFor(m => m.LoteLecheId, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Tipo de queso en el lote-->
+                    <div class="form-group mt-5">
+
+                        <label asp-for="TipoQuesoId"></label>
+                        <select asp-for="TipoQuesoId" asp-items="@SelectItemListHelpers.ToSelectListItemListTipoQueso(tiposQuesos)" class="custom-select"></select>
+
+                        @Html.ValidationMessageFor(m => m.TipoQuesoId, "", new { @class = "text-danger" })
+
+                    </div>
+                    
+                    <!--Fermento a utilizar en el lote-->
+                    <div class="form-group mt-5">
+
+                        <label asp-for="FermentoId"></label>
+                        <select asp-for="FermentoId" asp-items="@SelectItemListHelpers.ToSelectListItemListFermento(fermentos)" class="custom-select"></select>
+
+                        @Html.ValidationMessageFor(m => m.FermentoId, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Observaciones acerca del lote de queso-->
+                    <div class="form-group">
+
+                        <label asp-for="Observaciones"></label>
+                        <textarea class="form-text overflow-auto w-100" asp-for="Observaciones"></textarea>
+
+                    </div>
+
+                    <!--Boton submit-->
+                    <div class="mt-3">
+
+                        <input type="submit" value="Añadir" class="form-text btn btn-primary" />
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="mt-3 p-2 border border-warning rounded">
+
+                <div class="pb-3">
+                    <h4 class="text-left">Cisternas:</h4>
+                </div>
+
+                @if (lotesQueso.IsNullOrEmpty())
+                {
+                    <label class="text-center">No hay lotes de quesos disponibles</label>
+                }
+                else
+                {
+                    @foreach (var loteQueso in lotesQueso)
+                    {
+                        <div class="pl-4 pr-4 d-flex flex-row border border-warning rounded-pill">
+
+                            <div class="d-flex flex-column">
+                                <label class="text-left">Nombre: @loteQueso.TipoQueso.Nombre</label>
+                                <label class="text-left">Tipo queso: @loteQueso.FechaInicioCuracion</label>
+                                <label class="text-left">Quesos: @loteQueso.Quesos.Count</label>
+                            </div>
+
+                        </div>
+                    }
+                }
+
+            </div>
+
+        </div>
+    }
+}

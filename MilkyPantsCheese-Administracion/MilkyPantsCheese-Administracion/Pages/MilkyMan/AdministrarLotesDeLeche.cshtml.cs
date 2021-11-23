@@ -21,6 +21,13 @@ namespace MilkyPantsCheese.Pages
         private readonly IConfiguration _config;
 
         /// <summary>
+        /// Cisterna seleccionada para mostrar sus lotes.
+        /// </summary>
+        [Display(Name = "Cisterna")]
+        [BindProperty]
+        public int CisternaLotesId { get; set; }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="dbContext"></param>
@@ -74,9 +81,9 @@ namespace MilkyPantsCheese.Pages
             ModeloLoteDeLeche nuevoLoteDeLeche = new ModeloLoteDeLeche
             {
                 Fecha               = FechaIngreso, 
-                PorcentajeDeAgua    = decimal.Parse(PorcentajeAgua),
-                Temperatura         = decimal.Parse(Temperatura),
-                Acidez              = decimal.Parse(Acidez),
+                PorcentajeDeAgua    = porcentajeAgua,
+                Temperatura         = temperatura,
+                Acidez              = acidez,
                 EstaDisponible      = EstaDisponible, 
                 NotasAdicionales    = NotasAdicionales,
                 Cisterna            = cisternas.Single(m => m.Id == CisternaId),
@@ -118,6 +125,12 @@ namespace MilkyPantsCheese.Pages
             return RedirectToPage("AdministrarLotesDeLeche");
         }
 
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnPostFiltradoLotes()
+        {
+            return Partial("_Lotes", this);
+        }
+
         #region Propiedades para la creacion / edicion de lotes de leche.
 
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
@@ -149,7 +162,7 @@ namespace MilkyPantsCheese.Pages
         [Display(Name = "Cisterna")]
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [BindProperty]
-        public int CisternaId { get; set; } = 1;
+        public int CisternaId { get; set; }
 
         [Display(Name = "Tambo")]
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
