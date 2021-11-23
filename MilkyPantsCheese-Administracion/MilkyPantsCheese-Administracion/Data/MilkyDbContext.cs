@@ -29,9 +29,9 @@ namespace MilkyPantsCheese
         public DbSet<ModeloDatosSensorCurado> DatosSensorCurado { get; set; }
 
         public MilkyDbContext(DbContextOptions<MilkyDbContext> options)
-	        : base(options) {}
+	        : base(options){}
 
-		protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
 

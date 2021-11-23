@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -145,6 +147,8 @@ namespace MilkyPantsCheese
 
             //Creamos el usuario del administrador en caso de que no exista
             CrearUsuarioAdministrador(servicios).Wait();
+
+            IniciarListenerArduino();
         }
 
         /// <summary>
@@ -234,6 +238,18 @@ namespace MilkyPantsCheese
 
 	            await dbContext.SaveChangesAsync();
             }
+        }
+
+        private void IniciarListenerArduino()
+        {
+	        var directorio = Directory.GetCurrentDirectory();
+
+	        Process p = Process.Start(Path.Combine(Directory.GetCurrentDirectory(), "MilkyPantsDBATCPListener.exe"), new []
+	        {
+                Configuration.GetConnectionString("DefaultConnection"),
+                "127.0.0.1",
+                "25565"
+	        });
         }
     }
 }
