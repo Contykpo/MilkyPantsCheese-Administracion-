@@ -248,7 +248,7 @@ namespace MilkyPantsCheese
 	        {
                 Configuration.GetConnectionString("DefaultConnection"),
                 "127.0.0.1",
-                "25565"
+                Configuration.GetSection("ConfiguracionListenerArduino")["Puerto"]
 	        });
         }
     }

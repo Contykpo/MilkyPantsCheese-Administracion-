@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -54,6 +56,30 @@ namespace MilkyPantsCheese
 
                 return headersExtension.Any(headerActual => header.Take(headerActual.Length).SequenceEqual(headerActual));
             }
+        }
+
+        /// <summary>
+        /// Intenta parsear una <paramref name="cadena"/> a un <see cref="decimal"/>
+        /// </summary>
+        /// <param name="cadena">Cadena que intentar parsear</param>
+        /// <param name="precision">Precision del <see cref="decimal"/></param>
+        /// <param name="escala">Escala del <see cref="decimal"/></param>
+        /// <param name="resultado"><see cref="decimal"/> parseado desde la <paramref name="cadena"/> en caso de tener exito</param>
+        /// <returns><see cref="bool"/> indicando si se pudo parsear la <paramref name="cadena"/></returns>
+        public static bool TryParseDecimal(this string cadena, int precision, int escala, out decimal resultado)
+        {
+	        var secciones = cadena.Split(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+
+	        var parteEntera = secciones[0].Substring(0, Math.Min(precision - escala, secciones[0].Length));
+
+	        string parteDecimal = string.Empty;
+
+	        if (secciones.Length > 1)
+		        parteDecimal = secciones[1].Substring(0, Math.Min(escala, secciones[1].Length));
+
+	        return decimal.TryParse(
+		        $"{parteEntera}{CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator}{parteDecimal}",
+		        out resultado);
         }
     }
 }

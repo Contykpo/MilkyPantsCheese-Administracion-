@@ -1,4 +1,6 @@
-﻿namespace MilkyPantsCheese
+﻿using System;
+
+namespace MilkyPantsCheese
 {
     /// <summary>
     /// Modelo que representa a un queso.
@@ -19,6 +21,11 @@
         /// Peso del queso tras finalizar el curado del mismo.
         /// </summary>
         public decimal PesoPostCurado { get; set; }
+
+        /// <summary>
+        /// Fecha en la que finalizo la curacion de este queso
+        /// </summary>
+        public DateTimeOffset FechaFinCuracion { get; set; }
 
         /// <summary>
         /// Lote que compone este queso.

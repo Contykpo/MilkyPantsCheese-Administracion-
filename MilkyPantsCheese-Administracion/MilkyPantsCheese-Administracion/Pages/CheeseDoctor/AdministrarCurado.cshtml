@@ -1,27 +1,115 @@
 ﻿@page
+@using Microsoft.EntityFrameworkCore
 @model MilkyPantsCheese.Pages.AdministrarCuradoModel
 
-<div class="d-flex flex-column">
+@inject MilkyDbContext dbContext;
+
+@{
+    var tiposDeQuesoDisponibles = SelectItemListHelpers.ToSelectListItemListTipoQueso(await dbContext.TiposDeQuesos.ToListAsync());
+}
+
+<div class="d-flex flex-column d-inline-block h-100">
     
-    <div class="table">
+    <form 
+        method="get"
 
-        <div class="row">
+        class="table">
 
-            <div class="col-4">
+        <div class="row mb-3">
+
+            <div class="col-3">
+
+                @*Seleccion de fecha de inicio de curado*@
+                <label asp-for="FechaInicioCuradoSeleccionada"></label>
+                <input type="date" asp-for="FechaInicioCuradoSeleccionada" class="d-inline-block w-100" />
+
+            </div>
+
+            <div class="col-1"></div>
+
+            <div class="col-3">
 
                 @*Id del queso*@
-                <input type="number" asp-for="IdQueso" />
+                <label asp-for="IdQueso"></label>
+                <input type="number" asp-for="IdQueso" class="d-inline-block w-100" />
+
+            </div>
+
+            <div class="col-1"></div>
+
+            <div class="col-3 d-inline-block w-100 align-self-end">
+                
+                @*Boton buscar*@
+                <input type="submit" class="btn btn-primary d-inline-block w-100" value="Buscar"/>
+            </div>
+
+
+        </div>
+        
+        <div class="row mb-3">
+
+            <div class="col-3">
+
+                @*Seleccion de fecha de inicio de curado*@
+                <label asp-for="FechaFinCuradoSeleccionada"></label>
+                <input type="date" asp-for="FechaFinCuradoSeleccionada" class="d-inline-block w-100" />
+
+            </div>
+
+            <div class="col-1"></div>
+
+            <div class="col-3">
+
+                @*Select estado queso*@
+                <label asp-for="EstaQuesoSeleccionado"></label>
+                <select asp-for="EstaQuesoSeleccionado" asp-items="@Html.GetEnumSelectList<EEstadoQueso>()" class="d-inline-block w-100 custom-select"></select>
+
+            </div>
+
+            <div class="col-1"></div>
+
+            <div class="col-3 d-inline-block w-100 align-self-end">
+                @*Boton crear*@
+                <a asp-page="/CheeseDoctor/CrearQueso" class="btn btn-primary d-inline-block w-100" value="Crear">Crear</a>
+            </div>
+
+        </div>
+        
+        <div class="row mb-3">
+
+            <div class="col-3">
+                
+                @*Select tipo comparacion*@
+                <label asp-for="ModoComparacionSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho. Solo tiene efecto si no estan seleccionadas ambas, las fechas de inicio y final del curado"></label>
+                <select asp-for="ModoComparacionSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
+
+            </div>
+            
+            <div class="col-1"></div>
+
+            <div class="col-3">
+
+                @*Seleccion del tipo de queso*@
+                <label asp-for="IdTipoQueso"></label>
+                <select asp-for="IdTipoQueso" asp-items="@tiposDeQuesoDisponibles" class="d-inline-block w-100 custom-select"></select>
 
             </div>
 
         </div>
-
-        <div class="row">
-        </div>
-    </div>
+    </form>
     
-    <div class="bg-danger">
+    <div class="d-inline-block h-100 border">
 
     </div>
 
 </div>
+
+@section Scripts{
+    
+    <script type="text/javascript">
+
+        $("[data-toggle='tooltip']").tooltip();
+
+    </script>
+
+}

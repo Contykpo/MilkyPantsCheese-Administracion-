@@ -1,6 +1,7 @@
 ﻿@page
 
 @using Castle.Core.Internal
+@using MilkyPantsCheese.Helpers
 
 @model MilkyPantsCheese.Pages.CreacionQuesoModel
 
@@ -54,8 +55,7 @@
                     <div class="form-group mt-5">
 
                         <label asp-for="LoteId"></label>
-                        <select asp-for="LoteId" asp-items="@SelectItemListHelpers.ToSelectListItemListLotesDeQueso(lotes)" class="custom-select"></select>
-
+    
                         @Html.ValidationMessageFor(m => m.LoteId, "", new { @class = "text-danger" })
 
                     </div>
@@ -74,15 +74,6 @@
                 <div>
                     <h4 class="text-left">queso:</h4>
                 </div>
-
-                @if (quesos.IsNullOrEmpty())
-                {
-                    <label class="text-center">No hay lotes de quesos disponibles</label>
-                }
-                else
-                {
-                    
-                }
 
             </div>
 
