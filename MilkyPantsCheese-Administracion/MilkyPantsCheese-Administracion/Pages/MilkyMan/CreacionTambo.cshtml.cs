@@ -72,7 +72,6 @@ namespace MilkyPantsCheese.Pages
         [BindProperty]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [StringLength(1024)]
         [BindProperty]
         public string Notas { get; set; }

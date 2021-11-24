@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MilkyPantsCheese.Migrations
 {
-    public partial class inicial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -305,9 +305,9 @@ namespace MilkyPantsCheese.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PorcentajeDeAgua = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    Temperatura = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    Acidez = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
+                    PorcentajeDeAgua = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
+                    Temperatura = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
+                    Acidez = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
                     ImagenPlanilla = table.Column<byte[]>(type: "varbinary(max)", maxLength: 20971520, nullable: true),
                     NotasAdicionales = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
@@ -404,8 +404,8 @@ namespace MilkyPantsCheese.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EstadoQueso = table.Column<int>(type: "int", nullable: false),
-                    PesoPreCurado = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    PesoPostCurado = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
+                    PesoPreCurado = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
+                    PesoPostCurado = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     LoteId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
