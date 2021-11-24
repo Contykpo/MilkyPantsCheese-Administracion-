@@ -1,0 +1,65 @@
+﻿@page
+@model MilkyPantsCheese.Pages.MonitoreoCuradoModel
+
+<div class="table">
+    
+    <div class="row">
+        
+        @*Datos del monitoreo*@
+        <div id="contenedorDatosSensor" class="col-4">
+            <partial name="_DatosMonitoreoCurado" />
+        </div>
+
+        @*Espacio entre los datos y el boton*@
+        <div class="col-2"></div>
+
+        @*Boton recargar*@
+        <form method="get"
+              data-ajax="true"
+              data-ajax-mode="replace"
+              data-ajax-method="get"
+              data-ajax-url="/Monitoreo/MonitoreoCurado?handler=Actualizar"
+              data-ajax-update="#contenedorDatosSensor"
+
+              class="col-6">
+
+            <input type="submit" class="btn btn-primary" value="Recargar" />
+        </form>
+
+    </div>
+    
+</div>
+
+@section Scripts{ 
+    
+    <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    
+    <script type="text/javascript">
+
+        var idIntervalo;
+
+        @*Obtiene del servidor los datos del sensor cada 7,5 segundos*@
+        idIntervalo = window.setInterval(function() {
+
+            $.ajax({
+                type: "get",
+                url: "/Monitoreo/MonitoreoCurado?handler=Actualizar",
+
+                success: function(resultado) {
+
+                    console.log(resultado.responseText);
+
+                    $('#contenedorDatosSensor').html(resultado);
+                },
+
+                error: function(error) {
+
+                    console.log(error);
+                }
+            });
+
+        }, 7500);
+
+    </script> 
+
+}

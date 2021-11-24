@@ -1,0 +1,29 @@
+﻿@using Microsoft.EntityFrameworkCore
+
+@inject MilkyDbContext dbContext
+
+@{ 
+    var ultimosDatosSensor = await dbContext.DatosSensorCurado.OrderBy(d => d.Fecha).LastAsync();
+} 
+
+<div class="table">
+
+    <div class="col-4">
+
+        Temperatura: @ultimosDatosSensor.Temperatura °C
+
+    </div>
+
+    <div class="col-4">
+
+        Humedad: @ultimosDatosSensor.Humedad%
+
+    </div>
+
+    <div class="col-4">
+
+        Dioxido de carbono: @ultimosDatosSensor.DioxidoDeCarbono ppm
+
+    </div>
+
+</div>
