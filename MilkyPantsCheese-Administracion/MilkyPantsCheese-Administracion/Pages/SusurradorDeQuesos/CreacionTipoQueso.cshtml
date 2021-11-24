@@ -1,0 +1,71 @@
+﻿@page
+
+@using Castle.Core.Internal
+
+@model MilkyPantsCheese.Pages.CreacionTipoQuesoModel
+
+@inject MilkyDbContext dbContext
+
+@{
+    @if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
+    {
+
+        var tiposQuesos = (from c in dbContext.TiposDeQuesos select c).ToList();
+
+        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
+
+            <div class="p-2 border border-warning rounded">
+
+                <div>
+                    <h4 class="text-left">Nuevo tipo de queso:</h4>
+                </div>
+
+                <form method="post">
+
+                    <!--Nombre del tipo de queso-->
+                    <div class="form-group">
+
+                        <label asp-for="NombreTipoQueso"></label>
+                        <input type="text" class="form-text" asp-for="NombreTipoQueso" />
+
+                        @Html.ValidationMessageFor(m => m.NombreTipoQueso, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Boton submit-->
+                    <div class="form-group mt-4">
+                        <input type="submit" value="Crear" class="form-text btn btn-primary" />
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="p-2 border border-warning rounded">
+
+                <div>
+                    <h4 class="text-left">Tipos de queso:</h4>
+                </div>
+
+                @if (tiposQuesos.IsNullOrEmpty())
+                {
+                    <label class="text-center">No hay lotes de quesos disponibles</label>
+                }
+                else
+                {
+                    @foreach (var tipoQueso in tiposQuesos)
+                    {
+                        <div class="pl-4 pr-4 d-flex flex-row border border-warning rounded-pill">
+
+                            <label class="text-left">Nombre: @tipoQueso.Nombre</label>
+
+                        </div>
+                    }
+                }
+
+            </div>
+
+        </div>
+
+    }
+
+}

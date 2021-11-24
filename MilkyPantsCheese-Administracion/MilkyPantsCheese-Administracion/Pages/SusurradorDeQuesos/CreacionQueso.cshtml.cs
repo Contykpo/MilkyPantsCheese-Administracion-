@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,16 @@ namespace MilkyPantsCheese.Pages
     {
         private readonly MilkyDbContext _dbContext;
 
+        /// <summary>
+        /// Quesos disponibles.
+        /// </summary>
+        public List<ModeloQueso> Quesos = new List<ModeloQueso>();
+
         public CreacionQuesoModel(MilkyDbContext dbContext)
         {
-            _dbContext   = dbContext;
+            _dbContext = dbContext;
+        
+            Quesos = (from c in dbContext.Quesos select c).ToList();
         }
 
         public void OnGet()

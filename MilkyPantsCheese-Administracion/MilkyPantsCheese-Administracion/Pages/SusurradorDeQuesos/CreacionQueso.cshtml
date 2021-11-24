@@ -1,6 +1,6 @@
 ﻿@page
 
-@using MilkyPantsCheese.Helpers
+@using Castle.Core.Internal
 
 @model MilkyPantsCheese.Pages.CreacionQuesoModel
 
@@ -10,62 +10,84 @@
     @if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
     {
 
-        var lotes = (from c in dbContext.LotesDeQuesos select c).ToList();
-
         <div class="container p-3 border border-warning rounded position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
 
-            <div>
-                <h4 class="text-left">Nuevo queso:</h4>
+            <div class="p-2 border border-warning rounded">
+
+                <div>
+                    <h4 class="text-left">Nuevo queso:</h4>
+                </div>
+
+                <form method="post">
+
+                    <!--Seleccion estado del queso-->
+                    <div class="form-group">
+
+                        <label asp-for="EstadoQueso"></label>
+                        <select asp-for="EstadoQueso" asp-items="EnumHelpers.ToSelectListItemList<EEstadoQueso>()" class="custom-select"></select>
+
+                        @Html.ValidationMessageFor(m => m.EstadoQueso, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Peso del queso antes de que ser curado-->
+                    <div class="form-group">
+
+                        <label asp-for="PesoPreCurado"></label>
+                        <input type="text" class="form-text" asp-for="PesoPreCurado" />
+
+                        @Html.ValidationMessageFor(m => m.PesoPreCurado, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Peso del queso despues de ser curado-->
+                    <div class="form-group">
+
+                        <label asp-for="PesoPostCurado"></label>
+                        <input type="text" class="form-text" asp-for="PesoPostCurado" />
+
+                        @Html.ValidationMessageFor(m => m.PesoPostCurado, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Lote donde el queso sera almacenado-->
+                    <div class="form-group mt-5">
+
+                        <label asp-for="LoteId"></label>
+                        <select asp-for="LoteId" asp-items="@SelectItemListHelpers.ToSelectListItemListLotesDeQueso(lotes)" class="custom-select"></select>
+
+                        @Html.ValidationMessageFor(m => m.LoteId, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Boton submit-->
+                    <div class="form-group mt-4">
+                        <input type="submit" value="Crear" class="form-text btn btn-primary" />
+                    </div>
+
+                </form>
+
             </div>
 
-            <form method="post">
+            <div class="p-2 border border-warning rounded">
 
-                <!--Seleccion estado del queso-->
-                <div class="form-group">
-
-                    <label asp-for="EstadoQueso"></label>
-                    <select asp-for="EstadoQueso" asp-items="EnumHelpers.ToSelectListItemList<EEstadoQueso>()" class="custom-select"></select>
-
-                    @Html.ValidationMessageFor(m => m.EstadoQueso, "", new { @class = "text-danger" })
-
+                <div>
+                    <h4 class="text-left">queso:</h4>
                 </div>
 
-                <!--Peso del queso antes de que ser curado-->
-                <div class="form-group">
+                @if (quesos.IsNullOrEmpty())
+                {
+                    <label class="text-center">No hay lotes de quesos disponibles</label>
+                }
+                else
+                {
+                    
+                }
 
-                    <label asp-for="PesoPreCurado"></label>
-                    <input type="text" class="form-text" asp-for="PesoPreCurado" />
-
-                    @Html.ValidationMessageFor(m => m.PesoPreCurado, "", new { @class = "text-danger" })
-
-                </div>
-
-                <!--Peso del queso despues de ser curado-->
-                <div class="form-group">
-
-                    <label asp-for="PesoPostCurado"></label>
-                    <input type="text" class="form-text" asp-for="PesoPostCurado" />
-
-                    @Html.ValidationMessageFor(m => m.PesoPostCurado, "", new { @class = "text-danger" })
-
-                </div>
-
-                <!--Lote donde el queso sera almacenado-->
-                <div class="form-group mt-5">
-
-                    <label asp-for="LoteId"></label>
-                    <select asp-for="LoteId" asp-items="@SelectItemListHelpers.ToSelectListItemListLotesDeQueso(lotes)" class="custom-select"></select>
-
-                    @Html.ValidationMessageFor(m => m.LoteId, "", new { @class = "text-danger" })
-
-                </div>
-
-                <!--Boton submit-->
-                <div class="form-group mt-4">
-                    <input type="submit" value="Crear" class="form-text btn btn-primary" />
-                </div>
-            </form>
+            </div>
 
         </div>
+
     }
+
 }
