@@ -53,6 +53,12 @@
                             {
                                 <a class="nav-link text-dark" asp-page="/CheeseScientist/AdministrarFermentos">Administrar fermentos</a>
                             }
+                            else if (User.IsInRole(Constantes.NombreRolCheeseDoctor))
+                            {
+                                <li>
+                                    <a class="nav-link text-dark" asp-page="/CheeseDoctor/AdministrarCurado">Administrar curado</a>
+                                </li>
+                            }
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-page="/Monitoreo/MonitoreoCurado">Monitoreo</a>
