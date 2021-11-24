@@ -1,1 +1,28 @@
 ﻿@model MilkyPantsCheese.Pages.AdministradorDeQuesosModel
+<<<<<<< HEAD
+=======
+
+@foreach (var tipoQueso in Model.TiposQuesos)
+{
+
+    <div class="pl-4 pr-4 d-flex flex-row border border-warning rounded">
+
+        @*Id del tipo de queso*@
+        <div class="col-md-1 col-2">
+            <label>Id: @tipoQueso.Id</label>
+        </div>
+
+        @*Nombre del tipo de queso*@
+        <div class="col-md-2 col-3">
+            <label>Nombre: @tipoQueso.Nombre</label>
+        </div>
+
+        @*Boton editar*@
+        <div class="col-md-1 col-1 px-0">
+            <a class="nav-link px-0" asp-page="/SusurradorDeQuesos/EditarTipoQueso" asp-route-id="@tipoQueso.Id">Editar</a>
+        </div>
+    
+    </div>
+
+}
+>>>>>>> Furlanich

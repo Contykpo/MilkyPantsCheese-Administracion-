@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MilkyPantsCheese
 {
-    public static class SelectItemListHelpers
+    public static class SelectListItemHelpers
     {
         /// <summary>
         /// Obtenemos una lista de <see cref="SelectListItem"/> de la lista de <see cref="T"/> que se pase.

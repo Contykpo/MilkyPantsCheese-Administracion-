@@ -59,15 +59,15 @@ namespace MilkyPantsCheese
 
             builder.Entity<ModeloLoteDeLeche>()
                 .Property(l => l.PorcentajeDeAgua)
-                .HasPrecision(3, 2);
+                .HasPrecision(5, 2);
 
             builder.Entity<ModeloLoteDeLeche>()
                 .Property(l => l.Temperatura)
-                .HasPrecision(3, 2);
+                .HasPrecision(5, 2);
 
             builder.Entity<ModeloLoteDeLeche>()
                 .Property(l => l.Acidez)
-                .HasPrecision(3, 2);
+                .HasPrecision(5, 2);
 
             // --- LoteDeLeche LoteDeQueso
             builder.Entity<ModeloLoteDeLeche>()
@@ -123,11 +123,11 @@ namespace MilkyPantsCheese
 
             builder.Entity<ModeloQueso>()
                 .Property(l => l.PesoPreCurado)
-                .HasPrecision(3, 2);
+                .HasPrecision(5, 2);
 
             builder.Entity<ModeloQueso>()
                 .Property(l => l.PesoPostCurado)
-                .HasPrecision(3, 2);
+                .HasPrecision(5, 2);
 
             // --- Queso LoteDeQueso
             builder.Entity<ModeloQueso>()

@@ -42,7 +42,7 @@
                     <div class="form-group mt-5">
 
                         <label asp-for="LoteLecheId"></label>
-                        <select asp-for="LoteLecheId" asp-items="@SelectItemListHelpers.ToSelectListItemListLotesDeLeche(lotesLeche)" class="custom-select"></select>
+                        <select asp-for="LoteLecheId" asp-items="@SelectListItemHelpers.ToSelectListItemListLotesDeLeche(lotesLeche)" class="custom-select"></select>
 
                         @Html.ValidationMessageFor(m => m.LoteLecheId, "", new { @class = "text-danger" })
 
@@ -52,7 +52,7 @@
                     <div class="form-group mt-5">
 
                         <label asp-for="TipoQuesoId"></label>
-                        <select asp-for="TipoQuesoId" asp-items="@SelectItemListHelpers.ToSelectListItemListTipoQueso(tiposQuesos)" class="custom-select"></select>
+                        <select asp-for="TipoQuesoId" asp-items="@SelectListItemHelpers.ToSelectListItemListTipoQueso(tiposQuesos)" class="custom-select"></select>
 
                         @Html.ValidationMessageFor(m => m.TipoQuesoId, "", new { @class = "text-danger" })
 
@@ -62,7 +62,7 @@
                     <div class="form-group mt-5">
 
                         <label asp-for="FermentoId"></label>
-                        <select asp-for="FermentoId" asp-items="@SelectItemListHelpers.ToSelectListItemListFermento(fermentos)" class="custom-select"></select>
+                        <select asp-for="FermentoId" asp-items="@SelectListItemHelpers.ToSelectListItemListFermento(fermentos)" class="custom-select"></select>
 
                         @Html.ValidationMessageFor(m => m.FermentoId, "", new { @class = "text-danger" })
 

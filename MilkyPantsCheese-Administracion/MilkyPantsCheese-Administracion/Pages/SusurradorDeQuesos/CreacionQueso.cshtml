@@ -10,6 +10,7 @@
 @{
     @if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
     {
+        var lotesQueso = (from c in dbContext.LotesDeQuesos select c).ToList();
 
         <div class="container p-3 border border-warning rounded position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
 
@@ -55,7 +56,12 @@
                     <div class="form-group mt-5">
 
                         <label asp-for="LoteId"></label>
+<<<<<<< HEAD
     
+=======
+                        <select asp-for="LoteId" asp-items="@SelectListItemHelpers.ToSelectListItemListLotesDeQueso(lotesQueso)" class="custom-select"></select>
+
+>>>>>>> Furlanich
                         @Html.ValidationMessageFor(m => m.LoteId, "", new { @class = "text-danger" })
 
                     </div>
@@ -72,9 +78,21 @@
             <div class="p-2 border border-warning rounded">
 
                 <div>
-                    <h4 class="text-left">queso:</h4>
+                    <h4 class="text-left">Queso:</h4>
                 </div>
 
+<<<<<<< HEAD
+=======
+                @if (@Model.Quesos.IsNullOrEmpty())
+                {
+                    <label class="text-center">No hay quesos disponibles</label>
+                }
+                else
+                {
+                    
+                }
+
+>>>>>>> Furlanich
             </div>
 
         </div>

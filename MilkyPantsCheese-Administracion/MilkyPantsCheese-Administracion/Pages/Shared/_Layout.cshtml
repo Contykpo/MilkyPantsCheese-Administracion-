@@ -42,6 +42,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
                                 </li>
+<<<<<<< HEAD
                             }
                             else if (User.IsInRole(Constantes.NombreRolAdministrador))
                             {
@@ -59,6 +60,31 @@
                                     <a class="nav-link text-dark" asp-page="/CheeseDoctor/AdministrarCurado">Administrar curado</a>
                                 </li>
                             }
+=======
+                            </ul>
+                        }
+
+                        @if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
+                        {
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/CreacionQueso">Crear Queso</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/AdministradorDeQuesos">Administrar lotes de queso</a>
+                                </li>
+                            </ul>
+                        }
+
+                        else if (User.IsInRole(Constantes.NombreRolAdministrador))
+                        {
+                            <a class="nav-link text-dark" asp-page="/Administrador/AdministrarUsuarios">Administrar usuarios</a>
+                        }
+                        else if (User.IsInRole(Constantes.NombreRolCheeseScientist))
+                        {
+                            <a class="nav-link text-dark" asp-page="/CheeseScientist/AdministrarFermentos">Administrar fermentos</a>
+                        }
+>>>>>>> Furlanich
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-page="/Monitoreo/MonitoreoCurado">Monitoreo</a>
