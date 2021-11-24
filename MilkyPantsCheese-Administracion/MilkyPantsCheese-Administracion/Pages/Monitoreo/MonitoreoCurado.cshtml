@@ -1,0 +1,35 @@
+﻿@page
+@model MilkyPantsCheese.Pages.MonitoreoCuradoModel
+
+<div id="contenedorDatosSensor"></div>
+
+@section Scripts{ 
+
+<script type="text/javascript">
+
+    var idIntervalo;
+
+    idIntervalo = window.setInterval(function () {
+
+        $.ajax({
+
+            type: "get",
+            dataType: "text/html; charset=utf-8",
+            url: "Monitoreo/MonitoreoCurado?handler=Actualizar",
+
+            success: function (resultado) {
+
+                $('#contenedorDatosSensor').html(resultado);
+            },
+
+            error: function (error) {
+
+                console.log(error);
+            }
+        })
+
+    }, 7500)
+
+</script> 
+
+}
