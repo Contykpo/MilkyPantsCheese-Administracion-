@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MilkyPantsCheese.Pages
 {
+    [IgnoreAntiforgeryToken]
     [Authorize(Roles = Constantes.NombreRolAdministrador + "," + Constantes.NombreRolCheeseScientist + "," + Constantes.NombreRolSusurradorDeQuesos)]
     public class MonitoreoCuradoModel : PageModel
     {

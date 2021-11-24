@@ -3,7 +3,7 @@
 @inject MilkyDbContext dbContext
 
 @{ 
-    var ultimosDatosSensor = await dbContext.DatosSensorCurado.LastAsync();
+    var ultimosDatosSensor = await dbContext.DatosSensorCurado.OrderBy(d => d.Fecha).LastAsync();
 } 
 
 <div class="table">
