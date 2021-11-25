@@ -5,7 +5,7 @@
 @inject MilkyDbContext _dbContext;
 
 @{
-    var lotesQuesoDisponibles = SelectItemListHelpers.ToSelectListItemListLotesDeQueso(await _dbContext.LotesDeQuesos.ToListAsync());
+    var lotesQuesoDisponibles = SelectListItemHelpers.ToSelectListItemListLotesDeQueso(await _dbContext.LotesDeQuesos.ToListAsync());
 }
 
 <form method="post"
@@ -74,7 +74,7 @@
         @*Boton crear*@
         <div class="form-group mr-4 w-50">
 
-            <input type="submit" class="btn btn-primary w-100" value="Crear"/>
+            <input type="submit" class="btn btn-warning w-100" value="Crear"/>
 
         </div>
         

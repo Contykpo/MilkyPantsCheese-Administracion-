@@ -19,7 +19,7 @@ namespace MilkyPantsCheese.Pages
         /// <summary>
         /// Quesos disponibles.
         /// </summary>
-        public List<ModeloQueso> Quesos = new List<ModeloQueso>();
+        public List<ModeloQueso> Quesos { get; set; } = new List<ModeloQueso>();
 
         public CreacionQuesoModel(MilkyDbContext dbContext)
         {
@@ -85,6 +85,11 @@ namespace MilkyPantsCheese.Pages
 
         #region Propiedades para la creacion de quesos.
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Fecha de finalizacion del curado")]
+        [BindProperty]
+        public DateTimeOffset FechaFinalCurado { get; set; }
+
         [Display(Name = "Estado del queso")]
         [BindProperty]
         public EEstadoQueso EstadoQueso { get; set; }
@@ -104,7 +109,7 @@ namespace MilkyPantsCheese.Pages
         [Display(Name = "Lote de queso")]
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [BindProperty]
-        public int LoteId { get; set; } = 0;
+        public int LoteId { get; set; }
 
         #endregion
     }

@@ -24,13 +24,13 @@
         </div>
     
         @*Descripcion*@
-        <div class="col-md-4 d-md-inline d-none" style="padding: 0">
+        <div class="col-md-2 d-md-inline d-none" style="padding: 0">
             <textarea class="form-control d-inline-block" style="resize: none; width: 100%; height: 50px;" readonly="readonly">@fermento.Observaciones</textarea>
         </div>
     
         @*Boton editar*@
         <div class="col-md-1 col-2 text-center" style="padding: 0;">
-            <a asp-page="/CheeseScientist/EditarFermento" asp-route-id="@fermento.Id">Editar</a>
+            <a asp-page="/CheeseScientist/EditarFermento" asp-route-id="@fermento.Id" class="btn btn-warning">Editar</a>
         </div>
         
         @*Boton eliminar*@
@@ -39,11 +39,11 @@
             @*Si el fermento ya se ha utilizado en algun lote entonces no debemos permitir que sea eliminado*@
             @if (fermento.LoteEnElQueSeLoUtilizo == null)
             {
-                <input type="submit" class="btn btn-primary" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @fermento.Id)"/>
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @fermento.Id)"/>
             }
             else
             {
-                <input type="submit" class="btn btn-primary" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @fermento.Id)" disabled="disabled"/>
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @fermento.Id)" disabled="disabled"/>
             }
 
         </div>
@@ -62,7 +62,7 @@
                 <h2>¿Esta seguro de eliminar este fermento?</h2>\n\
                 <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
                 <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
-                <button class="btn btn-primary" onclick="AceptarPresionadoHandler(event, ' + id + ')">Aceptar</button>\n\
+                <button class="btn btn-warning" onclick="AceptarPresionadoHandler(event, ' + id + ')">Aceptar</button>\n\
                 </div>');
 
         ToggleVisibilidadMensaje();

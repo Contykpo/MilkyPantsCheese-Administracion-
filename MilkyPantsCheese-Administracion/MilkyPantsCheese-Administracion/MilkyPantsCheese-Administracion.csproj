@@ -27,7 +27,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <Compile Update="Pages\MilkyMan\EditarLoteLeche - Copia.cshtml.cs">
+      <DependentUpon>EditarLoteLeche.cshtml.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\SusurradorDeQuesos\EditarQueso - Copia %282%29.cshtml.cs">
+      <DependentUpon>EditarQueso.cshtml.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\SusurradorDeQuesos\EditarQueso - Copia - Copia.cshtml.cs">
+      <DependentUpon>EditarQueso - Copia.cshtml.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\SusurradorDeQuesos\EditarQueso - Copia.cshtml.cs">
+      <DependentUpon>EditarQueso.cshtml.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

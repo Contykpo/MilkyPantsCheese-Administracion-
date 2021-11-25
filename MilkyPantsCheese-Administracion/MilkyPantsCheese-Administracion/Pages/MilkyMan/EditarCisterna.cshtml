@@ -1,0 +1,52 @@
+﻿@page
+
+@model MilkyPantsCheese.Pages.EditarCisterna
+
+@inject MilkyDbContext dbContext
+
+@if (User.IsInRole(Constantes.NombreRolMilkyMan))
+{
+
+    <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
+
+        <div class="p-2 border border-warning rounded">
+
+            <form method="post"
+                  class="d-flex flex-column">
+
+                @*Mensaje de error general*@
+                @Html.ValidationMessageFor(m => m.IdCisterna, string.Empty, new { @class = "text-danger" })
+
+                <!--Nombre clave asignado a la cisterna-->
+                <div class="form-group">
+
+                    <label asp-for="Nombre"></label>
+                    <input asp-for="Nombre" type="text" class="form-text" />
+
+                    @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Capacidad total en litros de la cisterna-->
+                <div class="form-group">
+
+                    <label asp-for="CapacidadLitros"></label>
+                    <input asp-for="CapacidadLitros" type="text" class="form-text" />
+
+                    @Html.ValidationMessageFor(m => m.CapacidadLitros, "", new { @class = "text-danger" })
+
+                </div>
+
+                @*Id del modelo siendo editado*@
+                <input type="hidden" asp-for="IdCisterna" />
+
+                @*Boton submit*@
+                <input type="submit" value="Editar" class="btn btn-warning align-self-start" style="width: 100px" />
+
+            </form>
+
+        </div>
+
+    </div>
+}
+

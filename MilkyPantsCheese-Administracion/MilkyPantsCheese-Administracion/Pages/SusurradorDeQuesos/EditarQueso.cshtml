@@ -1,0 +1,84 @@
+﻿@page
+
+@using Castle.Core.Internal
+@using MilkyPantsCheese.Helpers
+
+@model MilkyPantsCheese.Pages.EditarQuesoModel
+
+@inject MilkyDbContext dbContext
+
+@if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
+{
+    var lotesQueso = (from c in dbContext.LotesDeQuesos select c).ToList();
+
+    <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
+
+        <div class="p-2 border border-warning rounded">
+        
+            <form method="post"
+                  class="d-flex flex-column">
+
+                @*Mensaje de error general*@
+                @Html.ValidationMessageFor(m => m.IdQuesoEditado, string.Empty, new { @class = "text-danger" })
+
+                <!--Seleccion fecha y horario de finalizacion de curacion del queso-->
+                <div class="form-group">
+
+                    <label asp-for="FechaFinalCurado"></label>
+                    <input asp-for="FechaFinalCurado" type="date" class="form-control" />
+
+                </div>
+
+                <!--Seleccion estado del queso-->
+                <div class="form-group">
+
+                    <label asp-for="EstadoQueso"></label>
+                    <select asp-for="EstadoQueso" asp-items="EnumHelpers.ToSelectListItemList<EEstadoQueso>()" class="custom-select"></select>
+
+                    @Html.ValidationMessageFor(m => m.EstadoQueso, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Peso del queso antes de que ser curado-->
+                <div class="form-group">
+
+                    <label asp-for="PesoPreCurado"></label>
+                    <input type="text" class="form-text" asp-for="PesoPreCurado" />
+
+                    @Html.ValidationMessageFor(m => m.PesoPreCurado, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Peso del queso despues de ser curado-->
+                <div class="form-group">
+
+                    <label asp-for="PesoPostCurado"></label>
+                    <input type="text" class="form-text" asp-for="PesoPostCurado" />
+
+                    @Html.ValidationMessageFor(m => m.PesoPostCurado, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Lote donde el queso sera almacenado-->
+                <div class="form-group mt-5">
+
+                    <label asp-for="LoteId"></label>
+                    <select asp-for="LoteId" asp-items="@SelectListItemHelpers.ToSelectListItemListLotesDeQueso(lotesQueso)" class="custom-select"></select>
+
+                    @Html.ValidationMessageFor(m => m.LoteId, "", new { @class = "text-danger" })
+
+                </div>
+
+                @*Id del modelo siendo editado*@
+                <input type="hidden" asp-for="IdQuesoEditado" />
+
+                @*Boton submit*@
+                <input type="submit" value="Editar" class="btn btn-warning align-self-start" style="width: 100px" />
+
+            </form>    
+
+        </div>
+
+    </div>
+}
+

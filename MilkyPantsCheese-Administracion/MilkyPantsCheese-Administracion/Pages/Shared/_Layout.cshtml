@@ -32,68 +32,63 @@
 
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                        <ul class="navbar-nav flex-grow-1">
+                        <a class="nav-link text-dark" asp-page="/Monitoreo/MonitoreoCurado">Monitoreo</a>
 
-                            @if (User.IsInRole(Constantes.NombreRolMilkyMan))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/CreacionTambo">Agregar tambo</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
-                                </li>
-<<<<<<< HEAD
-                            }
-                            else if (User.IsInRole(Constantes.NombreRolAdministrador))
-                            {
-                                <li>
-                                    <a class="nav-link text-dark" asp-page="/Administrador/AdministrarUsuarios">Administrar usuarios</a>
-                                </li>
-                            }
-                            else if (User.IsInRole(Constantes.NombreRolCheeseScientist))
-                            {
-                                <a class="nav-link text-dark" asp-page="/CheeseScientist/AdministrarFermentos">Administrar fermentos</a>
-                            }
-                            else if (User.IsInRole(Constantes.NombreRolCheeseDoctor))
-                            {
-                                <li>
-                                    <a class="nav-link text-dark" asp-page="/CheeseDoctor/AdministrarCurado">Administrar curado</a>
-                                </li>
-                            }
-=======
-                            </ul>
-                        }
+                        <div class="align-self-end">
 
-                        @if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
-                        {
                             <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/CreacionQueso">Crear Queso</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/AdministradorDeQuesos">Administrar lotes de queso</a>
-                                </li>
+
+                                @if (User.IsInRole(Constantes.NombreRolMilkyMan))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/CreacionTambo">Agregar tambo</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/CreacionCisterna">Agregar cisterna</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
+                                    </li>
+                                }
+                                else if (User.IsInRole(Constantes.NombreRolAdministrador))
+                                {
+                                    <li>
+                                        <a class="nav-link text-dark" asp-page="/Administrador/AdministrarUsuarios">Administrar usuarios</a>
+                                    </li>
+                                }
+                                else if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/CreacionTipoQueso">Añadir tipo</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/CreacionQueso">Añadir queso</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/AdministradorDeQuesos">Administrar lotes de queso</a>
+                                    </li>
+                                }
+                                else if (User.IsInRole(Constantes.NombreRolCheeseScientist))
+                                {
+                                    <li>
+                                        <a class="nav-link text-dark" asp-page="/CheeseScientist/AdministrarFermentos">Administrar fermentos</a>
+                                    </li>
+                                }
+                                else if (User.IsInRole(Constantes.NombreRolCheeseDoctor))
+                                {
+                                    <li>
+                                        <a class="nav-link text-dark" asp-page="/CheeseDoctor/AdministrarCurado">Administrar curado</a>
+                                    </li>
+                                }
+
                             </ul>
-                        }
 
-                        else if (User.IsInRole(Constantes.NombreRolAdministrador))
-                        {
-                            <a class="nav-link text-dark" asp-page="/Administrador/AdministrarUsuarios">Administrar usuarios</a>
-                        }
-                        else if (User.IsInRole(Constantes.NombreRolCheeseScientist))
-                        {
-                            <a class="nav-link text-dark" asp-page="/CheeseScientist/AdministrarFermentos">Administrar fermentos</a>
-                        }
->>>>>>> Furlanich
+                        </div>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Monitoreo/MonitoreoCurado">Monitoreo</a>
-                            </li>
-                        </ul>
-                        
                         <div class="align-self-end">
                             <partial name="_LoginPartial" />
                         </div>
+
                     </div>
 
                 </div>

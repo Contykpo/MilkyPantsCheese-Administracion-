@@ -1,0 +1,88 @@
+﻿@page
+
+@using Castle.Core.Internal
+@using MilkyPantsCheese.Helpers
+
+@model MilkyPantsCheese.Pages.EditarLoteQuesoModel
+
+@inject MilkyDbContext dbContext
+
+@if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
+{
+    var lotesQueso = (from c in dbContext.LotesDeQuesos select c).ToList();
+
+    var lotesLeche = (from c in dbContext.LotesDeLeche select c).ToList();
+
+    var tiposQuesos = (from c in dbContext.TiposDeQuesos select c).ToList();
+
+    var fermentos = (from c in dbContext.Fermentos select c).ToList();
+
+    <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
+
+        <div class="p-2 border border-warning rounded">
+        
+            <form method="post"
+                  class="d-flex flex-column">
+
+                @*Mensaje de error general*@
+                @Html.ValidationMessageFor(m => m.IdLoteQuesoEditado, string.Empty, new { @class = "text-danger" })
+
+                <!--Seleccion fecha y horario de inicio de curacion del queso-->
+                <div class="form-group">
+
+                    <label asp-for="FechaInicio"></label>
+                    <input asp-for="FechaInicio" type="date" class="form-control" value="@DateTimeOffset.Now" />
+
+                </div>
+
+                <!--Lotes de leche a utilizar-->
+                <div class="form-group mt-5">
+
+                    <label asp-for="LoteLecheId"></label>
+                    <select asp-for="LoteLecheId" asp-items="@SelectListItemHelpers.ToSelectListItemListLotesDeLeche(lotesLeche)" class="custom-select"></select>
+
+                    @Html.ValidationMessageFor(m => m.LoteLecheId, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Tipo de queso en el lote-->
+                <div class="form-group mt-5">
+
+                    <label asp-for="TipoQuesoId"></label>
+                    <select asp-for="TipoQuesoId" asp-items="@SelectListItemHelpers.ToSelectListItemListTipoQueso(tiposQuesos)" class="custom-select"></select>
+
+                    @Html.ValidationMessageFor(m => m.TipoQuesoId, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Fermento a utilizar en el lote-->
+                <div class="form-group mt-5">
+
+                    <label asp-for="FermentoId"></label>
+                    <select asp-for="FermentoId" asp-items="@SelectListItemHelpers.ToSelectListItemListFermento(fermentos)" class="custom-select"></select>
+
+                    @Html.ValidationMessageFor(m => m.FermentoId, "", new { @class = "text-danger" })
+
+                </div>
+
+                <!--Observaciones acerca del lote de queso-->
+                <div class="form-group">
+
+                    <label asp-for="Observaciones"></label>
+                    <textarea class="form-text overflow-auto w-100" asp-for="Observaciones"></textarea>
+
+                </div>
+
+                @*Id del modelo siendo editado*@
+                <input type="hidden" asp-for="IdLoteQuesoEditado" />
+
+                @*Boton submit*@
+                <input type="submit" value="Editar" class="btn btn-warning align-self-start" style="width: 100px" />
+
+            </form>
+    
+        </div>
+
+    </div>
+}
+

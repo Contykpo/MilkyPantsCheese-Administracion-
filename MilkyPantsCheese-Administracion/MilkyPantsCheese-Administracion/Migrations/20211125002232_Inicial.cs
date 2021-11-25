@@ -404,14 +404,9 @@ namespace MilkyPantsCheese.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EstadoQueso = table.Column<int>(type: "int", nullable: false),
-<<<<<<< HEAD:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211124145843_inicial.cs
-                    PesoPreCurado = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    PesoPostCurado = table.Column<decimal>(type: "decimal(3,2)", precision: 3, scale: 2, nullable: false),
-                    FechaFinCuracion = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-=======
                     PesoPreCurado = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     PesoPostCurado = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
->>>>>>> Furlanich:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211123163854_Inicial.cs
+                    FechaFinCuracion = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     LoteId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

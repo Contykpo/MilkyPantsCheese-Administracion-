@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,11 +18,17 @@ namespace MilkyPantsCheese.Pages
         private readonly MilkyDbContext _dbcontext;
         private readonly UserManager<ModeloUsuario> _userManager;
 
+        /// <summary>
+        /// Tambos disponibles.
+        /// </summary>
+        public List<ModeloTambo> Tambos { get; set; } = new List<ModeloTambo>();
 
         public CreacionTamboModel(MilkyDbContext dbContext, UserManager<ModeloUsuario> userManager)
         {
             _dbcontext   = dbContext;
             _userManager = userManager;
+
+            Tambos = (from t in _dbcontext.Tambos select t).ToList();
         }
 
         public void OnGet()
@@ -62,7 +70,7 @@ namespace MilkyPantsCheese.Pages
             }
 
             //Volvemos a la pagina principal.
-            return RedirectToPage("/Index");
+            return RedirectToPage("CreacionTambo");
         }
 
         #region Propiedades para la creacion de tambos.

@@ -1,54 +1,55 @@
-﻿@model MilkyPantsCheese.Pages.AdministrarLotesDeLecheModel
+﻿@model MilkyPantsCheese.Pages.AdministradorDeQuesosModel
 
-@{
-    var lotesCisternaSeleccionada = (from l in Model.LotesDeLeche where l.Cisterna.Id == Model.CisternaLotesId select l).ToList();
-}
-
-@foreach (var loteLeche in lotesCisternaSeleccionada)
+@foreach (var loteQueso in Model.LotesDeQueso)
 {
-    <div id="@loteLeche.Id" class="pl-4 pr-4 d-flex flex-row border border-warning rounded">
+    <div id="@loteQueso.Id" class="pl-4 pr-4 d-flex flex-row border border-warning rounded">
 
-        @*Id del lote*@
+        @*Id del lote de queso*@
         <div class="col-md-1 col-2 px-0">
-            <label>Id: @loteLeche.Id</label>
+            <label>Id: @loteQueso.Id</label>
         </div>
 
-        @*Nombre del tambo de proveniencia*@
+        @*Tipo de queso*@
         <div class="col-md-2 col-3 px-0 d-md-inline d-none">
-            <label>Tambo: @loteLeche.TamboDeProveniencia.Nombre</label>
+            <label>Tipo: @loteQueso.TipoQueso.Nombre</label>
         </div>
 
-        @*Nombre cisterna donde se almacena*@
+        @*Cantidad quesos*@
+        <div class="col-md-1 col-2 px-0 d-md-inline d-none">
+            <label>Quesos: @loteQueso.Quesos.Count</label>
+        </div>
+
+        @*Tipo de fermento*@
         <div class="col-md-2 col-3 px-0 d-md-inline d-none">
-            <label>Cisterna: @loteLeche.Cisterna.Nombre</label>
+            <label>Fermento: @loteQueso.Fermento.TipoFermento.Nombre</label>
         </div>
 
-        @*Fecha de ingreso*@
+        @*Inicio de curado*@
         <div class="col-md-2 col-4 px-0 d-md-inline d-none">
-            <label>Ingreso: @loteLeche.Fecha</label>
+            <label>Inicio de curado: @loteQueso.FechaInicioCuracion</label>
         </div>
 
         @*Boton editar*@
         <div class="col-md-1 col-2 text-center" style="padding: 0;">
-            <a asp-page="/MilkyMan/EditarLoteLeche" asp-route-id="@loteLeche.Id" class="btn btn-warning">Editar</a>
+            <a asp-page="/SusurradorDeQuesos/EditarLoteQueso" asp-route-id="@loteQueso.Id" class="btn btn-warning">Editar</a>
         </div>
 
         @*Boton eliminar*@
         <div class="col-md-1 col-2 px-sm-0 px-md-2">
 
-            @*Si el lote ya se ha utilizado en alguna cisterna entonces no debemos permitir que sea eliminado*@
-            @if (loteLeche.Cisterna == null)
+            @*Si el lote ya se ha utilizado en algun queso entonces no debemos permitir que sea eliminado*@
+            @if (loteQueso.Quesos == null)
             {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteLeche.Id)" />
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteQueso.Id)" />
             }
             else
             {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteLeche.Id)" disabled="disabled" />
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteQueso.Id)" disabled="disabled" />
             }
 
         </div>
 
-        <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarLoteLeche" asp-route-id="@loteLeche.Id" class="d-none" />
+        <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarLoteQueso" asp-route-id="@loteQueso.Id" class="d-none" />
 
     </div>
 }
@@ -60,7 +61,7 @@
         evento.preventDefault();
 
         $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
-                <h2>¿Esta seguro de eliminar este lote de leche?</h2>\n\
+                <h2>¿Esta seguro de eliminar este lote de queso?</h2>\n\
                 <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
                 <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
                 <button class="btn btn-warning" onclick="AceptarPresionadoHandler(event, ' + id + ')">Aceptar</button>\n\
@@ -75,7 +76,7 @@
 
         $.ajax({
             type: "delete",
-            url: "/MilkyMan/AdministrarLotesDeLeche?handler=Fermento&id=" + id,
+            url: "/SusurradorDeQuesos/AdministradorDeQuesos?handler=Fermento&id=" + id,
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("RequestVerificationToken", $('input:hidden[name=__RequestVerificationToken]').val())
             }

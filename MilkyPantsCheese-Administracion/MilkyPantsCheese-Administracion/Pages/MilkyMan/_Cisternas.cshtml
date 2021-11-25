@@ -1,54 +1,45 @@
-﻿@model MilkyPantsCheese.Pages.AdministrarLotesDeLecheModel
+﻿@model MilkyPantsCheese.Pages.CreacionCisternaModel
 
-@{
-    var lotesCisternaSeleccionada = (from l in Model.LotesDeLeche where l.Cisterna.Id == Model.CisternaLotesId select l).ToList();
-}
-
-@foreach (var loteLeche in lotesCisternaSeleccionada)
+@foreach (var cisterna in Model.Cisternas)
 {
-    <div id="@loteLeche.Id" class="pl-4 pr-4 d-flex flex-row border border-warning rounded">
+    <div id="@cisterna.Id" class="pl-4 pr-4 d-flex flex-row border border-warning rounded">
 
-        @*Id del lote*@
+        @*Id de la cisterna*@
         <div class="col-md-1 col-2 px-0">
-            <label>Id: @loteLeche.Id</label>
+            <label>Id: @cisterna.Id</label>
         </div>
 
-        @*Nombre del tambo de proveniencia*@
+        @*Nombre clave para la cisterna*@
         <div class="col-md-2 col-3 px-0 d-md-inline d-none">
-            <label>Tambo: @loteLeche.TamboDeProveniencia.Nombre</label>
+            <label>Nombre: @cisterna.Nombre</label>
         </div>
 
-        @*Nombre cisterna donde se almacena*@
-        <div class="col-md-2 col-3 px-0 d-md-inline d-none">
-            <label>Cisterna: @loteLeche.Cisterna.Nombre</label>
-        </div>
-
-        @*Fecha de ingreso*@
-        <div class="col-md-2 col-4 px-0 d-md-inline d-none">
-            <label>Ingreso: @loteLeche.Fecha</label>
+        @*Capacidad en litros de la cisterna*@
+        <div class="col-md-2 col-2 px-0 d-md-inline d-none">
+            <label>Cisterna: @cisterna.Capacidad</label>
         </div>
 
         @*Boton editar*@
         <div class="col-md-1 col-2 text-center" style="padding: 0;">
-            <a asp-page="/MilkyMan/EditarLoteLeche" asp-route-id="@loteLeche.Id" class="btn btn-warning">Editar</a>
+            <a asp-page="/MilkyMan/EditarCisterna" asp-route-id="@cisterna.Id" class="btn btn-warning">Editar</a>
         </div>
 
         @*Boton eliminar*@
         <div class="col-md-1 col-2 px-sm-0 px-md-2">
 
-            @*Si el lote ya se ha utilizado en alguna cisterna entonces no debemos permitir que sea eliminado*@
-            @if (loteLeche.Cisterna == null)
+            @*Si la cisterna ya se ha utilizado en algun lote de leche entonces no debemos permitir que sea eliminado*@
+            @if (cisterna.LotesDeLeche == null)
             {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteLeche.Id)" />
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @cisterna.Id)" />
             }
             else
             {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteLeche.Id)" disabled="disabled" />
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @cisterna.Id)" disabled="disabled" />
             }
 
         </div>
 
-        <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarLoteLeche" asp-route-id="@loteLeche.Id" class="d-none" />
+        <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarCisterna" asp-route-id="@cisterna.Id" class="d-none" />
 
     </div>
 }
@@ -60,7 +51,7 @@
         evento.preventDefault();
 
         $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
-                <h2>¿Esta seguro de eliminar este lote de leche?</h2>\n\
+                <h2>¿Esta seguro de eliminar esta cisterna?</h2>\n\
                 <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
                 <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
                 <button class="btn btn-warning" onclick="AceptarPresionadoHandler(event, ' + id + ')">Aceptar</button>\n\

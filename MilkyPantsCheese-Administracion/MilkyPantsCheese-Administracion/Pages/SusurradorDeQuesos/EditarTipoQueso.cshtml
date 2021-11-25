@@ -1,0 +1,35 @@
+﻿@page
+@model MilkyPantsCheese.Pages.EditarTipoQuesoModel
+
+@if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
+{
+    <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
+
+        <div class="p-2 border border-warning rounded">
+
+            <form method="post"
+                  class="d-flex flex-column">
+
+                @*Mensaje de error general*@
+                @Html.ValidationMessageFor(m => m.IdTipoQuesoSiendoEditado, string.Empty, new { @class = "text-danger" })
+
+                @*Nombre del tipo de fermento*@
+                <div class="form-group">
+
+                    <label asp-for="Nombre"></label>
+                    <input type="text" asp-for="Nombre" class="form-text" />
+                    @Html.ValidationMessageFor(m => m.Nombre, string.Empty, new { @class = "text-danger" })
+                </div>
+
+                @*Id del modelo siendo editado*@
+                <input type="hidden" asp-for="IdTipoQuesoSiendoEditado" />
+
+                @*Boton crear*@
+                <input type="submit" value="Editar" class="btn btn-warning align-self-start" style="width: 100px" />
+
+            </form>
+
+        </div>
+
+    </div>
+}

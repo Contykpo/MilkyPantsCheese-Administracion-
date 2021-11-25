@@ -12,12 +12,12 @@ using Microsoft.Identity.Client;
 
 namespace MilkyPantsCheese.Pages
 {
-    public class EditarQuesoModel : PageModel
+    public class EditarCheeseModel : PageModel
     {
 	    public readonly MilkyDbContext _dbContext;
 	    public readonly ILogger<EditarQuesoModel> _logger;
 
-	    public EditarQuesoModel(MilkyDbContext dbContext, ILogger<EditarQuesoModel> logger)
+	    public EditarCheeseModel(MilkyDbContext dbContext, ILogger<EditarQuesoModel> logger)
 	    {
 		    _dbContext = dbContext;
 		    _logger = logger;

@@ -67,7 +67,7 @@
             <input class="align-self-center" name="FechaFinSuspension" type="date" />\n\
             <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
             <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
-            <button class="botonAceptarSuspension btn btn-primary" onclick="AceptarPresionadoHandler(event, contenidoMensaje)">Aceptar</button>\n\
+            <button class="botonAceptarSuspension btn btn-warning" onclick="AceptarPresionadoHandler(event, contenidoMensaje)">Aceptar</button>\n\
             </div>\n\
             </div>');
 
@@ -89,7 +89,7 @@
             <h2>¿Esta seguro de ' + $('#botonDeshabilitar_'+idUsuarioActual).html().toLowerCase() + ' a este usuario?</h2>\n\
             <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
             <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
-            <button class="botonAceptarSuspension btn btn-primary" onclick="AceptarPresionadoHandler(event, contenidoMensaje)">Aceptar</button>\n\
+            <button class="botonAceptarSuspension btn btn-warning" onclick="AceptarPresionadoHandler(event, contenidoMensaje)">Aceptar</button>\n\
             </div>');
 
         urlActual = "AdministrarUsuarios?handler=ToggleUsuarioDeshabilitado&id=" + idUsuarioActual;

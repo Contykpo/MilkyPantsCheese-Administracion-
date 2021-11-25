@@ -5,7 +5,7 @@
 @inject MilkyDbContext dbContext;
 
 @{
-    var tiposDeQuesoDisponibles = SelectItemListHelpers.ToSelectListItemListTipoQueso(await dbContext.TiposDeQuesos.ToListAsync());
+    var tiposDeQuesoDisponibles = SelectListItemHelpers.ToSelectListItemListTipoQueso(await dbContext.TiposDeQuesos.ToListAsync());
 }
 
 <div class="d-flex flex-column d-inline-block h-100">
@@ -40,7 +40,7 @@
             <div class="col-3 d-inline-block w-100 align-self-end">
                 
                 @*Boton buscar*@
-                <input type="submit" class="btn btn-primary d-inline-block w-100" value="Buscar"/>
+                <input type="submit" class="btn btn-warning d-inline-block w-100" value="Buscar"/>
             </div>
 
 
@@ -70,7 +70,7 @@
 
             <div class="col-3 d-inline-block w-100 align-self-end">
                 @*Boton crear*@
-                <a asp-page="/CheeseDoctor/CrearQueso" class="btn btn-primary d-inline-block w-100" value="Crear">Crear</a>
+                <a asp-page="/CheeseDoctor/CrearQueso" class="btn btn-warning d-inline-block w-100" value="Crear">Crear</a>
             </div>
 
         </div>
