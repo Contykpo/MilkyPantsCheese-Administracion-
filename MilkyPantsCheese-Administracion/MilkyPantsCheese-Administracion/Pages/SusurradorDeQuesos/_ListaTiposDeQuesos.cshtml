@@ -1,6 +1,4 @@
-﻿@model MilkyPantsCheese.Pages.AdministradorDeQuesosModel
-<<<<<<< HEAD
-=======
+﻿@model MilkyPantsCheese.Pages.CreacionTipoQuesoModel
 
 @foreach (var tipoQueso in Model.TiposQuesos)
 {
@@ -19,10 +17,9 @@
 
         @*Boton editar*@
         <div class="col-md-1 col-1 px-0">
-            <a class="nav-link px-0" asp-page="/SusurradorDeQuesos/EditarTipoQueso" asp-route-id="@tipoQueso.Id">Editar</a>
+            <a class="nav-link px-0 btn btn-warning" asp-page="/SusurradorDeQuesos/EditarTipoQueso" asp-route-id="@tipoQueso.Id">Editar</a>
         </div>
     
     </div>
 
 }
->>>>>>> Furlanich

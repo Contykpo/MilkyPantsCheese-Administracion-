@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -28,6 +29,11 @@ namespace MilkyPantsCheese.Pages
         public int CisternaLotesId { get; set; }
 
         /// <summary>
+        /// Lotes de leche disponibles.
+        /// </summary>
+        public List<ModeloLoteDeLeche> LotesDeLeche { get; set; } = new List<ModeloLoteDeLeche>();
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="dbContext"></param>
@@ -36,6 +42,8 @@ namespace MilkyPantsCheese.Pages
         {
             _dbContext = dbContext;
             _config    = config;
+
+            LotesDeLeche = (from c in dbContext.LotesDeLeche select c).ToList();
         }
 
         public void OnGet()
@@ -131,7 +139,7 @@ namespace MilkyPantsCheese.Pages
             return Partial("_Lotes", this);
         }
 
-        #region Propiedades para la creacion / edicion de lotes de leche.
+        #region Propiedades para la creacion de lotes de leche.
 
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]

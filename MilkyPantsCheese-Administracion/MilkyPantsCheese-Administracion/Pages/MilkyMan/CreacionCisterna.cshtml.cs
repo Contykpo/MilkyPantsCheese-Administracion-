@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +16,16 @@ namespace MilkyPantsCheese.Pages
     {
         private readonly MilkyDbContext _dbcontext;
 
+        /// <summary>
+        /// Cisternas disponibles
+        /// </summary>
+        public List<ModeloCisterna> Cisternas { get; set; } = new List<ModeloCisterna>();
 
         public CreacionCisternaModel(MilkyDbContext dbContext)
         {
             _dbcontext   = dbContext;
+
+            Cisternas = (from c in _dbcontext.Cisternas select c).ToList();
         }
 
         public void OnGet()
@@ -62,7 +70,7 @@ namespace MilkyPantsCheese.Pages
             }
 
             //De llegar hasta aqui, significa que la creacion de la cisterna fue exitosa.
-            return RedirectToPage("AdministrarLotesDeLeche");
+            return RedirectToPage("CreacionCisterna");
         }
 
 

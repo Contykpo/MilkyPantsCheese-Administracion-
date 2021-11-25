@@ -2,39 +2,39 @@
 
 @foreach (var queso in Model.Quesos)
 {
-    <div id="@queso.Id" class="d-flex flex-row bg-light rounded mb-3">
+    <div id="@queso.Id" class="pl-4 pr-4 d-flex flex-row border border-warning rounded">
 
-        @*Id del fermento*@
+        @*Id del queso*@
         <div class="col-md-1 col-2 px-0">
             <label>Id: @queso.Id</label>
         </div>
 
         @*Nombre*@
-        <div class="col-md-1 col-2 px-0 d-md-inline d-none">
-            <label>Nombre: @queso.</label>
+        <div class="col-md-2 col-3 px-0 d-md-inline d-none">
+            <label>Nombre: @queso.Lote.TipoQueso.Nombre</label>
         </div>
 
         @*Estado*@
-        <div class="col-md-1 col-2 px-0 d-md-inline d-none">
-            <label>Nombre: @Enum.GetName(queso.EstadoQueso)</label>
+        <div class="col-md-2 col-2 px-0 d-md-inline d-none">
+            <label>Estado: @Enum.GetName(queso.EstadoQueso)</label>
         </div>
 
         @*Boton editar*@
         <div class="col-md-1 col-2 text-center" style="padding: 0;">
-            <a asp-page="/SusurradorDeQuesoso/EditarQueso" asp-route-id="@queso.Id">Editar</a>
+            <a asp-page="/SusurradorDeQuesos/EditarQueso" asp-route-id="@queso.Id" class="btn btn-warning">Editar</a>
         </div>
 
         @*Boton eliminar*@
         <div class="col-md-1 col-2 px-sm-0 px-md-2">
 
-            @*Si el fermento ya se ha utilizado en algun lote entonces no debemos permitir que sea eliminado*@
+            @*Si el queso ya se ha utilizado en algun lote entonces no debemos permitir que sea eliminado*@
             @if (queso.Lote == null)
             {
-                <input type="submit" class="btn btn-primary" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @queso.Id)" />
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @queso.Id)" />
             }
             else
             {
-                <input type="submit" class="btn btn-primary" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @queso.Id)" disabled="disabled" />
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @queso.Id)" disabled="disabled" />
             }
 
         </div>
@@ -51,10 +51,10 @@
         evento.preventDefault();
 
         $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
-                <h2>¿Esta seguro de eliminar este fermento?</h2>\n\
+                <h2>¿Esta seguro de eliminar este queso?</h2>\n\
                 <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
                 <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
-                <button class="btn btn-primary" onclick="AceptarPresionadoHandler(event, ' + id + ')">Aceptar</button>\n\
+                <button class="btn btn-warning" onclick="AceptarPresionadoHandler(event, ' + id + ')">Aceptar</button>\n\
                 </div>');
 
         ToggleVisibilidadMensaje();
@@ -66,7 +66,7 @@
 
         $.ajax({
             type: "delete",
-            url: "/SusurradorDeQuesos/AdministradorDeQuesos?handler=Fermento&id=" + id,
+            url: "/SusurradorDeQuesos/CreacionQueso?handler=Fermento&id=" + id,
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("RequestVerificationToken", $('input:hidden[name=__RequestVerificationToken]').val())
             }

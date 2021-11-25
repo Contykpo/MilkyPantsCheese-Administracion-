@@ -17,9 +17,9 @@ namespace MilkyPantsCheese.Pages
         private readonly MilkyDbContext _dbContext;
 
         /// <summary>
-        /// Tipos de quesos disponibles.
+        /// Lotes de queso disponibles.
         /// </summary>
-        public List<ModeloTipoQueso> TiposQuesos = new List<ModeloTipoQueso>();
+        public List<ModeloLoteDeQueso> LotesDeQueso { get; set; } = new List<ModeloLoteDeQueso>();
 
         /// <summary>
         /// Constructor.
@@ -30,7 +30,7 @@ namespace MilkyPantsCheese.Pages
         {
             _dbContext = dbContext;
 
-            TiposQuesos = (from c in dbContext.TiposDeQuesos select c).ToList();
+            LotesDeQueso = (from c in dbContext.LotesDeQuesos select c).ToList();
         }
 
         public void OnGet()

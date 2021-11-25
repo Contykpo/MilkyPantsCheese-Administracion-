@@ -34,13 +34,13 @@
 
                     <!--Boton submit-->
                     <div class="form-group mt-4">
-                        <input type="submit" value="Crear" class="form-text btn btn-primary" />
+                        <input type="submit" value="Crear" class="form-text btn btn-warning" />
                     </div>
                 </form>
 
             </div>
 
-            <div class="p-2 border border-warning rounded">
+            <div class="mt-3 p-2 border border-warning rounded">
 
                 <div>
                     <h4 class="text-left">Tipos de queso:</h4>
@@ -52,14 +52,11 @@
                 }
                 else
                 {
-                    @foreach (var tipoQueso in tiposQuesos)
-                    {
-                        <div class="pl-4 pr-4 d-flex flex-row border border-warning rounded-pill">
+                    <div>
 
-                            <label class="text-left">Nombre: @tipoQueso.Nombre</label>
+                        <partial name="_ListaTiposDeQuesos" />
 
-                        </div>
-                    }
+                    </div>
                 }
 
             </div>

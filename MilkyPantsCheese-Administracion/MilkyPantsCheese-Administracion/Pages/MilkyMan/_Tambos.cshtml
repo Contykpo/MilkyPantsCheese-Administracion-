@@ -1,54 +1,40 @@
-﻿@model MilkyPantsCheese.Pages.AdministrarLotesDeLecheModel
+﻿@model MilkyPantsCheese.Pages.CreacionTamboModel
 
-@{
-    var lotesCisternaSeleccionada = (from l in Model.LotesDeLeche where l.Cisterna.Id == Model.CisternaLotesId select l).ToList();
-}
-
-@foreach (var loteLeche in lotesCisternaSeleccionada)
+@foreach (var tambo in Model.Tambos)
 {
-    <div id="@loteLeche.Id" class="pl-4 pr-4 d-flex flex-row border border-warning rounded">
+    <div id="@tambo.Id" class="pl-4 pr-4 d-flex flex-row border border-warning rounded">
 
-        @*Id del lote*@
+        @*Id del tambo*@
         <div class="col-md-1 col-2 px-0">
-            <label>Id: @loteLeche.Id</label>
+            <label>Id: @tambo.Id</label>
         </div>
 
-        @*Nombre del tambo de proveniencia*@
+        @*Nombre del tambo*@
         <div class="col-md-2 col-3 px-0 d-md-inline d-none">
-            <label>Tambo: @loteLeche.TamboDeProveniencia.Nombre</label>
-        </div>
-
-        @*Nombre cisterna donde se almacena*@
-        <div class="col-md-2 col-3 px-0 d-md-inline d-none">
-            <label>Cisterna: @loteLeche.Cisterna.Nombre</label>
-        </div>
-
-        @*Fecha de ingreso*@
-        <div class="col-md-2 col-4 px-0 d-md-inline d-none">
-            <label>Ingreso: @loteLeche.Fecha</label>
+            <label>Nombre: @tambo.Nombre</label>
         </div>
 
         @*Boton editar*@
         <div class="col-md-1 col-2 text-center" style="padding: 0;">
-            <a asp-page="/MilkyMan/EditarLoteLeche" asp-route-id="@loteLeche.Id" class="btn btn-warning">Editar</a>
+            <a asp-page="/MilkyMan/EditarTambo" asp-route-id="@tambo.Id" class="btn btn-warning">Editar</a>
         </div>
 
         @*Boton eliminar*@
         <div class="col-md-1 col-2 px-sm-0 px-md-2">
 
-            @*Si el lote ya se ha utilizado en alguna cisterna entonces no debemos permitir que sea eliminado*@
-            @if (loteLeche.Cisterna == null)
+            @*Si la tambo ya se ha utilizado en algun lote de leche entonces no debemos permitir que sea eliminado*@
+            @if (tambo.LotesDeLecheDeEsteTambo == null)
             {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteLeche.Id)" />
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @tambo.Id)" />
             }
             else
             {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteLeche.Id)" disabled="disabled" />
+                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @tambo.Id)" disabled="disabled" />
             }
 
         </div>
 
-        <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarLoteLeche" asp-route-id="@loteLeche.Id" class="d-none" />
+        <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarTambo" asp-route-id="@tambo.Id" class="d-none" />
 
     </div>
 }
@@ -60,7 +46,7 @@
         evento.preventDefault();
 
         $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
-                <h2>¿Esta seguro de eliminar este lote de leche?</h2>\n\
+                <h2>¿Esta seguro de eliminar este tambo?</h2>\n\
                 <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
                 <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\
                 <button class="btn btn-warning" onclick="AceptarPresionadoHandler(event, ' + id + ')">Aceptar</button>\n\

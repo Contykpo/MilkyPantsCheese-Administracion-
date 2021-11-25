@@ -6,7 +6,6 @@
 @model MilkyPantsCheese.Pages.AdministrarLotesDeLecheModel
 
 @inject MilkyDbContext dbContext
-@inject UserManager<ModeloUsuario> _userManager
 
 @{
     //Verificamos si el usuario actual tiene el rol de 'MilkyMan'.
@@ -94,7 +93,7 @@
                     <div class="form-group mt-5">
 
                         <label asp-for="CisternaId"></label>
-                        <select asp-for="CisternaId" asp-items="@SelectItemListHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select"></select>
+                        <select asp-for="CisternaId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select"></select>
 
                         @Html.ValidationMessageFor(m => m.CisternaId, "", new { @class = "text-danger" })
 
@@ -104,7 +103,7 @@
                     <div class="form-group mt-5">
 
                         <label asp-for="TamboId"></label>
-                        <select asp-for="TamboId" asp-items="@SelectItemListHelpers.ToSelectListItemListTambos(tambos)" class="custom-select"></select>
+                        <select asp-for="TamboId" asp-items="@SelectListItemHelpers.ToSelectListItemListTambos(tambos)" class="custom-select"></select>
 
                         @Html.ValidationMessageFor(m => m.TamboId, "", new { @class = "text-danger" })
 
@@ -113,7 +112,7 @@
                     <!--Boton submit-->
                     <div class="mt-3">
                         
-                        <input type="submit" value="Añadir" class="form-text btn btn-primary" />
+                        <input type="submit" value="Añadir" class="form-text btn btn-warning" />
 
                     </div>
 
@@ -132,7 +131,7 @@
                     <div>
 
                         <label asp-for="CisternaLotesId"></label>
-                        <select asp-for="CisternaLotesId" asp-items="@SelectItemListHelpers.ToSelectListItemListCisterna(cisternas)" onchange="cambioItemSeleccionado()" class="custom-select"></select>
+                        <select asp-for="CisternaLotesId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" onchange="cambioItemSeleccionado()" class="custom-select"></select>
 
                     </div>
 
@@ -141,41 +140,6 @@
                 <div id="listaLotes">
                     
                     <partial name="_Lotes"/>
-
-                </div>
-
-            </div>
-
-            <div class="mt-3 p-2 border border-warning rounded">
-
-                <div class="pb-3">
-                    <h4 class="text-left">Cisternas:</h4>
-                </div>
-
-                @if (cisternas.IsNullOrEmpty())
-                {
-                    <label class="text-center">No hay cisternas disponibles</label>
-                }
-                else
-                {
-                    @foreach (var cisterna in cisternas)
-                    {
-                        <div class="pl-4 pr-4 d-flex flex-row border border-warning rounded-pill">
-
-                            <div class="d-flex flex-column">
-                                <label class="text-left">Nombre: @cisterna.Nombre</label>
-                                <label class="text-left">Capacidad: @cisterna.Capacidad</label>
-                                <label class="text-left">Total lotes: @cisterna.LotesDeLeche.Count</label>
-                            </div>
-
-                        </div>
-                    }
-                }
-
-                <!--Boton para acceder a la pagina de creacion de cisternas-->
-                <div class="mt-3">
-
-                    <a class="form-text btn btn-primary" asp-page="CreacionCisterna">Crear Cisterna</a>
 
                 </div>
 
