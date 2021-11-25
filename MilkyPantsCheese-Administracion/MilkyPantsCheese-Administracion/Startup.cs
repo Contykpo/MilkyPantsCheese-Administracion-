@@ -118,7 +118,7 @@ namespace MilkyPantsCheese
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -129,6 +129,7 @@ namespace MilkyPantsCheese
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
 
             var logger = servicios.GetRequiredService<ILogger<Startup>>();
@@ -242,14 +243,14 @@ namespace MilkyPantsCheese
 
         private void IniciarListenerArduino()
         {
-	        var directorio = Directory.GetCurrentDirectory();
+	        //var directorio = Directory.GetCurrentDirectory();
 
-	        Process p = Process.Start(Path.Combine(Directory.GetCurrentDirectory(), "MilkyPantsDBATCPListener.exe"), new []
-	        {
-                Configuration.GetConnectionString("DefaultConnection"),
-                "127.0.0.1",
-                Configuration.GetSection("ConfiguracionListenerArduino")["Puerto"]
-	        });
+	        //Process p = Process.Start(Path.Combine(Directory.GetCurrentDirectory(), "MilkyPantsDBATCPListener.exe"), new []
+	        //{
+         //       Configuration.GetConnectionString("DefaultConnection"),
+         //       "127.0.0.1",
+         //       Configuration.GetSection("ConfiguracionListenerArduino")["Puerto"]
+	        //});
         }
     }
 }
