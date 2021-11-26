@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace MilkyPantsCheese.Pages
@@ -16,14 +17,17 @@ namespace MilkyPantsCheese.Pages
     {
         private readonly MilkyDbContext _dbcontext;
 
+        public readonly ILogger<CreacionCisternaModel> _logger;
+
         /// <summary>
         /// Cisternas disponibles
         /// </summary>
         public List<ModeloCisterna> Cisternas { get; set; } = new List<ModeloCisterna>();
 
-        public CreacionCisternaModel(MilkyDbContext dbContext)
+        public CreacionCisternaModel(MilkyDbContext dbContext, ILogger<CreacionCisternaModel> logger)
         {
-            _dbcontext   = dbContext;
+            _dbcontext = dbContext;
+            _logger    = logger;
 
             Cisternas = (from c in _dbcontext.Cisternas select c).ToList();
         }
@@ -38,7 +42,7 @@ namespace MilkyPantsCheese.Pages
             if (!ModelState.IsValid)
                 return Page();
 
-            if(!int.TryParse(CapacidadLitros, out var capacidadLitros))
+            if (!ValidationHelpers.TryParseDecimal(CapacidadLitros, 5, 2, out var capacidadLitros))
                 ModelState.AddModelError(nameof(CapacidadLitros), "Capacidad en litros solo puede contener caracteres numericos");
 
             if(ModelState.ErrorCount > 0)
@@ -52,21 +56,12 @@ namespace MilkyPantsCheese.Pages
             };
 
             //Intentamos crear la cisterna y guardarla en la base de datos
-            try
+            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
             {
-                _dbcontext.Attach(nuevaCisterna).State = EntityState.Added;
-
-                await _dbcontext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+                _dbContext.Add(nuevaCisterna);
+            }))
             {
-                //Si la cisterna ya se guardo en la base de datos, la borramos ya que fallo en los pasos anteriores.
-                if (nuevaCisterna.Id != 0)
-                    _dbcontext.Remove(nuevaCisterna);
-
-                await _dbcontext.SaveChangesAsync();
-
-                return new JsonResult("Algo salio mal");
+                _logger.LogError("Error al guardar los nuevos datos.");
             }
 
             //De llegar hasta aqui, significa que la creacion de la cisterna fue exitosa.

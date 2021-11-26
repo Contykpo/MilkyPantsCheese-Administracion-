@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace MilkyPantsCheese.Pages
@@ -16,6 +17,8 @@ namespace MilkyPantsCheese.Pages
     {
         private readonly MilkyDbContext _dbContext;
 
+        public readonly ILogger<AdministradorDeQuesosModel> _logger;
+
         /// <summary>
         /// Lotes de queso disponibles.
         /// </summary>
@@ -26,7 +29,7 @@ namespace MilkyPantsCheese.Pages
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="userManager"></param>
-        public AdministradorDeQuesosModel(MilkyDbContext dbContext)
+        public AdministradorDeQuesosModel(MilkyDbContext dbContext, ILogger<AdministradorDeQuesosModel> logger)
         {
             _dbContext = dbContext;
 
@@ -61,21 +64,12 @@ namespace MilkyPantsCheese.Pages
             };
 
             //Intentamos crear al lote de queso y guardarlo en la base de datos
-            try
+            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
             {
-                _dbContext.Attach(nuevoLoteDeQueso).State = EntityState.Added;
-
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+                _dbContext.Add(nuevoLoteDeQueso);
+            }))
             {
-                //Si el lote de queso ya se guardo en la base de datos, lo borramos siendo que fallo en los pasos anteriores.
-                if (nuevoLoteDeQueso.Id != 0)
-                    _dbContext.Remove(nuevoLoteDeQueso);
-
-                await _dbContext.SaveChangesAsync();
-
-                return new JsonResult("Algo salio mal");
+                _logger.LogError("Error al guardar los nuevos datos.");
             }
 
             //Recargamos la pagina.

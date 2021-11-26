@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace MilkyPantsCheese.Pages
@@ -16,14 +17,17 @@ namespace MilkyPantsCheese.Pages
     {
         private readonly MilkyDbContext _dbContext;
 
+        public readonly ILogger<CreacionQuesoModel> _logger;
+
         /// <summary>
         /// Quesos disponibles.
         /// </summary>
         public List<ModeloQueso> Quesos { get; set; } = new List<ModeloQueso>();
 
-        public CreacionQuesoModel(MilkyDbContext dbContext)
+        public CreacionQuesoModel(MilkyDbContext dbContext, ILogger<CreacionQuesoModel> logger)
         {
             _dbContext = dbContext;
+            _logger    = logger;
         
             Quesos = (from c in dbContext.Quesos select c).ToList();
         }
@@ -38,10 +42,10 @@ namespace MilkyPantsCheese.Pages
             if (!ModelState.IsValid)
                 return Page();
 
-            if(!int.TryParse(PesoPreCurado, out var pesoPreCurado))
+            if (!ValidationHelpers.TryParseDecimal(PesoPreCurado, 5, 2, out var pesoPreCurado))
                 ModelState.AddModelError(nameof(PesoPreCurado), "El peso del queso precurado solo puede contener caracteres numericos");
 
-            if(!int.TryParse(PesoPostCurado, out var pesoPostCurado))
+            if (!ValidationHelpers.TryParseDecimal(PesoPostCurado, 5, 2, out var pesoPostCurado))
                 ModelState.AddModelError(nameof(PesoPostCurado), "El peso del queso postcurado solo puede contener caracteres numericos");
 
             if(ModelState.ErrorCount > 0)
@@ -59,23 +63,14 @@ namespace MilkyPantsCheese.Pages
             };
 
             //Intentamos crear el queso y guardarlo en la base de datos
-            try
+            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
             {
-                _dbContext.Attach(nuevoQueso).State = EntityState.Added;
+                _dbContext.Add(nuevoQueso);
 
                 lotes.Single(m => m.Id == LoteId).Quesos.Add(nuevoQueso);
-
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            }))
             {
-                //Si el queso ya se guardo en la base de datos, la borramos ya que fallo en los pasos anteriores.
-                if (nuevoQueso.Id != 0)
-                    _dbContext.Remove(nuevoQueso);
-
-                await _dbContext.SaveChangesAsync();
-
-                return new JsonResult("Algo salio mal");
+                _logger.LogError("Error al guardar los nuevos datos.");
             }
 
             //De llegar hasta aqui, significa que la creacion del queso fue exitosa.

@@ -31,6 +31,8 @@
                         <label asp-for="FechaIngreso"></label>
                         <input asp-for="FechaIngreso" type="date" class="form-control" value="@DateTimeOffset.Now" />
 
+                        @Html.ValidationMessageFor(m => m.FechaIngreso, "", new { @class = "text-danger" })
+
                     </div>
 
                     <!--Porcentaje de agua en la leche-->
@@ -66,7 +68,7 @@
                     <!--Disponibilidad del lote-->
                     <div class="form-group d-flex flex-row">
 
-                        <input type="checkbox" class="form-text" asp-for="EstaDisponible" />
+                        <input type="checkbox" value="true" class="form-text" asp-for="EstaDisponible" />
                         <label asp-for="EstaDisponible" class="ml-3"></label>
 
                     </div>
@@ -133,6 +135,8 @@
                         <label asp-for="CisternaLotesId"></label>
                         <select asp-for="CisternaLotesId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" onchange="cambioItemSeleccionado()" class="custom-select"></select>
 
+                        @Html.ValidationMessageFor(m => m.CisternaLotesId, "", new { @class = "text-danger" })
+
                     </div>
 
                 </form>
@@ -157,6 +161,8 @@
     <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
                     
     <script>
+
+        cambioItemSeleccionado();
 
         function cambioItemSeleccionado() {
             $.ajax({
