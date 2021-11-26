@@ -10,8 +10,13 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
+<<<<<<< HEAD:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211126031502_inicial.Designer.cs
     [Migration("20211126031502_inicial")]
     partial class inicial
+=======
+    [Migration("20211126172724_Inicial")]
+    partial class Inicial
+>>>>>>> Furlanich:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211126172724_Inicial.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
