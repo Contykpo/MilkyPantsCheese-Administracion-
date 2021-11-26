@@ -22,19 +22,19 @@ namespace MilkyPantsCheese
 
         // POST api/<SensorCuradoController>
         [HttpPost("~/api/[controller]")]
-        public async void Post([FromQuery(Name = "t")] string temperatura, [FromQuery(Name = "h")] string humedad, [FromQuery(Name = "d")] string dioxidoDeCarbono)
+        public async Task Post([FromQuery(Name = "t")] string temperatura, [FromQuery(Name = "h")] string humedad, [FromQuery(Name = "d")] string dioxidoDeCarbono)
         {
-            if(!ValidationHelpers.TryParseDecimal(temperatura, 4, 1, out var temperaturaParseada))
+            if(!ValidationHelpers.TryParseDecimal(temperatura, 5, 2, out var temperaturaParseada, "."))
             {
                 _logger.LogError($"{nameof(temperatura)} no valida");
             }
 
-            if(!ValidationHelpers.TryParseDecimal(humedad, 4, 1, out var humedadParseada))
+            if(!ValidationHelpers.TryParseDecimal(humedad, 5, 2, out var humedadParseada, "."))
             {
                 _logger.LogError($"{nameof(humedad)} no valida");
             }
 
-            if(ValidationHelpers.TryParseDecimal(dioxidoDeCarbono, 10, 5, out var dioxidoDeCarbonoParseado))
+            if(!ValidationHelpers.TryParseDecimal(dioxidoDeCarbono, 10, 5, out var dioxidoDeCarbonoParseado, "."))
             {
                 _logger.LogError($"{nameof(dioxidoDeCarbono)} no valido");
             }

@@ -13,6 +13,12 @@
     <form 
         method="get"
 
+        data-ajax="true"
+        data-ajax-method="get"
+        data-ajax-mode="replace"
+        data-ajax-update="#listaQuesos"
+        data-ajax-url="/AdministrarCurado?handler=ActualizarFiltro"
+
         class="table">
 
         <div class="row mb-3">
@@ -25,7 +31,12 @@
 
             </div>
 
-            <div class="col-1"></div>
+            <div class="col-3 d-inline-block w-100 align-self-end">
+
+                @*Peso pre-curado*@
+                <label asp-for="PesoPreCurado"></label>
+                <input type="text" class="form-text d-inline-block w-100" placeholder="Peso pre-curado" />
+            </div>
 
             <div class="col-3">
 
@@ -35,12 +46,10 @@
 
             </div>
 
-            <div class="col-1"></div>
-
             <div class="col-3 d-inline-block w-100 align-self-end">
-                
+
                 @*Boton buscar*@
-                <input type="submit" class="btn btn-warning d-inline-block w-100" value="Buscar"/>
+                <input type="submit" class="btn btn-warning d-inline-block w-100" value="Buscar" />
             </div>
 
 
@@ -56,7 +65,12 @@
 
             </div>
 
-            <div class="col-1"></div>
+            <div class="col-3 d-inline-block w-100 align-self-end">
+
+                @*Peso post-curado*@
+                <label asp-for="PesoPostCurado"></label>
+                <input type="text" class="form-text d-inline-block w-100" placeholder="Peso post-curado" />
+            </div>
 
             <div class="col-3">
 
@@ -65,8 +79,6 @@
                 <select asp-for="EstaQuesoSeleccionado" asp-items="@Html.GetEnumSelectList<EEstadoQueso>()" class="d-inline-block w-100 custom-select"></select>
 
             </div>
-
-            <div class="col-1"></div>
 
             <div class="col-3 d-inline-block w-100 align-self-end">
                 @*Boton crear*@
@@ -78,14 +90,21 @@
         <div class="row mb-3">
 
             <div class="col-3">
-                
-                @*Select tipo comparacion*@
-                <label asp-for="ModoComparacionSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho. Solo tiene efecto si no estan seleccionadas ambas, las fechas de inicio y final del curado"></label>
-                <select asp-for="ModoComparacionSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
+
+                @*Select tipo comparacion fecha*@
+                <label asp-for="ModoComparacionFechaSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho. Solo tiene efecto si no estan seleccionadas ambas, las fechas de inicio y final del curado"></label>
+                <select asp-for="ModoComparacionFechaSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
 
             </div>
-            
-            <div class="col-1"></div>
+
+            <div class="col-3">
+
+                @*Select tipo comparacion peso*@
+                <label asp-for="ModoComparacionPesoSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho. Solo tiene efecto si no estan seleccionadas ambas, las fechas de inicio y final del curado"></label>
+                <select asp-for="ModoComparacionPesoSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
+
+            </div>
+
 
             <div class="col-3">
 
@@ -98,7 +117,7 @@
         </div>
     </form>
     
-    <div class="d-inline-block h-100 border">
+    <div id="listaQuesos" class="d-inline-block h-100 border">
 
     </div>
 

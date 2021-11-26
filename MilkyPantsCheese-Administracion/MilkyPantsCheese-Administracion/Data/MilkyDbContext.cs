@@ -206,11 +206,11 @@ namespace MilkyPantsCheese
 
             builder.Entity<ModeloDatosSensorCurado>()
 	            .Property(s => s.Temperatura)
-	            .HasPrecision(4, 1);
+	            .HasPrecision(5, 2);
 
             builder.Entity<ModeloDatosSensorCurado>()
 	            .Property(s => s.Humedad)
-	            .HasPrecision(4, 1);
+	            .HasPrecision(5, 2);
 
             builder.Entity<ModeloDatosSensorCurado>()
 	            .Property(s => s.DioxidoDeCarbono)

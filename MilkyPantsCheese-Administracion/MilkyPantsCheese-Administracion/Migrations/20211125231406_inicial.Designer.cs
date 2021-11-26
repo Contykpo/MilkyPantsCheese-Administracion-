@@ -10,8 +10,8 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
-    [Migration("20211125002232_Inicial")]
-    partial class Inicial
+    [Migration("20211125231406_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

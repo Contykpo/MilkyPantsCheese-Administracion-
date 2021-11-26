@@ -66,9 +66,12 @@ namespace MilkyPantsCheese
         /// <param name="escala">Escala del <see cref="decimal"/></param>
         /// <param name="resultado"><see cref="decimal"/> parseado desde la <paramref name="cadena"/> en caso de tener exito</param>
         /// <returns><see cref="bool"/> indicando si se pudo parsear la <paramref name="cadena"/></returns>
-        public static bool TryParseDecimal(this string cadena, int precision, int escala, out decimal resultado)
+        public static bool TryParseDecimal(this string cadena, int precision, int escala, out decimal resultado, string separador = "")
         {
-	        var secciones = cadena.Split(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+            if(string.IsNullOrWhiteSpace(separador))
+                separador = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
+            var secciones = cadena.Split(separador);
 
 	        var parteEntera = secciones[0].Substring(0, Math.Min(precision - escala, secciones[0].Length));
 
@@ -79,6 +82,8 @@ namespace MilkyPantsCheese
 
 	        return decimal.TryParse(
 		        $"{parteEntera}{CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator}{parteDecimal}",
+                NumberStyles.AllowDecimalPoint,
+                null,
 		        out resultado);
         }
     }

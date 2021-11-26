@@ -108,5 +108,15 @@ namespace MilkyPantsCheese
 				return false;
 			}
 		}
+
+		//public static IQueryable<TModelo> AñadirWhereConTipoDeComparacion<TModelo, TValor>(this IQueryable<TModelo> consultaActual, EModoComparacion modoComparacion)
+		//	where TModelo : ModeloBase
+  //      {
+		//	switch(modoComparacion)
+  //          {
+		//		case EModoComparacion.Exacto:
+		//			consultaActual.Where(m => m.)
+  //          }
+  //      }
 	}
 }

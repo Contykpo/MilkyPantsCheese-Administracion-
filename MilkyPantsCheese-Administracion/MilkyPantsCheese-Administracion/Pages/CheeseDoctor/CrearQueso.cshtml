@@ -29,7 +29,7 @@
             @*Boton peso post curado*@
             <div class="form-group">
 
-                <label asp-for="PesoPostCurado" class="text-primary"></label>
+                <label asp-for="PesoPostCurado"></label>
                 <input type="text" asp-for="PesoPostCurado" class="form-text"/>
                 @Html.ValidationMessageFor(m => m.PesoPostCurado)
 
@@ -51,7 +51,7 @@
             @*Ingreso fecha final curacion*@
             <div class="form-group">
 
-                <label asp-for="FechaFinCuracion" class="text-primary"></label>
+                <label asp-for="FechaFinCuracion"></label>
                 <input type="date" asp-for="FechaFinCuracion" class="form-control"/>
 
             </div>
