@@ -10,7 +10,7 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
-    [Migration("20211125231406_inicial")]
+    [Migration("20211126031502_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -231,12 +231,12 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("Humedad")
-                        .HasPrecision(4, 1)
-                        .HasColumnType("decimal(4,1)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<decimal>("Temperatura")
-                        .HasPrecision(4, 1)
-                        .HasColumnType("decimal(4,1)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 

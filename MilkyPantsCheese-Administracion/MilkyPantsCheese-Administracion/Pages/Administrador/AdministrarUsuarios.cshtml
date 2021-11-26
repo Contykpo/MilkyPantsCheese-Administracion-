@@ -9,15 +9,15 @@
       data-ajax-mode="replace"
       data-ajax-update="#listaUsuarios">
 
-      <div class="container border-bottom">
+      <div class="container border-bottom border-warning">
 
           <div class="row">
 
               @*Nombre del usuario*@
               <div class="col-6">
 
-                  <label asp-for="NombreUsuario"></label>
-                  <input class="d-block" type="text" asp-for="NombreUsuario" />
+                  <label asp-for="NombreUsuario" class="text-warning"></label>
+                  <input class="d-block form-text" type="text" asp-for="NombreUsuario" placeholder="Nombre del usuario"/>
               </div>
 
               <div class="col-2"></div>
@@ -31,7 +31,7 @@
           <div class="row mt-2">
               <div class="form-group col-6">
 
-                  <label asp-for="TiposDeUsuarioSeleccionados"></label>
+                  <label asp-for="TiposDeUsuarioSeleccionados" class="text-warning"></label>
                   <select class="selectpicker d-block" title="Nada seleccionado" asp-for="TiposDeUsuarioSeleccionados" asp-items="@Model.TiposDeUsuarioDisponibles" multiple></select>
               </div>
 
@@ -46,8 +46,8 @@
           <div class="row mt-2">
               <div class="form-group col-6">
 
-                  <input type="checkbox" asp-for="MostrarUsuariosDeshabilitados" />
-                  <label class="form-check-label" asp-for="MostrarUsuariosDeshabilitados"></label>
+                  <input type="checkbox" asp-for="MostrarUsuariosDeshabilitados"/>
+                  <label class="form-check-label text-warning" asp-for="MostrarUsuariosDeshabilitados"></label>
               </div>
           </div>
       </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -109,14 +110,37 @@ namespace MilkyPantsCheese
 			}
 		}
 
-		//public static IQueryable<TModelo> AñadirWhereConTipoDeComparacion<TModelo, TValor>(this IQueryable<TModelo> consultaActual, EModoComparacion modoComparacion)
-		//	where TModelo : ModeloBase
-  //      {
-		//	switch(modoComparacion)
-  //          {
-		//		case EModoComparacion.Exacto:
-		//			consultaActual.Where(m => m.)
-  //          }
-  //      }
+		/// <summary>
+		/// Añade una operacion Where a la <paramref name="consultaActual"/> que ejecuta una de las comparaciones
+		/// especificadas en base al <paramref name="modoComparacion"/>
+		/// </summary>
+		/// <typeparam name="TModelo">Tipo del <see cref="ModeloBase"/> que devuelve la <paramref name="consultaActual"/></typeparam>
+		/// <param name="consultaActual"><see cref="IQueryable{TModelo}"/> a la que añadir el Where</param>
+		/// <param name="comparacionExacto">Delegado a ejecutar en caso de que se deba realizar una comparacion exacta</param>
+		/// <param name="comparacionMayor">Delegado a ejecutar en caso de que se deba realizar una comparacion mayor a</param>
+		/// <param name="comparacionMenor">Delegado a ejecutar en caso de que se deba realizar una comparacion menor a</param>
+		/// <param name="modoComparacion">Comparacion que se realizara</param>
+		/// <returns><see cref="IQueryable{TModelo}"/> con la operacion Where añadida</returns>
+		public static IQueryable<TModelo> AñadirWhereConTipoDeComparacion<TModelo>(
+			this IQueryable<TModelo> consultaActual,
+			Expression<Func<TModelo, bool>> comparacionExacto,
+			Expression<Func<TModelo, bool>> comparacionMayor,
+			Expression<Func<TModelo, bool>> comparacionMenor,
+			EModoComparacion modoComparacion)
+
+			where TModelo : ModeloBase
+		{
+			switch (modoComparacion)
+			{
+				case EModoComparacion.Exacto:
+					return consultaActual.Where(comparacionExacto);
+				case EModoComparacion.Mayor:
+					return consultaActual.Where(comparacionMayor);
+				case EModoComparacion.Menor:
+					return consultaActual.Where(comparacionMenor);
+			}
+
+			return consultaActual;
+		}
 	}
 }

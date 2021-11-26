@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MilkyPantsCheese.Pages
@@ -74,29 +75,55 @@ namespace MilkyPantsCheese.Pages
             if (IdTipoQueso > 0)
                 consulta = consulta.Where(q => q.Lote.TipoQueso.Id == IdTipoQueso);
 
-            if(!ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPreCurado))
+            if(!ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPreCuradoParseado))
             {
-                consulta = consulta.Where(q => q.PesoPreCurado == pesoPreCurado);
+	            consulta.AñadirWhereConTipoDeComparacion(
+		            m => m.PesoPreCurado == pesoPreCuradoParseado,
+		            m => m.PesoPreCurado > pesoPreCuradoParseado,
+		            m => m.PesoPreCurado < pesoPreCuradoParseado,
+		            ModoComparacionPesoSeleccionado);
             }
 
-            if (!ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPostCurado))
+            if (!ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPostCuradoParseado))
             {
-                consulta = consulta.Where(q => q.PesoPostCurado == pesoPostCurado);
+	            consulta.AñadirWhereConTipoDeComparacion(
+		            m => m.PesoPreCurado == pesoPostCuradoParseado,
+		            m => m.PesoPreCurado > pesoPostCuradoParseado,
+		            m => m.PesoPreCurado < pesoPostCuradoParseado,
+		            ModoComparacionPesoSeleccionado);
             }
 
-            if(FechaFinCuradoSeleccionada != DateTimeOffset.MinValue)
+            if (FechaInicioCuradoSeleccionada != DateTimeOffset.MinValue &&
+                FechaFinCuradoSeleccionada != DateTimeOffset.MinValue)
             {
-                //switch(ModoComparacionFechaSeleccionado)
-                //{
-                //    case EModoComparacion.Exacto:
-                //        consulta
-                //}
+	            consulta = consulta.Where(m =>
+		            m.Lote.FechaInicioCuracion >= FechaInicioCuradoSeleccionada &&
+		            m.FechaFinCuracion <= FechaFinCuradoSeleccionada);
             }
-            
+            else
+            {
+	            if (FechaInicioCuradoSeleccionada != DateTimeOffset.MinValue)
+	            {
+		            consulta = consulta.AñadirWhereConTipoDeComparacion(
+			            m => m.Lote.FechaInicioCuracion == FechaInicioCuradoSeleccionada,
+			            m => m.Lote.FechaInicioCuracion > FechaInicioCuradoSeleccionada,
+			            m => m.Lote.FechaInicioCuracion < FechaInicioCuradoSeleccionada,
+			            ModoComparacionFechaSeleccionado);
+	            }
+
+	            if (FechaFinCuradoSeleccionada != DateTimeOffset.MinValue)
+	            {
+		            consulta = consulta.AñadirWhereConTipoDeComparacion(
+			            m => m.FechaFinCuracion == FechaFinCuradoSeleccionada,
+			            m => m.FechaFinCuracion > FechaFinCuradoSeleccionada,
+			            m => m.FechaFinCuracion < FechaFinCuradoSeleccionada,
+			            ModoComparacionFechaSeleccionado);
+	            }
+            }
 
             consulta = consulta.Where(q => q.EstadoQueso == EstaQuesoSeleccionado);
 
-            
+            QuesosConcordantes = await consulta.ToListAsync();
 
             return Partial("_ListaQuesos");
         }

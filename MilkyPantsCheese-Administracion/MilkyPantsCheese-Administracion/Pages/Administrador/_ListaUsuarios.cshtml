@@ -7,17 +7,17 @@
     @*Vemos si el usuario esta online*@
     var usuarioActualEstaOnline = signInManager.IsSignedIn(usuario);
 
-    <div class="table bg-light rounded">
+    <div class="table bg-dark rounded">
         
         <div class="row">
             
             @*Nombre del usuario*@
-            <div class="col-md-2 col-sm-3">@usuario.UserName</div>
+            <div class="col-md-2 col-sm-3 text-warning">@usuario.UserName</div>
             
             @*Indicador estado usuario*@
             <div class="col-md-2 col-sm-3 d-flex flex-row">
                 <div class="rounded-circle align-self-center mr-2 @(usuarioActualEstaOnline ? "bg-success" : "bg-danger")" style="width: 10px; height: 10px;"></div>
-                <div>@(usuarioActualEstaOnline ? "Online" : "Offline")</div>
+                <div class="text-warning">@(usuarioActualEstaOnline ? "Online" : "Offline")</div>
             </div>
             
             @*Opciones de edicion*@

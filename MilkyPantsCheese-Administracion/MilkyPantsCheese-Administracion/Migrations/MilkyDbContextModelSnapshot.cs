@@ -229,12 +229,12 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("Humedad")
-                        .HasPrecision(4, 1)
-                        .HasColumnType("decimal(4,1)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<decimal>("Temperatura")
-                        .HasPrecision(4, 1)
-                        .HasColumnType("decimal(4,1)");
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 

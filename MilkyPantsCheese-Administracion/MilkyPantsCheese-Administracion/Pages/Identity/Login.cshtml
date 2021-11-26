@@ -8,7 +8,7 @@
         <!--Nombre de usuario-->
         <div class="form-group">
             
-            <span>@Html.NameFor(m => m.Nombre)</span>
+            <label asp-for="Nombre"></label>
             <input type="text" class="form-text" asp-for="Nombre"/>
 
             @Html.ValidationMessageFor(m => m.Nombre, string.Empty, new { @class = "text-danger" })
@@ -16,8 +16,8 @@
 
         <!--Contraseña-->
         <div class="form-group">
-
-            <span>@Html.NameFor(m => m.Contraseña)</span>
+            
+            <label asp-for="Contraseña"></label>
             <input type="password" class="form-text" asp-for="Contraseña" />
 
             @Html.ValidationMessageFor(m => m.Contraseña, string.Empty, new { @class = "text-danger" })

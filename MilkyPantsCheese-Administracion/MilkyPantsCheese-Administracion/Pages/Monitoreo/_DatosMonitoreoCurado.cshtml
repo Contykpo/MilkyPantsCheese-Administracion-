@@ -3,26 +3,26 @@
 @inject MilkyDbContext dbContext
 
 @{ 
-    var ultimosDatosSensor = await dbContext.DatosSensorCurado.OrderBy(d => d.Fecha).LastAsync();
+    var ultimosDatosSensor = await dbContext.DatosSensorCurado.OrderBy(d => d.Fecha).LastOrDefaultAsync();
 } 
 
-<div class="table">
+<div class="table text-warning">
 
     <div class="row">
 
-        Temperatura: @ultimosDatosSensor.Temperatura °C
+        Temperatura: @ultimosDatosSensor?.Temperatura °C
 
     </div>
 
     <div class="row">
 
-        Humedad: @ultimosDatosSensor.Humedad%
+        Humedad: @ultimosDatosSensor?.Humedad%
 
     </div>
 
     <div class="row">
 
-        Dioxido de carbono: @ultimosDatosSensor.DioxidoDeCarbono ppm
+        Dioxido de carbono: @ultimosDatosSensor?.DioxidoDeCarbono ppm
 
     </div>
 

@@ -1,31 +1,15 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
+﻿a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
-.btn-warning {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   font-size: 14px;
 }
@@ -58,10 +42,6 @@ html {
   min-height: 100%;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
 .footer {
   position: absolute;
   bottom: 0;
@@ -70,9 +50,67 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-.centrar-horizontalmente {
-    margin-right: auto;
-    margin-left: auto;
-    left: 0;
-    right: 0;
+.btn-warning {
+    color: #ffff71;
+    background-color: #d29e00;
+    border-color: #d29e00;
+}
+
+.btn-warning:hover {
+    color: white;
+    background-color: #ffc107;
+}
+
+body {
+    background-color: #242424;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+h1 {
+    color: #ffc107;
+}
+
+h2 {
+    color: #ffc107;
+}
+
+h3 {
+    color: #ffc107;
+}
+
+h4 {
+    color: #ffc107;
+}
+
+a {
+    color: #ffc107;
+}
+
+a:hover {
+    color: #ffff71;
+}
+
+.nav-link {
+    color: #ffc107 !important;
+}
+
+.nav-link:hover {
+    color: #ffff71 !important;
+}
+
+label {
+    color: #ffc107
+}
+
+input {
+    outline: 0 !important;
+}
+
+input:hover:not(.disabled) {
+    border-color: #ffc107;
+}
+
+input:focus {
+    border-color: #ffc107;
 }

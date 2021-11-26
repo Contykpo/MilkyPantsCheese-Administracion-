@@ -19,11 +19,11 @@
 
         <header>
 
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom border-warning box-shadow">
 
                 <div class="container">
 
-                    <a class="navbar-brand" asp-area="" asp-page="/Index">Milky Pants Cheese</a>
+                    <a class="navbar-brand text-warning" asp-area="" asp-page="/Index">Milky Pants Cheese</a>
 
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@
 
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                        <a class="nav-link text-dark" asp-page="/Monitoreo/MonitoreoCurado">Monitoreo</a>
+                        <a class="nav-link text-warning" asp-page="/Monitoreo/MonitoreoCurado">Monitoreo</a>
 
                         <div class="align-self-end">
 
@@ -41,31 +41,31 @@
                                 @if (User.IsInRole(Constantes.NombreRolMilkyMan))
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/CreacionTambo">Agregar tambo</a>
+                                        <a class="nav-link" asp-page="/MilkyMan/CreacionTambo">Agregar tambo</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/CreacionCisterna">Agregar cisterna</a>
+                                        <a class="nav-link" asp-page="/MilkyMan/CreacionCisterna">Agregar cisterna</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
+                                        <a class="nav-link" asp-page="/MilkyMan/AdministrarLotesDeLeche">Administrar lotes de leche</a>
                                     </li>
                                 }
                                 else if (User.IsInRole(Constantes.NombreRolAdministrador))
                                 {
                                     <li>
-                                        <a class="nav-link text-dark" asp-page="/Administrador/AdministrarUsuarios">Administrar usuarios</a>
+                                        <a class="nav-link text-warning" asp-page="/Administrador/AdministrarUsuarios">Administrar usuarios</a>
                                     </li>
                                 }
                                 else if (User.IsInRole(Constantes.NombreRolSusurradorDeQuesos))
                                 {
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/CreacionTipoQueso">Añadir tipo</a>
+                                        <a class="nav-link" asp-page="/SusurradorDeQuesos/CreacionTipoQueso">Añadir tipo</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/CreacionQueso">Añadir queso</a>
+                                        <a class="nav-link" asp-page="/SusurradorDeQuesos/CreacionQueso">Añadir queso</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/SusurradorDeQuesos/AdministradorDeQuesos">Administrar lotes de queso</a>
+                                        <a class="nav-link" asp-page="/SusurradorDeQuesos/AdministradorDeQuesos">Administrar lotes de queso</a>
                                     </li>
                                 }
                                 else if (User.IsInRole(Constantes.NombreRolCheeseScientist))
@@ -97,8 +97,8 @@
 
         </header>
 
-    <div class="container h-100 position-absolute centrar-horizontalmente" 
-         style="margin-right: auto;margin-left: auto;left: 0;right: 0;">
+        <div class="container h-100 position-absolute centrar-horizontalmente mt-3"
+             style="margin-right: auto;margin-left: auto;left: 0;right: 0;">
 
             <main role="main" class="pb-3 w-100 h-100 d-inline-block centrar-horizontalmente">
                 @RenderBody()
