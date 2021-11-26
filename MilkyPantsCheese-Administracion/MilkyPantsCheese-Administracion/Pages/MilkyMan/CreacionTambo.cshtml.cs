@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace MilkyPantsCheese.Pages
@@ -16,17 +17,18 @@ namespace MilkyPantsCheese.Pages
     public class CreacionTamboModel : PageModel
     {
         private readonly MilkyDbContext _dbcontext;
-        private readonly UserManager<ModeloUsuario> _userManager;
+
+        public readonly ILogger<CreacionTamboModel> _logger;
 
         /// <summary>
         /// Tambos disponibles.
         /// </summary>
         public List<ModeloTambo> Tambos { get; set; } = new List<ModeloTambo>();
 
-        public CreacionTamboModel(MilkyDbContext dbContext, UserManager<ModeloUsuario> userManager)
+        public CreacionTamboModel(MilkyDbContext dbContext, UserManager<ModeloUsuario> userManager, ILogger<CreacionTamboModel> logger)
         {
             _dbcontext   = dbContext;
-            _userManager = userManager;
+            _logger = logger;
 
             Tambos = (from t in _dbcontext.Tambos select t).ToList();
         }
@@ -52,21 +54,12 @@ namespace MilkyPantsCheese.Pages
             };
 
             //Intentamos crear el tambo y guardarlo en la base de datos
-            try
+            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
             {
-                _dbcontext.Attach(nuevoTambo).State = EntityState.Added;
-
-                await _dbcontext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+                _dbContext.Add(nuevoTambo);
+            }))
             {
-                //Si el tambo ya se guardo en la base de datos, lo borramos ya que fallo en los pasos anteriores.
-                if (nuevoTambo.Id != 0)
-                    _dbcontext.Remove(nuevoTambo);
-
-                await _dbcontext.SaveChangesAsync();
-
-                return new JsonResult("Algo salio mal");
+                _logger.LogError("Error al guardar los nuevos datos.");
             }
 
             //Volvemos a la pagina principal.

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
 namespace MilkyPantsCheese.Pages
@@ -16,14 +17,17 @@ namespace MilkyPantsCheese.Pages
     {
         private readonly MilkyDbContext _dbContext;
 
+        public readonly ILogger<CreacionTipoQuesoModel> _logger;
+
         /// <summary>
         /// Tipos de quesos disponibles.
         /// </summary>
         public List<ModeloTipoQueso> TiposQuesos { get; set; } = new List<ModeloTipoQueso>();
 
-        public CreacionTipoQuesoModel(MilkyDbContext dbContext)
+        public CreacionTipoQuesoModel(MilkyDbContext dbContext, ILogger<CreacionTipoQuesoModel> logger)
         {
-            _dbContext   = dbContext;
+            _dbContext = dbContext;
+            _logger    = logger;
 
             TiposQuesos = (from c in dbContext.TiposDeQuesos select c).ToList();
         }
@@ -48,21 +52,12 @@ namespace MilkyPantsCheese.Pages
             };
 
             //Intentamos crear el tipo de queso y guardarlo en la base de datos
-            try
+            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
             {
-                _dbContext.Attach(nuevoTipoQueso).State = EntityState.Added;
-
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+                _dbContext.Add(nuevoTipoQueso);
+            }))
             {
-                //Si el tipo de queso ya se guardo en la base de datos, la borramos ya que fallo en los pasos anteriores.
-                if (nuevoTipoQueso.Id != 0)
-                    _dbContext.Remove(nuevoTipoQueso);
-
-                await _dbContext.SaveChangesAsync();
-
-                return new JsonResult("Algo salio mal");
+                _logger.LogError("Error al guardar los nuevos datos.");
             }
 
             //De llegar hasta aqui, significa que la creacion del tipo de queso fue exitosa.

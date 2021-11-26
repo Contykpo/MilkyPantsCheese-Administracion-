@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace MilkyPantsCheese.Pages
 {
@@ -21,9 +22,12 @@ namespace MilkyPantsCheese.Pages
         
         private readonly IConfiguration _config;
 
+        public readonly ILogger<AdministrarLotesDeLecheModel> _logger;
+
         /// <summary>
         /// Cisterna seleccionada para mostrar sus lotes.
         /// </summary>
+        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Cisterna")]
         [BindProperty]
         public int CisternaLotesId { get; set; }
@@ -38,10 +42,11 @@ namespace MilkyPantsCheese.Pages
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="userManager"></param>
-        public AdministrarLotesDeLecheModel(MilkyDbContext dbContext, IConfiguration config)
+        public AdministrarLotesDeLecheModel(MilkyDbContext dbContext, IConfiguration config, ILogger<AdministrarLotesDeLecheModel> logger)
         {
             _dbContext = dbContext;
             _config    = config;
+            _logger    = logger;
 
             LotesDeLeche = (from c in dbContext.LotesDeLeche select c).ToList();
         }
@@ -56,13 +61,13 @@ namespace MilkyPantsCheese.Pages
             if (!ModelState.IsValid)
                 return Page();
 
-            if(!decimal.TryParse(PorcentajeAgua, out var porcentajeAgua))
+            if (!ValidationHelpers.TryParseDecimal(PorcentajeAgua, 5, 2, out var porcentajeAgua))
                 ModelState.AddModelError(nameof(PorcentajeAgua), "Porcentaje de agua solo puede contener caracteres numericos");
 
-            if(!decimal.TryParse(Temperatura, out var temperatura))
+            if (!ValidationHelpers.TryParseDecimal(Temperatura, 5, 2, out var temperatura))
                 ModelState.AddModelError(nameof(Temperatura), "Temperatura solo puede contener caracteres numericos");
 
-            if(!decimal.TryParse(Acidez, out var acidez))
+            if (!ValidationHelpers.TryParseDecimal(Acidez, 5, 2, out var acidez))
                 ModelState.AddModelError(nameof(Acidez), "Acidez solo puede contener caracteres numericos");
 
             if (ImagenPlanillita is not null)
@@ -108,25 +113,16 @@ namespace MilkyPantsCheese.Pages
             }
 
             //Intentamos crear al lote de leche y guardarlo en la base de datos
-            try
+            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
             {
-                _dbContext.Attach(nuevoLoteDeLeche).State = EntityState.Added;
+                _dbContext.Add(nuevoLoteDeLeche);
 
                 cisternas.Single(m => m.Id == CisternaId).LotesDeLeche.Add(nuevoLoteDeLeche);
-                
+
                 tambos.Single(m => m.Id == TamboId).LotesDeLecheDeEsteTambo.Add(nuevoLoteDeLeche);
-
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            }))
             {
-                //Si el lote de leche ya se guardo en la base de datos, lo borramos siendo que fallo en los pasos anteriores.
-                if (nuevoLoteDeLeche.Id != 0)
-                    _dbContext.Remove(nuevoLoteDeLeche);
-
-                await _dbContext.SaveChangesAsync();
-
-                return new JsonResult("Algo salio mal");
+                _logger.LogError("Error al guardar los nuevos datos.");
             }
 
             //Recargamos la pagina.

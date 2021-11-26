@@ -31,6 +31,8 @@
                         <label asp-for="FechaIngreso"></label>
                         <input asp-for="FechaIngreso" type="date" class="form-control" value="@DateTimeOffset.Now" />
 
+                        @Html.ValidationMessageFor(m => m.FechaIngreso, "", new { @class = "text-danger" })
+
                     </div>
 
                     <!--Porcentaje de agua en la leche-->
@@ -66,29 +68,11 @@
                     <!--Disponibilidad del lote-->
                     <div class="form-group d-flex flex-row">
 
-                        <input type="checkbox" class="form-text" asp-for="EstaDisponible" />
+                        <input type="checkbox" value="true" class="form-text" asp-for="EstaDisponible" />
                         <label asp-for="EstaDisponible" class="ml-3"></label>
 
                     </div>
 
-                    <!--Notas adicionales sobre la leche -->
-                    <div class="form-group">
-
-                        <label asp-for="NotasAdicionales"></label>
-                        <textarea class="form-text overflow-auto w-100" asp-for="NotasAdicionales"></textarea>
-
-                    </div>
-
-                    <!--Imagen de planilla opcional con mayores detalles-->
-                    <div class="form-group custom-file mt-2">
-
-                        <input type="file" id="imagenPlantilla" class="custom-file-input" accept="image/jpg, image/png, image/jpeg" asp-for="ImagenPlanillita" />
-                        <label class="custom-file-label" asp-for="ImagenPlanillita"></label>
-
-                        @Html.ValidationMessageFor(m => m.ImagenPlanillita, "", new { @class = "text-danger" })
-
-                    </div>
-                    
                     <!--Cisterna donde se almacenara-->
                     <div class="form-group mt-5">
 
@@ -109,9 +93,27 @@
 
                     </div>
 
+                    <!--Notas adicionales sobre la leche -->
+                    <div class="form-group">
+
+                        <label asp-for="NotasAdicionales"></label>
+                        <textarea class="form-text overflow-auto w-100" asp-for="NotasAdicionales"></textarea>
+
+                    </div>
+
+                    <!--Imagen de planilla opcional con mayores detalles-->
+                    <div class="form-group custom-file mt-2">
+
+                        <input type="file" id="imagenPlantilla" class="custom-file-input" accept="image/jpg, image/png, image/jpeg" asp-for="ImagenPlanillita" />
+                        <label class="custom-file-label" asp-for="ImagenPlanillita"></label>
+
+                        @Html.ValidationMessageFor(m => m.ImagenPlanillita, "", new { @class = "text-danger" })
+
+                    </div>
+
                     <!--Boton submit-->
                     <div class="mt-3">
-                        
+
                         <input type="submit" value="Añadir" class="form-text btn btn-warning" />
 
                     </div>
@@ -132,6 +134,8 @@
 
                         <label asp-for="CisternaLotesId"></label>
                         <select asp-for="CisternaLotesId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" onchange="cambioItemSeleccionado()" class="custom-select"></select>
+
+                        @Html.ValidationMessageFor(m => m.CisternaLotesId, "", new { @class = "text-danger" })
 
                     </div>
 
@@ -159,6 +163,8 @@
     <script type="text/javascript">
 
         $('#imagenPlantilla').on('change', archivoSeleccionadoHandler);
+
+        cambioItemSeleccionado();
 
         cambioItemSeleccionado();
 
