@@ -15,7 +15,7 @@ namespace MilkyPantsCheese.Pages
     /// </summary>
     public class CreacionCisternaModel : PageModel
     {
-        private readonly MilkyDbContext _dbcontext;
+        private readonly MilkyDbContext _dbContext;
 
         public readonly ILogger<CreacionCisternaModel> _logger;
 
@@ -26,10 +26,10 @@ namespace MilkyPantsCheese.Pages
 
         public CreacionCisternaModel(MilkyDbContext dbContext, ILogger<CreacionCisternaModel> logger)
         {
-            _dbcontext = dbContext;
+            _dbContext = dbContext;
             _logger    = logger;
 
-            Cisternas = (from c in _dbcontext.Cisternas select c).ToList();
+            Cisternas = (from c in _dbContext.Cisternas select c).ToList();
         }
 
         public void OnGet()
@@ -51,8 +51,7 @@ namespace MilkyPantsCheese.Pages
             //Creamos la nueva cisterna.
             ModeloCisterna nuevaCisterna = new ModeloCisterna
             {
-                Nombre    = Nombre,
-                Capacidad = capacidadLitros
+                Nombre    = Nombre
             };
 
             //Intentamos crear la cisterna y guardarla en la base de datos

@@ -16,7 +16,7 @@ namespace MilkyPantsCheese.Pages
     /// </summary>
     public class CreacionTamboModel : PageModel
     {
-        private readonly MilkyDbContext _dbcontext;
+        private readonly MilkyDbContext _dbContext;
 
         public readonly ILogger<CreacionTamboModel> _logger;
 
@@ -27,10 +27,10 @@ namespace MilkyPantsCheese.Pages
 
         public CreacionTamboModel(MilkyDbContext dbContext, UserManager<ModeloUsuario> userManager, ILogger<CreacionTamboModel> logger)
         {
-            _dbcontext   = dbContext;
+            _dbContext   = dbContext;
             _logger = logger;
 
-            Tambos = (from t in _dbcontext.Tambos select t).ToList();
+            Tambos = (from t in _dbContext.Tambos select t).ToList();
         }
 
         public void OnGet()
