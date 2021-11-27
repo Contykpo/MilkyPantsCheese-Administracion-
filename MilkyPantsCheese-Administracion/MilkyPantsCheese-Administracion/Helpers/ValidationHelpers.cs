@@ -68,6 +68,11 @@ namespace MilkyPantsCheese
         /// <returns><see cref="bool"/> indicando si se pudo parsear la <paramref name="cadena"/></returns>
         public static bool TryParseDecimal(this string cadena, int precision, int escala, out decimal resultado, string separador = "")
         {
+	        resultado = 0;
+
+	        if (string.IsNullOrWhiteSpace(cadena))
+		        return false;
+
             if(string.IsNullOrWhiteSpace(separador))
                 separador = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 

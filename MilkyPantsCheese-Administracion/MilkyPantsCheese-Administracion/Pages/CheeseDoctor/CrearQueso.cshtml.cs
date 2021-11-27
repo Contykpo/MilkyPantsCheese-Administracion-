@@ -11,6 +11,9 @@ using Microsoft.Extensions.Logging;
 
 namespace MilkyPantsCheese.Pages
 {
+    /// <summary>
+    /// Modelo de la pagina de creacion de <see cref="ModeloQueso"/>
+    /// </summary>
     [Authorize(Roles = Constantes.NombreRolCheeseDoctor)]
     public class CrearQuesoModel : PageModel
     {

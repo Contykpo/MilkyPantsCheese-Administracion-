@@ -9,25 +9,28 @@
 }
 
 <div class="d-flex flex-column d-inline-block h-100">
-    
-    <form 
-        method="get"
 
-        data-ajax="true"
-        data-ajax-method="get"
-        data-ajax-mode="replace"
-        data-ajax-update="#listaQuesos"
-        data-ajax-url="/AdministrarCurado?handler=ActualizarFiltro"
+    <form method="post"
 
-        class="table">
+          data-ajax="true"
+          data-ajax-method="post"
+          data-ajax-mode="update"
+          data-ajax-update="#resultadoBusqueda"
+          data-ajax-url="/CheeseDoctor/AdministrarCurado?handler=ActualizarFiltro"
 
-        <div class="row mb-3">
+          class="d-flex flex-column flex-wrap">
+
+        <div class="d-flex flex-row mb-3">
 
             <div class="col-3">
 
                 @*Seleccion de fecha de inicio de curado*@
                 <label asp-for="FechaInicioCuradoSeleccionada"></label>
-                <input type="date" asp-for="FechaInicioCuradoSeleccionada" class="d-inline-block w-100" />
+                
+                <div class="form-inline">
+                    <input type="checkbox" asp-for="UtilizarFiltradoPorFechaInicioCuracion" onchange="SetInputHabilitado(inputFechaInicioCurado, checked); InputFechaHabilitadoCambioHandler();" />
+                    <input id="inputFechaInicioCurado" type="date" asp-for="FechaInicioCuradoSeleccionada" class="m-md-0 ml-md-1" style="width: 80%" disabled />
+                </div>
 
             </div>
 
@@ -35,10 +38,10 @@
 
                 @*Peso pre-curado*@
                 <label asp-for="PesoPreCurado"></label>
-                <input type="text" class="form-text d-inline-block w-100" placeholder="Peso pre-curado" />
+                <input id="inputPesoPreCurado" type="text" asp-for="PesoPreCurado" class="form-text d-inline-block w-100" placeholder="Peso pre-curado" onchange="TextoInputPesoCambioHandler();"/>
             </div>
 
-            <div class="col-3">
+            <div class="col-3 align-self-end">
 
                 @*Id del queso*@
                 <label asp-for="IdQueso"></label>
@@ -54,29 +57,37 @@
 
 
         </div>
-        
-        <div class="row mb-3">
+
+        <div class="d-flex flex-row mb-3">
 
             <div class="col-3">
 
                 @*Seleccion de fecha de inicio de curado*@
                 <label asp-for="FechaFinCuradoSeleccionada"></label>
-                <input type="date" asp-for="FechaFinCuradoSeleccionada" class="d-inline-block w-100" />
+                
+                <div class="form-inline">
+                    <input type="checkbox" asp-for="UtilizarFiltradoPorFechaFinCuracion" onchange="SetInputHabilitado(inputFechaFinCurado, checked); InputFechaHabilitadoCambioHandler();" class="d-inline-block" />
+                    <input id="inputFechaFinCurado" type="date" asp-for="FechaFinCuradoSeleccionada" class="ml-0 ml-md-1" style="width: 80%" disabled />
+                </div>
 
             </div>
 
-            <div class="col-3 d-inline-block w-100 align-self-end">
+            <div class="col-3 d-inline-block w-100 ">
 
                 @*Peso post-curado*@
                 <label asp-for="PesoPostCurado"></label>
-                <input type="text" class="form-text d-inline-block w-100" placeholder="Peso post-curado" />
+                <input id="inputPesoPostCurado" type="text" asp-for="PesoPostCurado" class="form-text d-inline-block w-100" placeholder="Peso post-curado" onchange="TextoInputPesoCambioHandler();"/>
             </div>
 
             <div class="col-3">
 
                 @*Select estado queso*@
-                <label asp-for="EstaQuesoSeleccionado"></label>
-                <select asp-for="EstaQuesoSeleccionado" asp-items="@Html.GetEnumSelectList<EEstadoQueso>()" class="d-inline-block w-100 custom-select"></select>
+                <label asp-for="EstadoQuesoSeleccionado"></label>
+                
+                <div class="form-inline">
+                    <input type="checkbox" asp-for="UtilizarFiltradoPorEstado" onchange="SetInputHabilitado(selectEstadoQueso, checked)"/>
+                    <select id="selectEstadoQueso" asp-for="EstadoQuesoSeleccionado" asp-items="@Html.GetEnumSelectList<EEstadoQueso>()" class="d-inline-block custom-select ml-0 ml-2" style="width: 80%" disabled></select>
+                </div>
 
             </div>
 
@@ -86,14 +97,14 @@
             </div>
 
         </div>
-        
-        <div class="row mb-3">
+
+        <div class="d-flex flex-row mb-3">
 
             <div class="col-3">
 
                 @*Select tipo comparacion fecha*@
                 <label asp-for="ModoComparacionFechaSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho. Solo tiene efecto si no estan seleccionadas ambas, las fechas de inicio y final del curado"></label>
-                <select asp-for="ModoComparacionFechaSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
+                <select id="selectTipoComparacionFecha" asp-for="ModoComparacionFechaSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
 
             </div>
 
@@ -101,7 +112,7 @@
 
                 @*Select tipo comparacion peso*@
                 <label asp-for="ModoComparacionPesoSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho. Solo tiene efecto si no estan seleccionadas ambas, las fechas de inicio y final del curado"></label>
-                <select asp-for="ModoComparacionPesoSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
+                <select id="selectTipoComparacionPeso" asp-for="ModoComparacionPesoSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
 
             </div>
 
@@ -110,24 +121,52 @@
 
                 @*Seleccion del tipo de queso*@
                 <label asp-for="IdTipoQueso"></label>
-                <select asp-for="IdTipoQueso" asp-items="@tiposDeQuesoDisponibles" class="d-inline-block w-100 custom-select"></select>
+
+                <div class="form-inline">
+                    <input type="checkbox" asp-for="UtilizarFiltradoPorTipo" onchange="SetInputHabilitado(selectTipoQueso, checked);"/>
+                    <select id="selectTipoQueso" asp-for="IdTipoQueso" asp-items="@tiposDeQuesoDisponibles" class="d-inline-block custom-select ml-0 ml-2" style="width: 80%" disabled></select>
+                </div>
 
             </div>
-
         </div>
     </form>
-    
-    <div id="listaQuesos" class="d-inline-block h-100 border">
+
+    <div id="resultadoBusqueda" class="d-flex flex-column h-100 border border-warning p-0 p-md-2">
 
     </div>
 
 </div>
 
 @section Scripts{
-    
+
+    <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
     <script type="text/javascript">
 
         $("[data-toggle='tooltip']").tooltip();
+
+        InputFechaHabilitadoCambioHandler();
+        TextoInputPesoCambioHandler();
+
+        function SetInputHabilitado(input, checkboxChecked) {
+
+            input.disabled = !checkboxChecked;
+
+        }
+
+        function InputFechaHabilitadoCambioHandler() {
+
+            $('#selectTipoComparacionFecha').attr('disabled',
+                $('#inputFechaInicioCurado').attr('disabled') === 'disabled' && $('#inputFechaFinCurado').attr('disabled') === 'disabled');
+        }
+
+        function TextoInputPesoCambioHandler() {
+
+            console.log($('#inputPesoPreCurado').val());
+
+            $('#selectTipoComparacionPeso').attr('disabled',
+                $('#inputPesoPreCurado').val() === "" && $('#inputPesoPostCurado').val() === "");
+        }
 
     </script>
 

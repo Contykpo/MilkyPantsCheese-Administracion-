@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,11 @@ using Microsoft.Identity.Client;
 
 namespace MilkyPantsCheese.Pages
 {
-    public class EditarCheeseModel : PageModel
+	/// <summary>
+	/// Modelo de la pagina de edicion de <see cref="ModeloQueso"/>
+	/// </summary>
+	[Authorize(Roles = Constantes.NombreRolCheeseDoctor)]
+	public class EditarCheeseModel : PageModel
     {
 	    public readonly MilkyDbContext _dbContext;
 	    public readonly ILogger<EditarQuesoModel> _logger;
@@ -47,7 +52,7 @@ namespace MilkyPantsCheese.Pages
         [Required(AllowEmptyStrings = false, ErrorMessage = "Ocurrio un error al obtener la id del queso siendo editado.")]
         public int IdQuesoSiendoEditado { get; set; }
 
-        public async void OnGet([FromQuery(Name = "id")] int idQueso)
+        public async Task OnGet([FromQuery(Name = "id")] int idQueso)
         {
 	        IdQuesoSiendoEditado = idQueso;
 
@@ -69,7 +74,7 @@ namespace MilkyPantsCheese.Pages
 		/// <summary>
 		/// Actualiza los campos del <see cref="ModeloQueso"/> sinedo editado con los datos ingresados por el usuario
 		/// </summary>
-		public async Task<IActionResult> OnUpdate()
+		public async Task<IActionResult> OnPost()
         {
 	        if (!ModelState.IsValid)
 		        return Page();
@@ -80,7 +85,7 @@ namespace MilkyPantsCheese.Pages
 	        if(!PesoPreCurado.TryParseDecimal( 4, 1, out var nuevoPesoPreCurado))
 				ModelState.AddModelError(nameof(PesoPreCurado), "El valor ingresado debe ser un numero decimal");
 
-			if (!PesoPreCurado.TryParseDecimal(4, 1, out var nuevoPesoPostCurado))
+			if (!PesoPostCurado.TryParseDecimal(4, 1, out var nuevoPesoPostCurado))
 				ModelState.AddModelError(nameof(PesoPostCurado), "El valor ingresado debe ser un numero decimal");
 
 			if (ModelState.ErrorCount > 0)
@@ -90,6 +95,7 @@ namespace MilkyPantsCheese.Pages
 			quesoSiendoEditado.PesoPostCurado = nuevoPesoPostCurado;
 			quesoSiendoEditado.FechaFinCuracion = FechaFinCuracion;
 			quesoSiendoEditado.Lote = loteAlQuePertenece;
+			quesoSiendoEditado.EstadoQueso = EstadoQueso;
 
 			if (await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty))
 				return RedirectToPage("/CheeseDoctor/AdministrarCurado");
