@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,10 @@ using Microsoft.Extensions.Logging;
 
 namespace MilkyPantsCheese.Pages
 {
+    /// <summary>
+    /// Modelo de la pagina de administracion de curado
+    /// </summary>
+    [Authorize(Roles = Constantes.NombreRolCheeseDoctor)]
     public class AdministrarCuradoModel : PageModel
     {
         public readonly MilkyDbContext _dbContext;
@@ -39,8 +44,21 @@ namespace MilkyPantsCheese.Pages
         public string PesoPostCurado { get; set; }
 
         [BindProperty]
+        public bool UtilizarFiltradoPorFechaInicioCuracion { get; set; }
+
+        [BindProperty]
+        public bool UtilizarFiltradoPorFechaFinCuracion { get; set; }
+
+        [BindProperty]
+        public bool UtilizarFiltradoPorEstado { get; set; }
+
+        [BindProperty]
+        public bool UtilizarFiltradoPorTipo { get; set; }
+
+
+        [BindProperty]
         [DisplayName("Estado del queso")]
-        public EEstadoQueso EstaQuesoSeleccionado { get; set; }
+        public EEstadoQueso EstadoQuesoSeleccionado { get; set; }
 
         [BindProperty]
         [DisplayName("Modo de comparacion peso")]
@@ -52,18 +70,23 @@ namespace MilkyPantsCheese.Pages
 
         [BindProperty]
         [DisplayName("Fecha de comienzo de curado")]
-        public DateTimeOffset FechaInicioCuradoSeleccionada { get; set; }
+        public DateTimeOffset FechaInicioCuradoSeleccionada { get; set; } = DateTimeOffset.Now;
 
         [BindProperty]
         [DisplayName("Fecha de fin de curado")]
-        public DateTimeOffset FechaFinCuradoSeleccionada { get; set; }
+        public DateTimeOffset FechaFinCuradoSeleccionada { get; set; } = DateTimeOffset.Now;
 
         /// <summary>
         /// <see cref="List{T}"/> con los quesos que satisfacen el filtro
         /// </summary>
         public List<ModeloQueso> QuesosConcordantes { get; set; }
 
-        public async Task<PartialViewResult> OnGetActualizarFiltro()
+        /// <summary>
+        /// Ejecuta el filtro con los valores ingresados por el usuario y coloca los <see cref="ModeloQueso"/>
+        /// que satisfasgan los criterios en <see cref="QuesosConcordantes"/>
+        /// </summary>
+        /// <returns>Partial view con los <see cref="QuesosConcordantes"/></returns>
+        public async Task<PartialViewResult> OnPostActualizarFiltro()
         {
             IQueryable<ModeloQueso> consulta = _dbContext.Quesos.AsQueryable();
 
@@ -72,10 +95,11 @@ namespace MilkyPantsCheese.Pages
                 consulta = consulta.Where(q => q.Id == IdQueso);
 
             //Si el tipo de queso seleccionado 
-            if (IdTipoQueso > 0)
+            if (UtilizarFiltradoPorTipo && IdTipoQueso > 0)
                 consulta = consulta.Where(q => q.Lote.TipoQueso.Id == IdTipoQueso);
 
-            if(!ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPreCuradoParseado))
+            //Intentamos parsear los nuevos pesos
+            if(ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPreCuradoParseado))
             {
 	            consulta.AñadirWhereConTipoDeComparacion(
 		            m => m.PesoPreCurado == pesoPreCuradoParseado,
@@ -84,7 +108,7 @@ namespace MilkyPantsCheese.Pages
 		            ModoComparacionPesoSeleccionado);
             }
 
-            if (!ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPostCuradoParseado))
+            if (ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPostCuradoParseado))
             {
 	            consulta.AñadirWhereConTipoDeComparacion(
 		            m => m.PesoPreCurado == pesoPostCuradoParseado,
@@ -93,8 +117,9 @@ namespace MilkyPantsCheese.Pages
 		            ModoComparacionPesoSeleccionado);
             }
 
-            if (FechaInicioCuradoSeleccionada != DateTimeOffset.MinValue &&
-                FechaFinCuradoSeleccionada != DateTimeOffset.MinValue)
+            //Si estamos filtrando por fecha de inicio de curacion y fecha de fin de curacion...
+            if (UtilizarFiltradoPorFechaInicioCuracion &&
+                UtilizarFiltradoPorFechaFinCuracion)
             {
 	            consulta = consulta.Where(m =>
 		            m.Lote.FechaInicioCuracion >= FechaInicioCuradoSeleccionada &&
@@ -102,7 +127,8 @@ namespace MilkyPantsCheese.Pages
             }
             else
             {
-	            if (FechaInicioCuradoSeleccionada != DateTimeOffset.MinValue)
+                //Si estamos filtrando por una sola de ellas...
+	            if (UtilizarFiltradoPorFechaInicioCuracion)
 	            {
 		            consulta = consulta.AñadirWhereConTipoDeComparacion(
 			            m => m.Lote.FechaInicioCuracion == FechaInicioCuradoSeleccionada,
@@ -111,7 +137,7 @@ namespace MilkyPantsCheese.Pages
 			            ModoComparacionFechaSeleccionado);
 	            }
 
-	            if (FechaFinCuradoSeleccionada != DateTimeOffset.MinValue)
+	            if (UtilizarFiltradoPorFechaFinCuracion)
 	            {
 		            consulta = consulta.AñadirWhereConTipoDeComparacion(
 			            m => m.FechaFinCuracion == FechaFinCuradoSeleccionada,
@@ -121,11 +147,14 @@ namespace MilkyPantsCheese.Pages
 	            }
             }
 
-            consulta = consulta.Where(q => q.EstadoQueso == EstaQuesoSeleccionado);
+            //Si estamos filtrando por el estado del queso...
+            if(UtilizarFiltradoPorEstado)
+	            consulta = consulta.Where(q => q.EstadoQueso == EstadoQuesoSeleccionado);
 
+            //Obtenemos los quesos que concuerden con el filtro
             QuesosConcordantes = await consulta.ToListAsync();
 
-            return Partial("_ListaQuesos");
+            return Partial("_ListaQuesos", this);
         }
     }
 }

@@ -1,3 +1,94 @@
 ﻿@page
+@using Microsoft.EntityFrameworkCore
 @model MilkyPantsCheese.Pages.EditarCheeseModel
 
+@inject MilkyDbContext _dbContext;
+
+@{
+    var lotesQuesoDisponibles = SelectListItemHelpers.ToSelectListItemListLotesDeQueso(await _dbContext.LotesDeQuesos.ToListAsync());
+}
+
+<form method="post"
+
+      class="d-flex flex-column">
+
+    @Html.ValidationSummary(true)
+
+    <div class="d-flex flex-row d-inline-block">
+
+        <div class="d-flex flex-column mr-4">
+
+            @*ingreso peso pre curado*@
+            <div class="form-group">
+
+                <label asp-for="PesoPreCurado"></label>
+                <input type="text" asp-for="PesoPreCurado" class="form-text" />
+                @Html.ValidationMessageFor(m => m.PesoPreCurado)
+
+            </div>
+
+            @*Boton peso post curado*@
+            <div class="form-group">
+
+                <label asp-for="PesoPostCurado"></label>
+                <input type="text" asp-for="PesoPostCurado" class="form-text" />
+                @Html.ValidationMessageFor(m => m.PesoPostCurado)
+
+            </div>
+
+        </div>
+
+        <div class="d-flex flex-column" style="margin-right: 70px">
+
+            @*Select lote de queso al que pertenece*@
+            <div class="form-group">
+
+                <label asp-for="IdLoteAlQuePertenece"></label>
+                <select asp-for="IdLoteAlQuePertenece" asp-items="@lotesQuesoDisponibles" class="custom-select"></select>
+                @Html.ValidationMessageFor(m => m.IdLoteAlQuePertenece)
+
+            </div>
+
+            @*Ingreso fecha final curacion*@
+            <div class="form-group">
+
+                <label asp-for="FechaFinCuracion"></label>
+                <input type="date" asp-for="FechaFinCuracion" class="form-control" />
+
+            </div>
+
+        </div>
+
+        @*Select estado queso*@
+        <div class="form-group">
+
+            <label asp-for="EstadoQueso"></label>
+            <select asp-for="EstadoQueso" asp-items="@Html.GetEnumSelectList<EEstadoQueso>()" class="custom-select"></select>
+            @Html.ValidationMessageFor(m => m.EstadoQueso)
+
+        </div>
+
+    </div>
+
+    <div class="d-flex flex-row d-inline-block justify-content-around mt-4" style="width: 200px;">
+  
+        @*Id del queso que estaos editando*@
+        <input type="hidden" asp-for="IdQuesoSiendoEditado" value="@Model.IdQuesoSiendoEditado"/>
+
+        @*Boton editar*@
+        <div class="form-group mr-4 w-50">
+
+            <input type="submit" class="btn btn-warning w-100" value="Editar" />
+
+        </div>
+
+        @*Boton cancelar*@
+        <div class="form-group">
+
+            <a asp-page="/CheeseDoctor/AdministrarCurado" class="w-100 text-center d-inline-block">Cancelar</a>
+
+        </div>
+
+    </div>
+
+</form>

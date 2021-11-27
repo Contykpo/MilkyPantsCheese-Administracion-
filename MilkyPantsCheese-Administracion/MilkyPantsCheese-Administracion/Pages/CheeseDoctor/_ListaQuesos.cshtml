@@ -2,5 +2,21 @@
 
 @foreach (var queso in Model.QuesosConcordantes)
 {
+    <div class="table text-warning bg-dark">
+        
+        <div class="row">
 
+            <div class="col-2 ml-0 ml-md-2">Id: @queso.Id</div>
+
+            <div class="col-2">Tipo: @queso.Lote.TipoQueso.Nombre</div>
+
+            <div class="col-2 d-none d-md-inline">Estado: @queso.EstadoQueso</div>
+
+            <div class="col-2">Id Lote: @queso.Lote.Id</div>
+            
+            <a class="col-2" asp-page="/CheeseDoctor/EditarQueso" asp-route-id="@queso.Id">Editar</a>
+
+        </div>
+
+    </div>
 }

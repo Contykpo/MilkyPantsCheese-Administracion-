@@ -27,7 +27,7 @@ namespace MilkyPantsCheese.Pages
         /// <summary>
         /// Cisterna seleccionada para mostrar sus lotes.
         /// </summary>
-        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
+        //[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Cisterna")]
         [BindProperty]
         public int CisternaLotesId { get; set; }

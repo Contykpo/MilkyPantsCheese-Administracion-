@@ -87,6 +87,10 @@ a {
     color: #ffc107;
 }
 
+span {
+    color: #ffc107;
+}
+
 a:hover {
     color: #ffff71;
 }
@@ -107,10 +111,20 @@ input {
     outline: 0 !important;
 }
 
-input:hover:not(.disabled) {
+input:hover:not(:disabled) {
     border-color: #ffc107;
 }
 
 input:focus {
     border-color: #ffc107;
+}
+
+input[type="date"]:disabled {
+
+    color: #818181;
+}
+
+select:disabled {
+    color: #818181 !important;
+    background-color: #555555 !important;
 }
