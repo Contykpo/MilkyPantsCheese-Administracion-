@@ -10,7 +10,7 @@
           data-ajax-method="post"
           data-ajax-mode="replace"
           data-ajax-update="#resultadoBusqueda"
-          class="d-flex flex-column border-bottom">
+          class="d-flex flex-column border-bottom border-warning">
 
         @*Select tipo vista*@
         <select class="custom-select mb-4" asp-for="VistaSeleccionada" asp-items="@Html.GetEnumSelectList<EVistaAdministradorFermentos>()" onclick="VistaSeleccionadaCambioHandler(options[selectedIndex].value)"></select>

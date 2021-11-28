@@ -48,7 +48,13 @@
         @Html.ValidationMessageFor(m => m.Observaciones, string.Empty, new {@class="text-danger"})
     </div>
     
-    <input type="submit" value="Crear" class="btn btn-warning align-self-start" style="width: 100px"/>
+    <div class="d-flex flex-row flex-wrap">
+
+        <input type="submit" value="Crear" class="btn btn-warning align-self-start" style="width: 100px" />
+        
+        <a asp-page="/CheeseScientist/AdministrarFermentos" class="text-danger align-self-end py-2 px-3">Cancelar</a>
+
+    </div>
 
 </form>
 

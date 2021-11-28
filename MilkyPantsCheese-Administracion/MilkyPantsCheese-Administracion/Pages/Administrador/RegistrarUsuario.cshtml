@@ -2,24 +2,24 @@
 @model MilkyPantsCheese.Pages.RegistrarUsuarioModel
 
 <form method="post">
-    
+
     @*Nombre del usuario*@
     <div class="form-group">
-        
+
         <label asp-for="NombreUsuario"></label>
-        <input asp-for="NombreUsuario" type="text" class="form-text"/>
+        <input asp-for="NombreUsuario" type="text" class="form-text" />
         @Html.ValidationMessageFor(m => m.NombreUsuario, string.Empty, new { @class = "text-danger" })
     </div>
-    
+
     @*Contraseña*@
     <div class="d-flex flex-row flex-wrap">
-        
+
         <div class="form-group">
             <label asp-for="Contraseña"></label>
             <input asp-for="Contraseña" type="password" class="form-text" />
             @Html.ValidationMessageFor(m => m.Contraseña, string.Empty, new { @class = "text-danger" })
         </div>
-        
+
         <div class="form-group ml-2 flex-sm-wrap">
             <label asp-for="ConfirmacionContraseña"></label>
             <input asp-for="ConfirmacionContraseña" type="password" class="form-text" />
@@ -31,20 +31,27 @@
     <div class="form-group">
 
         <label asp-for="TipoDeUsuarioSeleccionado"></label>
-        <select asp-for="TipoDeUsuarioSeleccionado" asp-items="@Model.TiposUsuarioDisponibles" class="custom-select"></select>
+        <select asp-for="TipoDeUsuarioSeleccionado" asp-items="@Model.TiposUsuarioDisponibles" class="custom-select d-block" style="max-width: 300px;}"></select>
 
-        @Html.ValidationMessageFor(u => u.TipoDeUsuarioSeleccionado, string.Empty, new {@class = "text-danger"})
+        @Html.ValidationMessageFor(u => u.TipoDeUsuarioSeleccionado, string.Empty, new { @class = "text-danger" })
     </div>
-    
+
     @*Duracion de la sesion de este usuario*@
     <div class="form-group">
 
         <label asp-for="DuracionSesion" data-toggle="tooltip" data-placement="top" title="Duracion de la sesion del usuario en horas. Si se deja en cero la sesion no se cerrara nunca"></label>
-        <input asp-for="DuracionSesion" type="time" style="display: block;"/>
-        @Html.ValidationMessageFor(u => u.DuracionSesion, string.Empty, new {@class = "text-danger"})
+        <input asp-for="DuracionSesion" type="time" class="" style="display: block;" />
+        @Html.ValidationMessageFor(u => u.DuracionSesion, string.Empty, new { @class = "text-danger" })
     </div>
 
-    <input type="submit" class="btn btn-warning mt-5" value="Registrar Usuario"/>
+    <div class="d-flex flex-row flex-wrap">
+        
+        @*Boton registrar*@
+        <input type="submit" class="btn btn-warning mt-5" value="Registrar Usuario"/>
+        
+        @*Boton cancelar*@
+        <a asp-page="/Administrador/AdministrarUsuarios" class="text-danger align-self-end py-2 px-3">Cancelar</a>
+    </div>
 
 </form>
 

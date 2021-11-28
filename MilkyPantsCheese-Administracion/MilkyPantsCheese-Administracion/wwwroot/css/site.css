@@ -50,16 +50,6 @@ html {
   line-height: 60px; /* Vertically center the text there */
 }
 
-.btn-warning {
-    color: #ffff71;
-    background-color: #d29e00;
-    border-color: #d29e00;
-}
-
-.btn-warning:hover {
-    color: white;
-    background-color: #ffc107;
-}
 
 body {
     background-color: #242424;
@@ -107,8 +97,24 @@ label {
     color: #ffc107
 }
 
-input {
+input{
     outline: 0 !important;
+
+    border-width: 1px;
+    border-color: #ffc107 ;
+    color: #ffc107 ;
+
+    background: #242424 ;
+}
+
+input[type="date"], textarea {
+    outline: 0 !important;
+
+    border-width: 1px !important;
+    border-color: #ffc107 !important;
+    color: #ffc107 !important;
+
+    background: #242424 !important;
 }
 
 input:hover:not(:disabled) {
@@ -128,3 +134,71 @@ select:disabled {
     color: #818181 !important;
     background-color: #555555 !important;
 }
+
+.bg-cheesy-gris {
+    background: #242424;
+}
+
+/*#region Boton quesito */
+
+.btn-warning {
+    color: #ffff71;
+    background-color: #d29e00;
+    border-color: #d29e00;
+}
+
+.btn-warning:hover {
+    color: white;
+    background-color: #ffc107;
+}
+
+/*#endregion */
+
+/*#region Select*/
+
+select {
+
+    border-color: #ffc107 !important;
+    background: #242424 !important;
+    color: #ffc107 !important;
+}
+
+select a:hover {
+
+    background: #ffc107 !important;
+}
+
+/*#endregion*/
+
+/*#region Multiselect */
+
+/*Color del texto de los items del dropdown*/
+.dropdown-item span {
+    color: #ffc107 !important;
+}
+
+/*Color del fondo de los items del dropdown cuando el mouse esta sobre ellos*/
+.dropdown-menu a:hover {
+    background-color: #818181 !important;
+}
+
+/*Color del borde*/
+.bootstrap-select {
+    border-color: #ffc107 !important;
+}
+
+/*Estilo del boton*/
+.bootstrap-select button {
+    background: #242424 !important;
+    border-color: #ffc107 !important;
+    color: #ffc107 !important;
+}
+
+/*Estilo del dropdown*/
+.dropdown-menu {
+    background: #242424;
+    border-color: #ffc107 !important;
+    border-width: 1px;
+}
+
+/*#endregion */

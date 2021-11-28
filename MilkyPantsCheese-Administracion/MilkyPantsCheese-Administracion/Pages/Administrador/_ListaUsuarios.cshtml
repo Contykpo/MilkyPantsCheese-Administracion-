@@ -61,7 +61,7 @@
         idUsuarioActual = idUsuario;
 
         @*Actualizamos el contenido del mensaje de confirmacion*@
-        $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; top: 50%; transform: translateY(-50%);">\n\
+        $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; top: 50%; left: 0; right: 0; transform: translateY(-50%);">\n\
             <h2>Ingresar datos de la suspension</h2>\n\
             <p class="mt-md-5 mt-sm-2">Fecha en la que finalizara la suspension:</p>\n\
             <input class="align-self-center" name="FechaFinSuspension" type="date" />\n\
@@ -85,7 +85,7 @@
         console.log('#botonDeshabilitar' + idUsuarioActual);
 
         @*Actualizamos el contenido del mensaje de confirmacion*@
-        $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
+        $('#contenidoMensaje').html('<div class="d-inline-block flex-column justify-content-between position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0; left: 0; right: 0; top: 50%; transform: translateY(-50%);">\n\
             <h2>¿Esta seguro de ' + $('#botonDeshabilitar_'+idUsuarioActual).html().toLowerCase() + ' a este usuario?</h2>\n\
             <div class="mt-md-5 mt-sm-2 d-flex flex-row align-self-stretch justify-content-around">\n\
             <button class="btn btn-danger" onclick="ToggleVisibilidadMensaje()">Cancelar</button>\n\

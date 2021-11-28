@@ -33,7 +33,7 @@
     <div class="form-group">
 
         <label asp-for="RolSeleccionado"></label>
-        <select asp-for="RolSeleccionado" asp-items="@Model.RolesUsuarioDisponibles" class="custom-select"></select>
+        <select asp-for="RolSeleccionado" asp-items="@Model.RolesUsuarioDisponibles" class="custom-select bootstrap-select"></select>
 
         @Html.ValidationMessageFor(u => u.RolSeleccionado, string.Empty, new {@class = "text-danger"})
     </div>
@@ -47,9 +47,17 @@
     </div>
 
     <input type="hidden" asp-for="IdUsuarioSiendoEditado" value="@Model.UsuarioSiendoEditado.Id"/>
+    
+    <div class="d-flex flex-row flex-wrap">
+        
+        @*Boton editar*@
+        <input type="submit" class="btn btn-warning mt-5" value="Editar" onclick="OnConfirmarCambios(event);"/>
+        <input type="submit" class="d-none" id="submitDirecto"/>
 
-    <input type="submit" class="btn btn-warning mt-5" value="Confirmar cambios" onclick="OnConfirmarCambios(event)"/>
-    <input type="submit" class="d-none" id="submitDirecto"/>
+        @*Boton cancelar*@
+        <a asp-page="/Administrador/AdministrarUsuarios" class="text-danger align-self-end py-2 px-3">Cancelar</a>
+    </div>
+    
 </form>
 
 @section Scripts

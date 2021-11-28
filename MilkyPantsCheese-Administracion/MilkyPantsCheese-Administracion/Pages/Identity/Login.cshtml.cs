@@ -13,6 +13,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MilkyPantsCheese.Pages
 {
+	/// <summary>
+	/// Modelo para la pagina de login
+	/// </summary>
     public class LoginModel : PageModel
     {
 	    public readonly MilkyUserManager _userManager;
@@ -35,7 +38,10 @@ namespace MilkyPantsCheese.Pages
         [Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         public string Contraseña { get; set; }
 
-        public async Task<IActionResult> OnPost()
+		/// <summary>
+		/// Intenta encontrar al usuario con las credenciales ingresadas e iniciar sesion si es posible
+		/// </summary>
+		public async Task<IActionResult> OnPost()
         {
 	        if (!ModelState.IsValid)
 		        return Page();
@@ -59,8 +65,16 @@ namespace MilkyPantsCheese.Pages
 				return Page();
 	        }
 
+			//Si el usuario esta deshabilitado, redireccionamos al usuario a la pagina de aviso de cuenta deshabilitada
+	        if (!usuarioEncontrado.EstaHabilitado)
+		        return RedirectToPage("/Identity/AvisoCuentaDeshabilitada");
+
+			//Si el usuario esta suspendido, redireccionamos al usuario a la pagina de aviso de cuenta suspendida
+	        if (usuarioEncontrado.FinSuspension > DateTimeOffset.UtcNow)
+		        return RedirectToPage("/Identity/AvisoCuentaSuspendida", new{id = usuarioEncontrado.Id});
+
 			//Si llegamos hasta este punto significa que comprobamos los datos ingresados asi que iniciamos sesion
-	        await _signInManager.SignInAsync(usuarioEncontrado, new AuthenticationProperties
+			await _signInManager.SignInAsync(usuarioEncontrado, new AuthenticationProperties
 	        {
 		        ExpiresUtc = DateTimeOffset.UtcNow.Add(usuarioEncontrado.DuracionSesion),
 		        IssuedUtc = DateTimeOffset.UtcNow

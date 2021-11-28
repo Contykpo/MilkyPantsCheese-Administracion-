@@ -24,8 +24,13 @@
     
     @*Id del modelo siendo editado*@
     <input type="hidden" asp-for="IdTipoFermentoSiendoEditado"/>
+    
+    <div class="d-flex flex-row flex-wrap">
+        @*Boton crear*@
+        <input type="submit" value="Editar" class="btn btn-warning align-self-start" style="width: 100px"/>
 
-    @*Boton crear*@
-    <input type="submit" value="Editar" class="btn btn-warning align-self-start" style="width: 100px"/>
+        @*Boton cancelar*@
+        <a asp-page="/CheeseScientist/AdministrarFermentos" class="text-danger align-self-end py-2 px-3">Cancelar</a>
+    </div>
 
 </form>
