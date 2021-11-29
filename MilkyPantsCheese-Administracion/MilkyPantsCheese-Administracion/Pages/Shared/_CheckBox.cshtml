@@ -1,0 +1,10 @@
+﻿@model ModeloCheckbox
+
+@{
+    var modeloCasteado = (ModeloCheckbox) Model;
+}
+
+<div class="custom-control custom-checkbox">
+    @Model.checkBox
+    <label for="@modeloCasteado.nombrePropiedad" class="custom-control-label">@modeloCasteado.contenido</label>
+</div>

@@ -27,7 +27,7 @@
     <div class="form-group">
 
         <label asp-for="FechaFermento"></label>
-        <input id="ingresoFechaFermento" type="date" asp-for="FechaFermento" class="form-control" disabled/>
+        <input id="ingresoFechaFermento" type="datetime-local" asp-for="FechaFermento" class="form-control" disabled/>
         @Html.ValidationMessageFor(m => m.FechaFermento, string.Empty, new {@class="text-danger"})
     </div>
     

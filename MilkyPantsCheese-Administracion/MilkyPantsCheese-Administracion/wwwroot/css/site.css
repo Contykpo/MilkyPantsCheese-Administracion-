@@ -101,6 +101,11 @@ label {
     color: #ffc107
 }
 
+.rounded-right-0 {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
 /*#region Inputs */
 
 input {
@@ -111,8 +116,17 @@ input {
     background: #242424;
 }
 
+input.form-control {
+
+    outline: 0 !important;
+    border-width: 1px !important;
+    border-color: #ffc107 !important;
+    color: #ffc107 !important;
+    background: #242424 !important;
+}
+
 /*Estilo por defecto para inputs de fecha y areas de texto*/
-input[type="date"], textarea {
+input[type="date"], input[type="datetime-local"], textarea {
     outline: 0 !important;
     border-width: 1px !important;
     border-color: #ffc107;
@@ -129,7 +143,7 @@ input:focus {
     border-color: #ffc107;
 }
 
-input[type="date"]:disabled {
+input[type="date"]:disabled, input[type="datetime-local"]:disabled {
     color: #818181 !important;
     background: #555555 !important;
 }
@@ -141,6 +155,23 @@ select:disabled {
 
 /*#endregion */
 
+/*#region Bootstrap checkbox */
+
+/*Estilo checkbox desmarcada*/
+.custom-checkbox .custom-control-input ~ .custom-control-label::before {
+    background-color: #555555 !important;
+    border-color: #ffc107 !important;
+    outline: 0 !important;
+}
+
+/*Estilo checkbox marcada*/
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+    outline: 0 !important;
+}
+
+/*#endregion */
 
 /*#region Boton quesito */
 

@@ -1,10 +1,12 @@
 ﻿@page
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Html
 @model MilkyPantsCheese.Pages.AdministrarCuradoModel
 
 @inject MilkyDbContext dbContext;
 
 @{
+    IHtmlContent content; 
     var tiposDeQuesoDisponibles = SelectListItemHelpers.ToSelectListItemListTipoQueso(await dbContext.TiposDeQuesos.ToListAsync());
 }
 
@@ -28,8 +30,14 @@
                 <label asp-for="FechaInicioCuradoSeleccionada"></label>
 
                 <div class="form-inline">
-                    <input type="checkbox" asp-for="UtilizarFiltradoPorFechaInicioCuracion" onchange="SetInputHabilitado(inputFechaInicioCurado, checked);InputFechaHabilitadoCambioHandler();" />
-                    <input id="inputFechaInicioCurado" type="date" asp-for="FechaInicioCuradoSeleccionada" class="ml-2" style="width: 80%" disabled />
+                    @await Html.PartialAsync("_CheckBox",
+                        new ModeloCheckbox
+                        {
+                            checkBox = Html.CheckBoxFor(m => m.UtilizarFiltradoPorFechaInicioCuracion, new { @class = "custom-control-input", @onchange = "SetInputHabilitado(inputFechaInicioCurado, checked);InputFechaHabilitadoCambioHandler();" }),
+                            nombrePropiedad = nameof(Model.UtilizarFiltradoPorFechaInicioCuracion),
+                            contenido = string.Empty
+                        })
+                    <input id="inputFechaInicioCurado" type="datetime-local" asp-for="FechaInicioCuradoSeleccionada" class="ml-2" style="width: 80%" disabled />
                 </div>
 
             </div>
@@ -40,8 +48,14 @@
                 <label asp-for="FechaFinCuradoSeleccionada"></label>
 
                 <div class="form-inline">
-                    <input type="checkbox" asp-for="UtilizarFiltradoPorFechaFinCuracion" onchange="SetInputHabilitado(inputFechaFinCurado, checked);InputFechaHabilitadoCambioHandler();" class="d-inline-block" />
-                    <input id="inputFechaFinCurado" type="date" asp-for="FechaFinCuradoSeleccionada" class="ml-2" style="width: 80%" disabled />
+                    @await Html.PartialAsync("_CheckBox",
+                        new ModeloCheckbox
+                        {
+                            checkBox = Html.CheckBoxFor(m => m.UtilizarFiltradoPorFechaFinCuracion, new { @class = "custom-control-input", @onchange = "SetInputHabilitado(inputFechaFinCurado, checked);InputFechaHabilitadoCambioHandler();" }),
+                            nombrePropiedad = nameof(Model.UtilizarFiltradoPorFechaFinCuracion),
+                            contenido = string.Empty
+                        })
+                    <input id="inputFechaFinCurado" type="datetime-local" asp-for="FechaFinCuradoSeleccionada" class="ml-2" style="width: 80%" disabled />
                 </div>
 
             </div>
@@ -76,7 +90,7 @@
             <div class="mt-2" style="width: 250px;">
 
                 @*Select tipo comparacion peso*@
-                <label asp-for="ModoComparacionPesoSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho. Solo tiene efecto si no estan seleccionadas ambas, las fechas de inicio y final del curado"></label>
+                <label asp-for="ModoComparacionPesoSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre el peso del fermento y el ingresado. El peso del fermento queda del lado izquierdo y el ingresado del derecho. Solo tiene efecto si no estan seleccionadas ambos, los pesos pre y post curacion"></label>
                 <select id="selectTipoComparacionPeso" asp-for="ModoComparacionPesoSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
 
             </div>
@@ -100,7 +114,13 @@
                 <label asp-for="EstadoQuesoSeleccionado"></label>
 
                 <div class="form-inline">
-                    <input type="checkbox" asp-for="UtilizarFiltradoPorEstado" onchange="SetInputHabilitado(selectEstadoQueso, checked)" />
+                    @await Html.PartialAsync("_CheckBox",
+                        new ModeloCheckbox
+                        {
+                            checkBox = Html.CheckBoxFor(m => m.UtilizarFiltradoPorEstado, new { @class = "custom-control-input", @onchange = "SetInputHabilitado(selectEstadoQueso, checked);" }),
+                            nombrePropiedad = nameof(Model.UtilizarFiltradoPorEstado),
+                            contenido = string.Empty
+                        })
                     <select id="selectEstadoQueso" asp-for="EstadoQuesoSeleccionado" asp-items="@Html.GetEnumSelectList<EEstadoQueso>()" class="d-inline-block custom-select ml-2" style="width: 80%" disabled></select>
                 </div>
 
@@ -110,9 +130,16 @@
 
                 @*Seleccion del tipo de queso*@
                 <label asp-for="IdTipoQueso"></label>
-
+                
                 <div class="form-inline">
-                    <input type="checkbox" asp-for="UtilizarFiltradoPorTipo" onchange="SetInputHabilitado(selectTipoQueso, checked);" />
+                    @await Html.PartialAsync("_CheckBox", 
+                        new ModeloCheckbox
+                        {
+                            checkBox = Html.CheckBoxFor(m => m.UtilizarFiltradoPorTipo, new {@class="custom-control-input", @onchange = "SetInputHabilitado(selectTipoQueso, checked);" }),
+                            nombrePropiedad = nameof(Model.UtilizarFiltradoPorTipo),
+                            contenido = string.Empty
+                        })
+                     
                     <select id="selectTipoQueso" asp-for="IdTipoQueso" asp-items="@tiposDeQuesoDisponibles" class="d-inline-block custom-select ml-0 ml-2" style="width: 80%" disabled></select>
                 </div>
 
@@ -184,5 +211,5 @@
         }
 
     </script>
-
+    
 }

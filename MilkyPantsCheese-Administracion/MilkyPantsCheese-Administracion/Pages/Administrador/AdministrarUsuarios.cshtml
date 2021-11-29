@@ -43,12 +43,9 @@
           </div>
 
           @*Indica si mostrar los usuarios que se encuentran deshabilitados*@
-          <div class="row mt-2">
-              <div class="form-group col-6">
-
-                  <input type="checkbox" asp-for="MostrarUsuariosDeshabilitados"/>
-                  <label class="form-check-label text-warning" asp-for="MostrarUsuariosDeshabilitados"></label>
-              </div>
+          <div class="custom-control custom-checkbox">
+              <input type="checkbox" asp-for="MostrarUsuariosDeshabilitados" class="custom-control-input" id="MostrarUsuariosDeshabilitados">
+              <label asp-for="MostrarUsuariosDeshabilitados" class="custom-control-label"></label>
           </div>
       </div>
 
