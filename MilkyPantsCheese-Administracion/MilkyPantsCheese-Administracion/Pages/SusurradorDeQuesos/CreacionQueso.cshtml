@@ -1,7 +1,6 @@
 ﻿@page
 
 @using Castle.Core.Internal
-@using MilkyPantsCheese.Helpers
 
 @model MilkyPantsCheese.Pages.CreacionQuesoModel
 
@@ -34,7 +33,7 @@
                     <div class="form-group">
 
                         <label asp-for="EstadoQueso"></label>
-                        <select asp-for="EstadoQueso" asp-items="EnumHelpers.ToSelectListItemList<EEstadoQueso>()" class="custom-select"></select>
+                        <select asp-for="EstadoQueso" asp-items="@Html.GetEnumSelectList<EEstadoQueso>()" class="custom-select"></select>
 
                         @Html.ValidationMessageFor(m => m.EstadoQueso, "", new { @class = "text-danger" })
 

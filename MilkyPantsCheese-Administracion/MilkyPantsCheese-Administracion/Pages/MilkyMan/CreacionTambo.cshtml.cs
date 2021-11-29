@@ -25,7 +25,7 @@ namespace MilkyPantsCheese.Pages
         /// </summary>
         public List<ModeloTambo> Tambos { get; set; } = new List<ModeloTambo>();
 
-        public CreacionTamboModel(MilkyDbContext dbContext, UserManager<ModeloUsuario> userManager, ILogger<CreacionTamboModel> logger)
+        public CreacionTamboModel(MilkyDbContext dbContext, ILogger<CreacionTamboModel> logger)
         {
             _dbContext   = dbContext;
             _logger = logger;

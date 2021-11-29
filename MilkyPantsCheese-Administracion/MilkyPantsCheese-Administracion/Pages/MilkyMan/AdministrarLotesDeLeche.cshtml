@@ -15,7 +15,15 @@
 
         var tambos = (from c in dbContext.Tambos select c).ToList();
         
-        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
+        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: 0; margin-left: 0; left: 0; right: 0;">
+            
+            <!-- Tab links -->
+            <div class="tab">
+                <button class="tablinks" onclick="openCity(event, 'London')">London</button>
+                <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+                <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+            </div>
+            
 
             <div class="p-2 border border-warning rounded">
 
@@ -74,7 +82,7 @@
                     </div>
 
                     <!--Cisterna donde se almacenara-->
-                    <div class="form-group mt-5">
+                    <div class="form-group">
 
                         <label asp-for="CisternaId"></label>
                         <select asp-for="CisternaId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select"></select>
@@ -84,7 +92,7 @@
                     </div>
 
                     <!--Tambo del que proviene la leche-->
-                    <div class="form-group mt-5">
+                    <div class="form-group">
 
                         <label asp-for="TamboId"></label>
                         <select asp-for="TamboId" asp-items="@SelectListItemHelpers.ToSelectListItemListTambos(tambos)" class="custom-select"></select>
