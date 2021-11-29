@@ -93,30 +93,34 @@ a:hover {
     color: #ffff71 !important;
 }
 
+.bg-cheesy-gris {
+    background: #242424;
+}
+
 label {
     color: #ffc107
 }
 
-input{
+/*#region Inputs */
+
+input {
     outline: 0 !important;
-
     border-width: 1px;
-    border-color: #ffc107 ;
-    color: #ffc107 ;
-
-    background: #242424 ;
+    border-color: #ffc107;
+    color: #ffc107;
+    background: #242424;
 }
 
+/*Estilo por defecto para inputs de fecha y areas de texto*/
 input[type="date"], textarea {
     outline: 0 !important;
-
     border-width: 1px !important;
-    border-color: #ffc107 !important;
-    color: #ffc107 !important;
-
+    border-color: #ffc107;
+    color: #ffc107;
     background: #242424 !important;
 }
 
+/*Hover cuando el input no esta deshabilitado*/
 input:hover:not(:disabled) {
     border-color: #ffc107;
 }
@@ -126,8 +130,8 @@ input:focus {
 }
 
 input[type="date"]:disabled {
-
-    color: #818181;
+    color: #818181 !important;
+    background: #555555 !important;
 }
 
 select:disabled {
@@ -135,9 +139,8 @@ select:disabled {
     background-color: #555555 !important;
 }
 
-.bg-cheesy-gris {
-    background: #242424;
-}
+/*#endregion */
+
 
 /*#region Boton quesito */
 

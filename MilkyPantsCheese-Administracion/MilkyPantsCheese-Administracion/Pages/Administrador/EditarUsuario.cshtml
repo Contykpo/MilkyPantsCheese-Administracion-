@@ -16,13 +16,13 @@
     @*Contraseña*@
     <div class="d-flex flex-row flex-wrap">
 
-        <div class="form-group">
+        <div class="form-group mr-2">
             <label asp-for="NuevaContraseña"></label>
             <input asp-for="NuevaContraseña" type="password" id="inputNuevaContraseña" class="form-text"/>
-            @Html.ValidationMessageFor(m => m.NuevaContraseña, string.Empty, new {@class = "text-danger d-inline-block", @style = "max-width: 200px"})
+            @Html.ValidationMessageFor(m => m.NuevaContraseña, string.Empty, new {@class = "text-danger"})
         </div>
 
-        <div class="form-group ml-2 flex-sm-wrap">
+        <div class="form-group">
             <label asp-for="ConfirmacionNuevaContraseña"></label>
             <input asp-for="ConfirmacionNuevaContraseña" type="password" class="form-text"/>
             @Html.ValidationMessageFor(m => m.ConfirmacionNuevaContraseña, string.Empty, new {@class = "text-danger"})
@@ -66,8 +66,10 @@
 
     <script type="text/javascript">
 
+        @*Funcion llamada cuando el usuario quiere confirmar los cambios*@
         function OnConfirmarCambios(evento) {
 
+            @*Si se cambio la contraseña del usuario mostramos un mensaje de confirmacion*@
             if ($("#inputNuevaContraseña").val().length !== 0) {
 
                 evento.preventDefault();
@@ -83,6 +85,7 @@
             }
         }
 
+        @*Funcion llamada cuando el usuario acepta el mensaje de confirmacion*@
         function AceptarPresionadoHandler(evento) {
 
             evento.preventDefault();
@@ -94,8 +97,6 @@
 
         @*Inicializamos todos los tooltip de la pagina*@
         $("[data-toggle='tooltip']").tooltip();
-
-        $('select[name=@nameof(Model.RolSeleccionado)]').val(@Model.RolSeleccionado);
 
     </script>
 }

@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MilkyPantsCheese
 {
+    /// <summary>
+    /// Metodos destinados a facilitar el realizar operaciones con las <see cref="SelectList"/>
+    /// </summary>
     public static class SelectListItemHelpers
     {
         /// <summary>

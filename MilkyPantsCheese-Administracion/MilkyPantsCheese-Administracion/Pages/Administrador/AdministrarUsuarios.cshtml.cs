@@ -39,7 +39,7 @@ namespace MilkyPantsCheese.Pages
 
 		public List<ModeloUsuario> UsuariosFiltrados { get; set; } = new List<ModeloUsuario>();
 
-		public List<SelectListItem> TiposDeUsuarioDisponibles { get; set; } = UserHelpers.ObtenerTiposDeUsuarioDisponibles();
+		public List<SelectListItem> TiposDeUsuarioDisponibles { get; set; } = DecenciaHelpers.ObtenerTiposDeUsuarioDisponibles();
 
 		#endregion
 

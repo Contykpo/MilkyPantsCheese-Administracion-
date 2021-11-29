@@ -7,8 +7,10 @@
     <div class="form-group">
 
         <label asp-for="NombreUsuario"></label>
-        <input asp-for="NombreUsuario" type="text" class="form-text" />
+        <input asp-for="NombreUsuario" type="text" class="form-text" onchange="NombreNuevoUsuarioCambioHandler(this)" />
         @Html.ValidationMessageFor(m => m.NombreUsuario, string.Empty, new { @class = "text-danger" })
+
+        <span id="mensajeErrorNombre" class="text-danger"></span>
     </div>
 
     @*Contraseña*@
@@ -61,6 +63,35 @@
 
         @*Inicializamos todos los tooltip de la pagina*@
         $("[data-toggle='tooltip']").tooltip();
+
+        @*Funcion llamada cuando el nombre de usuario ingresado es modificado*@
+        function NombreNuevoUsuarioCambioHandler(textbox) {
+
+            @*Enviamos una solicitud de ajax al servidor para ver si ya existe un usuario con el nombre ingresado*@
+            $.ajax({
+                type: "get",
+                url: "/Administrador/RegistrarUsuario?handler=ExisteUnUsuarioConEsteNombre&nombre=" + textbox.value,
+
+                beforeSend: function(xhr) {
+                     xhr.setRequestHeader("RequestVerificationToken", $('input:hidden[name="__RequestVerificationToken"]').val())
+                },
+
+                @*Si la solicitud tiene exito...*@
+                success: function (resultado) {
+
+                    @*Actualizamos el mensaje de error en el nombre de usuario en base al resultado*@
+                    if (resultado === '@Constantes.TrueString') {
+                        $('#mensajeErrorNombre').text("Ya existe un usuario con ese nombre");
+                    } else {
+                        $('#mensajeErrorNombre').text("");
+                    }
+                },
+                failure: function () {
+
+                    console.log("Ocurrio al intentar verificar la disponibilidad del nombre");
+                },
+            });
+        }
 
     </script>
 }

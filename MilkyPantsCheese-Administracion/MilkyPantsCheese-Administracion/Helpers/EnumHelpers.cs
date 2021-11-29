@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MilkyPantsCheese.Helpers
 {
+    /// <summary>
+    /// Contiene metodos destinados a facilitar el realizar operaciones con enums
+    /// </summary>
     public static class EnumHelpers
     {
         /// <summary>

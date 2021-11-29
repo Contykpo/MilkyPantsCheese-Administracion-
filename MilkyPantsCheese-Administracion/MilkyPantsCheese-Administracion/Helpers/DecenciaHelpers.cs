@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MilkyPantsCheese
 {
-	public static class UserHelpers
+	/// <summary>
+	/// Contiene metodos relacionados a hacer decentes los nombres de los <see cref="ModeloRol"/> de los <see cref="ModeloUsuario"/>
+	/// </summary>
+	public static class DecenciaHelpers
 	{
 		/// <summary>
 		/// Obtiene una <see cref="List{T}"/> de <see cref="SelectListItem"/> con los tipos de usuario disponibles

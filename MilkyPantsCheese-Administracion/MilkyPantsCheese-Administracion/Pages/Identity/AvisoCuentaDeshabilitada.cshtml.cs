@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MilkyPantsCheese.Pages
 {
+    /// <summary>
+    /// Modelo de la pagina de aviso usuario deshabilitado
+    /// </summary>
     public class AvisoCuentaDeshabilitadaModel : PageModel
     {}
 }

@@ -7,10 +7,17 @@ using Microsoft.AspNetCore.Http;
 
 namespace MilkyPantsCheese
 {
+    /// <summary>
+    /// Clase que contiene metodos destinados a ayudar con la validacion de datos que recibe el servidor
+    /// </summary>
     public static class ValidationHelpers
     {
+        /// <summary>
+        /// Diccionario que contiene los prefijos de los formatos de imagen mas conocidos
+        /// </summary>
         private static readonly Dictionary<string, List<byte[]>> PrefijosExtensiones = new Dictionary<string, List<byte[]>>
         {
+            //Cabecera de los archivos .png
             {
                 ".png", new List<byte[]>
                 {
@@ -18,6 +25,7 @@ namespace MilkyPantsCheese
                 }
             },
 
+            //Cabecera de los archivos .jpg
             {
                 ".jpg", new List<byte[]>
                 {
@@ -27,6 +35,7 @@ namespace MilkyPantsCheese
                 }
             },
 
+            //Cabecera de los archivos .jpeg
             {
                 ".jpeg", new List<byte[]>
                 {
@@ -36,6 +45,7 @@ namespace MilkyPantsCheese
                 }
             },
 
+            //Cabecera de los archivos .bmp
             {
                 ".bmp", new List<byte[]>
                 {
@@ -44,12 +54,21 @@ namespace MilkyPantsCheese
             },
         };
 
+        /// <summary>
+        /// Determina si un <paramref name="archivo"/> es valido
+        /// </summary>
+        /// <param name="archivo">Archivo cuya validez verificar</param>
+        /// <returns><see cref="bool"/> indicando si la imagen es valida</returns>
         public static bool ImagenEsValida(this IFormFile archivo)
         {
-            var extensionArchivo = Path.GetExtension(archivo.FileName);
+            var extensionArchivo = Path.GetExtension(archivo.FileName).ToLower();
+
+            if (!PrefijosExtensiones.ContainsKey(extensionArchivo))
+	            return false;
 
             List<byte[]> headersExtension = PrefijosExtensiones[extensionArchivo.ToLower()];
-			
+            
+            //Leemos la cabecera del archivo y nos aseguramos de que corresponda a su extension
             using (var bReader = new BinaryReader(archivo.OpenReadStream()))
             {
                 var header = bReader.ReadBytes(headersExtension.Max(h => h.Length));
@@ -65,23 +84,29 @@ namespace MilkyPantsCheese
         /// <param name="precision">Precision del <see cref="decimal"/></param>
         /// <param name="escala">Escala del <see cref="decimal"/></param>
         /// <param name="resultado"><see cref="decimal"/> parseado desde la <paramref name="cadena"/> en caso de tener exito</param>
+        /// <param name="separadorDecimal">Caracter que separa la parte entera de la decimal. Si no se especifica, se utilizara el
+        /// especificado por la cultura actual</param>
         /// <returns><see cref="bool"/> indicando si se pudo parsear la <paramref name="cadena"/></returns>
-        public static bool TryParseDecimal(this string cadena, int precision, int escala, out decimal resultado, string separador = "")
+        public static bool TryParseDecimal(this string cadena, int precision, int escala, out decimal resultado, string separadorDecimal = "")
         {
 	        resultado = 0;
 
 	        if (string.IsNullOrWhiteSpace(cadena))
 		        return false;
 
-            if(string.IsNullOrWhiteSpace(separador))
-                separador = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            //Si no se especifico el separador entonces tomamos el de la cultura actual
+            if(string.IsNullOrWhiteSpace(separadorDecimal))
+                separadorDecimal = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
-            var secciones = cadena.Split(separador);
+            //Separamos el numero en parte entera y decimal
+            var secciones = cadena.Split(separadorDecimal);
 
+            //Obtenemos la parte entera del numero y limitamos su longitud de acuerdo a la precision
 	        var parteEntera = secciones[0].Substring(0, Math.Min(precision - escala, secciones[0].Length));
 
 	        string parteDecimal = string.Empty;
 
+            //Si tiene parte decimal, la obtenemos tambien y limitamos su longitud de acuerdo a la precision
 	        if (secciones.Length > 1)
 		        parteDecimal = secciones[1].Substring(0, Math.Min(escala, secciones[1].Length));
 

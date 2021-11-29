@@ -65,7 +65,7 @@ namespace MilkyPantsCheese.Pages
 		/// <summary>
 		/// Roles disponibles
 		/// </summary>
-		public List<SelectListItem> RolesUsuarioDisponibles { get; set; } = UserHelpers.ObtenerTiposDeUsuarioDisponibles();
+		public List<SelectListItem> RolesUsuarioDisponibles { get; set; } = DecenciaHelpers.ObtenerTiposDeUsuarioDisponibles();
 
 		/// <summary>
 		/// Inicializa el modelo
