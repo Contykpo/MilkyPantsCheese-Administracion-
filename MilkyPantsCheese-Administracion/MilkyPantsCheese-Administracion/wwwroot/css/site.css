@@ -236,3 +236,14 @@ select a:hover {
 }
 
 /*#endregion */
+
+/*#region Pestañas */
+
+/* eontenido de la pestaña */
+.contenidoPestaña {
+    display: none;
+    padding: 3px;
+    border: 1px solid #ffc107;
+}
+
+/*#endregion */

@@ -17,15 +17,14 @@
         
         <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: 0; margin-left: 0; left: 0; right: 0;">
             
-            <!-- Tab links -->
-            <div class="tab">
-                <button class="tablinks" onclick="openCity(event, 'London')">London</button>
-                <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-                <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+            <!-- Accesos a pestañas -->
+            <div class="position-absolute" style="margin-right: 0; right: 0;">
+                <button id="abiertaPorDefecto" class="form-text btn btn-warning vinculoPestaña" onclick="abrirSeccion(event, 'Añadir')">Añadir</button>
+                <button class="form-text btn btn-warning vinculoPestaña" onclick="abrirSeccion(event, 'Ver')">Ver</button>
             </div>
             
 
-            <div class="p-2 border border-warning rounded">
+            <div id="Añadir" class="contenidoPestaña p-2 border border-warning rounded">
 
                 <div class="pb-3">
                     <h4 class="text-left">Añadir lote:</h4>
@@ -111,13 +110,24 @@
 
 
                     <!--Imagen de planilla opcional con mayores detalles-->
-                    <div class="form-group custom-file mt-2">
+                    <div class="col-md-9 col-12 pl-0">
 
-                        <input type="file" id="imagenPlantilla" class="custom-file-input" accept="image/jpg, image/png, image/jpeg" asp-for="ImagenPlanillita" />
-                        <label class="custom-file-label" asp-for="ImagenPlanillita"></label>
-
-                        @Html.ValidationMessageFor(m => m.ImagenPlanillita, "", new { @class = "text-danger" })
-
+                        <div class="input-group">
+                            
+                            <label class="input-group-btn">
+                            
+                                <span class="btn btn-warning rounded-left rounded-right-0">
+                                    Seleccionar archivo <input type="file" class="d-none" title="Imagen planillita">
+                                </span>
+                            
+                            </label>
+                            
+                            <input type="text" class="form-control texto-input-archivo" readonly>
+                        
+                            @Html.ValidationMessageFor(m => m.ImagenPlanillita, "", new { @class = "text-danger" })
+                        
+                        </div>
+                    
                     </div>
 
                     <!--Boton submit-->
@@ -131,7 +141,7 @@
 
             </div>
             
-            <div class="mt-3 p-2 border border-warning rounded">
+            <div id="Ver" class="contenidoPestaña mt-3 p-2 border border-warning rounded">
 
                 <div class="pb-3">
                     <h4 class="text-left">Lotes:</h4>
@@ -184,12 +194,56 @@
             }).done(function (resultado) { $('#listaLotes').html(resultado); console.log(resultado); });
         }
 
+        @* Metodo llamado cuando el boton de una pestaña es seleccionado *@
+        function abrirSeccion(evt, pestaña) {
+            
+            var i, contenido, vinculo;
+
+            // Obtenemos los elementos con clase "contenidoPestaña" y los ocultamos.
+            contenido = document.getElementsByClassName(".contenidoPestaña");
+            for (i = 0; i < contenido.length; i++) {
+                contenido[i].style.display = "none";
+            }
+
+            // Obtenemos los elementos con clase "vinculoPestaña" y removemos la clase "active"
+            vinculo = document.getElementsByClassName("vinculoPestaña");
+            for (i = 0; i < vinculo.length; i++) {
+                vinculo[i].className = vinculo[i].className.replace(" active", "");
+            }
+
+            // Mostramos la pestaña actual y agregamos una clase "active" al boton responsable de abrir dicha pestaña.
+            document.getElementById(pestaña).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
         @* Metodo llamado cuando el archivo seleccionado cambio*@
         function archivoSeleccionadoHandler(evento) {
             var target = evento.target;
 
             target.nextElementSibling.innerText = target.files[0].name;
         }
+
+        document.getElementById("abiertaPorDefecto").click();
+
+        $(document).ready(function () {
+
+            $('.texto-input-archivo').each(function (indice, elemento) {
+
+                $(elemento).val($(elemento).closest('.input-group').find('input:file').attr('title'));
+            });
+        });
+        $('input:file').on('change', function (e) {
+
+            var input = $(this).get(0);
+            var etiqueta = input.files.length === 1 ? $(this).val() : input.files.length + ' archivos seleccionados';
+
+            $(this).trigger('archivoseleccionado', [input.files.length, etiqueta]);
+        });
+        $('input:file').on('archivoseleccionado', function (e, numeroDeArchivos, etiqueta) {
+
+            $(this).closest('.input-group').children('input:text').val(numeroDeArchivos > 0 ? etiqueta : $(this).attr('title'));
+
+        });
 
     </script>
 }
