@@ -112,17 +112,16 @@ namespace MilkyPantsCheese.Pages
 
 	        nuevoUsuario.PasswordHash = _userManager.PasswordHasher.HashPassword(nuevoUsuario, Contraseña);
 
-	        if (await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, async () =>
-	        {
-		        //Creamos el nuevo usuario
-		        await _userManager.CreateAsync(nuevoUsuario);
+	        //Creamos el nuevo usuario
+	        await _userManager.CreateAsync(nuevoUsuario);
 
-		        //Añadimos el nuevo usuario a su rol correspondiente
-		        await _userManager.AddToRoleAsync(nuevoUsuario, TipoDeUsuarioSeleccionado);
+	        //Añadimos el nuevo usuario a su rol correspondiente
+	        await _userManager.AddToRoleAsync(nuevoUsuario, TipoDeUsuarioSeleccionado);
 
-		        //Guardamos los cambios
-		        await _dbContext.SaveChangesAsync();
-	        }))
+	        //Guardamos los cambios
+	        await _dbContext.SaveChangesAsync();
+
+            if (await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty))
 	        {
                 //Si tenemos exito al crear el usuario redireccionamos al usuario a la pagina de administracion de usuarios
 		        return RedirectToPage("/Administrador/AdministrarUsuarios");
