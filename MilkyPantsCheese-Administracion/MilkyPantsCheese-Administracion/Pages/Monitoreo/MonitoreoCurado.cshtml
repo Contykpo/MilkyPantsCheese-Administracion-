@@ -1,7 +1,9 @@
 ﻿@page
 @model MilkyPantsCheese.Pages.MonitoreoCuradoModel
 
-<div class="table">
+@inject MilkyDbContext dbContext
+
+<div class="table h-100">
     
     <div class="row">
         
@@ -10,21 +12,53 @@
             <partial name="_DatosMonitoreoCurado" />
         </div>
 
-        @*Espacio entre los datos y el boton*@
-        <div class="col-2"></div>
-
         @*Boton recargar*@
-        <form method="get"
-              data-ajax="true"
-              data-ajax-mode="replace"
-              data-ajax-method="get"
-              data-ajax-url="/Monitoreo/MonitoreoCurado?handler=Actualizar"
-              data-ajax-update="#contenedorDatosSensor"
+    <form 
+          id="formMonitoreo"
+          method="get"        
+          class="col-7 d-flex flex-row">
 
-              class="col-6">
+        <div class="d-flex flex-column col-md-11 col-10">
+            <label asp-for="Intervalo"></label>
 
-            <input type="submit" class="btn btn-warning" value="Recargar" />
-        </form>
+            <div class="form-inline">
+                @await Html.PartialAsync("_CheckBox", new ModeloCheckbox
+                {
+                    checkBox = Html.CheckBoxFor(m => m.UtilizarFiltradoPorIntervalo, new { @class = "custom-control-input" }),
+                    nombrePropiedad = nameof(Model.UtilizarFiltradoPorIntervalo),
+                    contenido = string.Empty
+                })
+                <input type="time" asp-for="Intervalo"/>
+            </div>
+        </div>
+
+        <input type="submit" class="btn btn-warning ml-3 align-self-center" value="Recargar" onclick="ActualizarPresionadoHandler(event, formMonitoreo)"/>
+
+    </form>
+
+    </div>
+    
+    <div class="row h-100" style="max-height: 100%; scroll-behavior: auto; overflow-y: auto;">
+        
+        <div class="col-12 d-flex flex-column flex-wrap border border-warning p-0">
+            
+            <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center bg-warning">
+                <span class="col-2 pl-0 mr-5 ml-1 mr-md-0 bg-warning cheesy-text">Temperatura (°C)</span>
+
+                <span class="col-2 pl-0 mr-4 mr-md-0 cheesy-text">Humedad</span>
+
+                <span class="col-2 pl-0 mr-5 cheesy-text">CO2 (ppm)</span>
+
+                <span class="col-2 pl-0 cheesy-text">Fecha</span>
+            </div>
+
+            <div id="contenedorHistorial">
+
+                <partial name="_HistorialDatosSensor">
+
+            </div>
+            
+        </div>
 
     </div>
     
@@ -41,24 +75,55 @@
         @*Obtiene del servidor los datos del sensor cada 7,5 segundos*@
         idIntervalo = window.setInterval(function() {
 
+            ActulizarValorActualEHistorial($('#formMonitoreo').serialize());
+
+        }, 7500);
+
+        function ActualizarPresionadoHandler(evento, form) {
+
+            evento.preventDefault();
+
+            ActulizarValorActualEHistorial($(form).serialize())
+        }
+
+        function ActulizarValorActualEHistorial(formMonitoreoSerializada) {
+
+            console.log(formMonitoreoSerializada);
+
             $.ajax({
                 type: "get",
                 url: "/Monitoreo/MonitoreoCurado?handler=Actualizar",
 
-                success: function(resultado) {
-
-                    console.log(resultado.responseText);
+                success: function (resultado) {
 
                     $('#contenedorDatosSensor').html(resultado);
                 },
 
-                error: function(error) {
+                error: function (error) {
 
                     console.log(error);
                 }
             });
 
-        }, 7500);
+            $.ajax({
+                type: "post",
+                data: formMonitoreoSerializada,
+                beforeSend: function (xhr) { xhr.setRequestHeader("RequestVerificationToken", $('input:hidden[name=__ResquestVerificationToken]').val()) },
+                url: "/Monitoreo/MonitoreoCurado?handler=ActualizarHistorial",
+
+                success: function (resultado) {
+
+                    console.log(resultado);
+
+                    $('#contenedorHistorial').html(resultado);
+                },
+
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+        }
 
     </script> 
 
