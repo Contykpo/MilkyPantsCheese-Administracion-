@@ -56,6 +56,7 @@ namespace MilkyPantsCheese.Pages
             //Creamos el nuevo queso.
             ModeloQueso nuevoQueso = new ModeloQueso
             {
+                FechaFinCuracion = FechaFinalCurado,
                 EstadoQueso    = EstadoQueso,
                 PesoPreCurado  = pesoPreCurado,
                 PesoPostCurado = pesoPostCurado,
@@ -85,6 +86,7 @@ namespace MilkyPantsCheese.Pages
         [BindProperty]
         public DateTimeOffset FechaFinalCurado { get; set; }
 
+        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Estado del queso")]
         [BindProperty]
         public EEstadoQueso EstadoQueso { get; set; }
@@ -96,7 +98,6 @@ namespace MilkyPantsCheese.Pages
         [BindProperty]
         public string PesoPreCurado { get; set; }
 
-        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Peso despues del curado")]
         [StringLength(256)]
         [DataType(DataType.Text)]
