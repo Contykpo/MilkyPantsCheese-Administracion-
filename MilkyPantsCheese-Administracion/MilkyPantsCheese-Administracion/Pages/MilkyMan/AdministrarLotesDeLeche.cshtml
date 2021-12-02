@@ -15,12 +15,14 @@
 
         var tambos = (from c in dbContext.Tambos select c).ToList();
         
-        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-left: 0; margin-right: 0; left: 0; right: 0;">
+        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
             
             <!-- Accesos a pestañas -->
-            <div class="p-2 border border-warning rounded" style="margin-left: 0; left: 0;">
-                <button id="abiertaPorDefecto" class="form-text btn btn-warning vinculoPestaña" onclick="abrirSeccion(event, 'Añadir')">Añadir</button>
-                <button class="form-text btn btn-warning vinculoPestaña" onclick="abrirSeccion(event, 'Ver')">Ver</button>
+            <div class="p-2 border border-warning rounded">
+            
+                <button id="abiertaPorDefecto" class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Añadir')" style="width: 200px;">Añadir</button>
+                <button class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Ver')" style="width: 200px;">Ver</button>
+            
             </div>
             
 
@@ -84,23 +86,23 @@
 
                     </div>
 
-                    <div d-flex flex-row flex-wrap>
+                    <div class="d-flex flex-row flex-wrap">
                         
                         <!--Cisterna donde se almacenara-->
-                        <div class="form-group">
+                        <div class="form-group d-flex flex-column">
 
                             <label asp-for="CisternaId"></label>
-                            <select asp-for="CisternaId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select" style="max-width: 300px;"></select>
+                            <select asp-for="CisternaId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select" style="min-width: 150px; max-width: 300px;"></select>
 
                             @Html.ValidationMessageFor(m => m.CisternaId, "", new { @class = "text-danger" })
 
                         </div>
 
                         <!--Tambo del que proviene la leche-->
-                        <div class="form-group ml-2 flex-sm-wrap">
+                        <div class="form-group d-flex flex-column ml-2 flex-sm-wrap">
 
                             <label asp-for="TamboId"></label>
-                            <select asp-for="TamboId" asp-items="@SelectListItemHelpers.ToSelectListItemListTambos(tambos)" class="custom-select" style="max-width: 300px;"></select>
+                            <select asp-for="TamboId" asp-items="@SelectListItemHelpers.ToSelectListItemListTambos(tambos)" class="custom-select" style="min-width: 150px; max-width: 300px;"></select>
 
                             @Html.ValidationMessageFor(m => m.TamboId, "", new { @class = "text-danger" })
 
