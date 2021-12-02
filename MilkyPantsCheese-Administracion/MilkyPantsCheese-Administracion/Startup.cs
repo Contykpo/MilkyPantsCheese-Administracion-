@@ -40,10 +40,10 @@ namespace MilkyPantsCheese
 	        services.AddAuthentication();
 
 	        var connString = Configuration.GetConnectionString(Environment.IsDevelopment() ? "DefaultConnection" : "DeployConnection");
-            
-            services.AddDbContext<MilkyDbContext>(config =>
-	            config.UseLazyLoadingProxies()
-		              .UseMySql(connString, new MariaDbServerVersion(Environment.IsDevelopment() ? "10.6.5" : "10.3.31")));
+
+	        services.AddDbContext<MilkyDbContext>(config =>
+		        config.UseLazyLoadingProxies()
+			        .UseMySql(connString, new MariaDbServerVersion(Environment.IsDevelopment() ? "10.6.5" : "10.3.31")));
 
             services.AddIdentity<ModeloUsuario, ModeloRol>()
 	            .AddEntityFrameworkStores<MilkyDbContext>()
