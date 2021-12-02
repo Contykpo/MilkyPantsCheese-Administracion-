@@ -298,8 +298,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<byte[]>("ImagenPlanilla")
-                        .HasMaxLength(2097062)
-                        .HasColumnType("image(2097062)");
+                        .HasColumnType("image");
 
                     b.Property<string>("NotasAdicionales")
                         .HasMaxLength(1024)

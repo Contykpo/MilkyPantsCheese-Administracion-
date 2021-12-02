@@ -10,7 +10,7 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
-    [Migration("20211202034632_Inicial")]
+    [Migration("20211202175659_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -300,8 +300,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<byte[]>("ImagenPlanilla")
-                        .HasMaxLength(2097062)
-                        .HasColumnType("image(2097062)");
+                        .HasColumnType("image");
 
                     b.Property<string>("NotasAdicionales")
                         .HasMaxLength(1024)
