@@ -9,13 +9,8 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
-<<<<<<< HEAD:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211202034632_Inicial.Designer.cs
-    [Migration("20211202034632_Inicial")]
+    [Migration("20211202185758_Inicial")]
     partial class Inicial
-=======
-    [Migration("20211201224004_inicial")]
-    partial class inicial
->>>>>>> Scirica:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211201224004_inicial.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -295,13 +290,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("ImagenPlanilla")
-<<<<<<< HEAD:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211202034632_Inicial.Designer.cs
-                        .HasMaxLength(2097062)
-                        .HasColumnType("image(2097062)");
-=======
-                        .HasMaxLength(20971520)
                         .HasColumnType("longblob");
->>>>>>> Scirica:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211201224004_inicial.Designer.cs
 
                     b.Property<string>("NotasAdicionales")
                         .HasMaxLength(1024)

@@ -15,16 +15,16 @@
 
         var tambos = (from c in dbContext.Tambos select c).ToList();
         
-        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: 0; margin-left: 0; left: 0; right: 0;">
+        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-left: 0; margin-right: 0; left: 0; right: 0;">
             
             <!-- Accesos a pestañas -->
-            <div class="position-absolute" style="margin-right: 0; right: 0;">
+            <div class="p-2 border border-warning rounded" style="margin-left: 0; left: 0;">
                 <button id="abiertaPorDefecto" class="form-text btn btn-warning vinculoPestaña" onclick="abrirSeccion(event, 'Añadir')">Añadir</button>
                 <button class="form-text btn btn-warning vinculoPestaña" onclick="abrirSeccion(event, 'Ver')">Ver</button>
             </div>
             
 
-            <div id="Añadir" class="contenidoPestaña p-2 border border-warning rounded">
+            <div id="Añadir" class="contenidoPestaña mt-3 p-2 border border-warning rounded">
 
                 <div class="pb-3">
                     <h4 class="text-left">Añadir lote:</h4>
@@ -41,34 +41,38 @@
                         @Html.ValidationMessageFor(m => m.FechaIngreso, "", new { @class = "text-danger" })
 
                     </div>
+                    
+                    <div class="d-flex flex-row flex-wrap">
 
-                    <!--Porcentaje de agua en la leche-->
-                    <div class="form-group">
+                        <!--Porcentaje de agua en la leche-->
+                        <div class="form-group">
 
-                        <label asp-for="PorcentajeAgua"></label>
-                        <input type="text" class="form-text" asp-for="PorcentajeAgua" />
+                            <label asp-for="PorcentajeAgua"></label>
+                            <input type="text" class="form-text" asp-for="PorcentajeAgua" />
 
-                        @Html.ValidationMessageFor(m => m.PorcentajeAgua, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(m => m.PorcentajeAgua, "", new { @class = "text-danger" })
 
-                    </div>
+                        </div>
 
-                    <!--Temperatura de la leche-->
-                    <div class="form-group">
+                        <!--Temperatura de la leche-->
+                        <div class="form-group ml-2 flex-sm-wrap">
 
-                        <label asp-for="Temperatura"></label>
-                        <input type="text" class="form-text" asp-for="Temperatura" />
+                            <label asp-for="Temperatura"></label>
+                            <input type="text" class="form-text" asp-for="Temperatura" />
 
-                        @Html.ValidationMessageFor(m => m.Temperatura, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(m => m.Temperatura, "", new { @class = "text-danger" })
 
-                    </div>
+                        </div>
 
-                    <!--Acidez de la leche-->
-                    <div class="form-group">
+                        <!--Acidez de la leche-->
+                        <div class="form-group ml-2 flex-sm-wrap">
 
-                        <label asp-for="Acidez"></label>
-                        <input type="text" class="form-text" asp-for="Acidez" />
+                            <label asp-for="Acidez"></label>
+                            <input type="text" class="form-text" asp-for="Acidez" />
 
-                        @Html.ValidationMessageFor(m => m.Acidez, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(m => m.Acidez, "", new { @class = "text-danger" })
+
+                        </div>
 
                     </div>
 
@@ -80,23 +84,27 @@
 
                     </div>
 
-                    <!--Cisterna donde se almacenara-->
-                    <div class="form-group">
+                    <div d-flex flex-row flex-wrap>
+                        
+                        <!--Cisterna donde se almacenara-->
+                        <div class="form-group">
 
-                        <label asp-for="CisternaId"></label>
-                        <select asp-for="CisternaId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select"></select>
+                            <label asp-for="CisternaId"></label>
+                            <select asp-for="CisternaId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select" style="max-width: 300px;"></select>
 
-                        @Html.ValidationMessageFor(m => m.CisternaId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(m => m.CisternaId, "", new { @class = "text-danger" })
 
-                    </div>
+                        </div>
 
-                    <!--Tambo del que proviene la leche-->
-                    <div class="form-group">
+                        <!--Tambo del que proviene la leche-->
+                        <div class="form-group ml-2 flex-sm-wrap">
 
-                        <label asp-for="TamboId"></label>
-                        <select asp-for="TamboId" asp-items="@SelectListItemHelpers.ToSelectListItemListTambos(tambos)" class="custom-select"></select>
+                            <label asp-for="TamboId"></label>
+                            <select asp-for="TamboId" asp-items="@SelectListItemHelpers.ToSelectListItemListTambos(tambos)" class="custom-select" style="max-width: 300px;"></select>
 
-                        @Html.ValidationMessageFor(m => m.TamboId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(m => m.TamboId, "", new { @class = "text-danger" })
+
+                        </div>
 
                     </div>
 
@@ -113,21 +121,21 @@
                     <div class="col-md-9 col-12 pl-0">
 
                         <div class="input-group">
-                            
+
                             <label class="input-group-btn">
-                            
+
                                 <span class="btn btn-warning rounded-left rounded-right-0">
                                     Seleccionar archivo <input type="file" class="d-none" title="Imagen planillita">
                                 </span>
-                            
+
                             </label>
-                            
+
                             <input type="text" class="form-control texto-input-archivo" readonly>
-                        
+
                             @Html.ValidationMessageFor(m => m.ImagenPlanillita, "", new { @class = "text-danger" })
-                        
+
                         </div>
-                    
+
                     </div>
 
                     <!--Boton submit-->
@@ -194,26 +202,30 @@
             }).done(function (resultado) { $('#listaLotes').html(resultado); console.log(resultado); });
         }
 
+        document.getElementById("abiertaPorDefecto").click();
+
         @* Metodo llamado cuando el boton de una pestaña es seleccionado *@
-        function abrirSeccion(evt, pestaña) {
+        function abrirSeccion(e, pestaña) {
             
             var i, contenido, vinculo;
 
-            // Obtenemos los elementos con clase "contenidoPestaña" y los ocultamos.
             contenido = document.getElementsByClassName(".contenidoPestaña");
-            for (i = 0; i < contenido.length; i++) {
+
+            for (i = 0; i < contenido.length; ++i)
+            {
                 contenido[i].style.display = "none";
             }
 
-            // Obtenemos los elementos con clase "vinculoPestaña" y removemos la clase "active"
             vinculo = document.getElementsByClassName("vinculoPestaña");
-            for (i = 0; i < vinculo.length; i++) {
+
+            for (i = 0; i < vinculo.length; ++i)
+            {
                 vinculo[i].className = vinculo[i].className.replace(" active", "");
             }
-
-            // Mostramos la pestaña actual y agregamos una clase "active" al boton responsable de abrir dicha pestaña.
+            
             document.getElementById(pestaña).style.display = "block";
-            evt.currentTarget.className += " active";
+
+            e.currentTarget.className += " active";
         }
 
         @* Metodo llamado cuando el archivo seleccionado cambio*@
@@ -222,8 +234,6 @@
 
             target.nextElementSibling.innerText = target.files[0].name;
         }
-
-        document.getElementById("abiertaPorDefecto").click();
 
         $(document).ready(function () {
 

@@ -239,11 +239,14 @@ select a:hover {
 
 /*#region Pestañas */
 
-/* eontenido de la pestaña */
+/* contenido de la pestaña */
 .contenidoPestaña {
-    display: none;
-    padding: 3px;
-    border: 1px solid #ffc107;
+    border-color: #ffc107
+}
+
+/* vinculo a la pestaña */
+.vinculoPestaña {
+    border-color: #ffc107
 }
 
 /*#endregion */
