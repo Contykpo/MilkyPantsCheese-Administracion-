@@ -21,7 +21,7 @@ namespace MilkyPantsCheese
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://::5000", "http://0.0.0.0:5000");
+                    webBuilder.UseUrls("http://127.0.0.1:5001");
                 });
     }
 }

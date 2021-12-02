@@ -95,7 +95,7 @@ namespace MilkyPantsCheese
 		        return false;
 
             //Si no se especifico el separador entonces tomamos el de la cultura actual
-            if(string.IsNullOrWhiteSpace(separadorDecimal))
+            if(string.IsNullOrWhiteSpace(separadorDecimal) || !cadena.Contains(separadorDecimal))
                 separadorDecimal = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
             //Separamos el numero en parte entera y decimal

@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -38,11 +39,11 @@ namespace MilkyPantsCheese
         {
 	        services.AddAuthentication();
 
-	        var connString = Configuration.GetConnectionString("DefaultConnection");
-            
-            services.AddDbContext<MilkyDbContext>(config =>
-	            config.UseLazyLoadingProxies()
-		              .UseSqlServer(connString));
+	        var connString = Configuration.GetConnectionString(Environment.IsDevelopment() ? "DefaultConnection" : "DeployConnection");
+
+	        services.AddDbContext<MilkyDbContext>(config =>
+		        config.UseLazyLoadingProxies()
+			        .UseMySql(connString, new MariaDbServerVersion(Environment.IsDevelopment() ? "10.6.5" : "10.3.31")));
 
             services.AddIdentity<ModeloUsuario, ModeloRol>()
 	            .AddEntityFrameworkStores<MilkyDbContext>()
@@ -113,6 +114,11 @@ namespace MilkyPantsCheese
             }
             else
             {
+                app.UseForwardedHeaders(new ForwardedHeadersOptions 
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                });
+
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -148,8 +154,6 @@ namespace MilkyPantsCheese
 
             //Creamos el usuario del administrador en caso de que no exista
             CrearUsuarioAdministrador(servicios).Wait();
-
-            IniciarListenerArduino();
         }
 
         /// <summary>
@@ -239,18 +243,6 @@ namespace MilkyPantsCheese
 
 	            await dbContext.SaveChangesAsync();
             }
-        }
-
-        private void IniciarListenerArduino()
-        {
-	        //var directorio = Directory.GetCurrentDirectory();
-
-	        //Process p = Process.Start(Path.Combine(Directory.GetCurrentDirectory(), "MilkyPantsDBATCPListener.exe"), new []
-	        //{
-         //       Configuration.GetConnectionString("DefaultConnection"),
-         //       "127.0.0.1",
-         //       Configuration.GetSection("ConfiguracionListenerArduino")["Puerto"]
-	        //});
         }
     }
 }
