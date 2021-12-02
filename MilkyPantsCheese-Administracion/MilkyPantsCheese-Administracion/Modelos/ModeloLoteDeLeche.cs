@@ -34,7 +34,6 @@ namespace MilkyPantsCheese
 		/// Imagen de la planilla de este lote
 		/// </summary>
         [MaxLength(2097062)]
-        [Column(TypeName = "image")]
 		public byte[] ImagenPlanilla { get; set; }
 
 		/// <summary>

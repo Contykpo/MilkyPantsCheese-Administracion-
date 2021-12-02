@@ -1,7 +1,9 @@
 ﻿@page
 @model MilkyPantsCheese.Pages.MonitoreoCuradoModel
 
-<div class="table">
+@inject MilkyDbContext dbContext
+
+<div class="table h-100">
     
     <div class="row">
         
@@ -11,7 +13,7 @@
         </div>
 
         @*Espacio entre los datos y el boton*@
-        <div class="col-2"></div>
+        <div class="col-4 col-md-6"></div>
 
         @*Boton recargar*@
         <form method="get"
@@ -21,10 +23,41 @@
               data-ajax-url="/Monitoreo/MonitoreoCurado?handler=Actualizar"
               data-ajax-update="#contenedorDatosSensor"
 
-              class="col-6">
+              class="col-4 col-md-2 form-inline">
 
-            <input type="submit" class="btn btn-warning" value="Recargar" />
+            <input type="submit" class="btn btn-warning m-0" value="Recargar" />
         </form>
+
+    </div>
+    
+    <div class="row h-100" style="max-height: 100%; scroll-behavior: auto; overflow-y: auto;">
+        
+        <div class="col-12 d-flex flex-column flex-wrap border border-warning p-0">
+            
+            <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center">
+                <span class="col-2 pl-0 mr-5 ml-1 mr-md-0">Temperatura (°C)</span>
+
+                <span class="col-2 pl-0 mr-4 mr-md-0">Humedad</span>
+
+                <span class="col-2 pl-0 mr-5">CO2 (ppm)</span>
+
+                <span class="col-2 pl-0">Fecha</span>
+            </div>
+
+            @foreach (var registro in dbContext.DatosSensorCurado)
+            {
+                <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center">
+
+                    <span class="col-2 pl-0 mr-5 ml-1 mr-md-0">Temperatura: @registro.Temperatura °C</span>
+
+                    <span class="col-2 pl-0 mr-4 mr-md-0">Humedad: @registro.Humedad%</span>
+
+                    <span class="col-2 pl-0 mr-5">CO2: @registro.DioxidoDeCarbono ppm</span>
+
+                    <span class="col-2 pl-0">Fech @registro.Fecha.ToLocalTime().ToString("g")</span>
+                </div>
+            }
+        </div>
 
     </div>
     
