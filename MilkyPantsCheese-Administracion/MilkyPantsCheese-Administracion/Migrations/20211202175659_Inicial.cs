@@ -364,7 +364,7 @@ namespace MilkyPantsCheese.Migrations
                     Acidez = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
 <<<<<<< HEAD:MilkyPantsCheese-Administracion/MilkyPantsCheese-Administracion/Migrations/20211202034632_Inicial.cs
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
-                    ImagenPlanilla = table.Column<byte[]>(type: "image(2097062)", maxLength: 2097062, nullable: true),
+                    ImagenPlanilla = table.Column<byte[]>(type: "image", nullable: true),
                     NotasAdicionales = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
                     Fecha = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
 =======
