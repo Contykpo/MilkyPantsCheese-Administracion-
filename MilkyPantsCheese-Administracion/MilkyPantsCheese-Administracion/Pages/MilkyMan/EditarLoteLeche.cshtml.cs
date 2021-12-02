@@ -130,21 +130,25 @@ namespace MilkyPantsCheese.Pages
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[Display(Name = "Temperatura (°C)")]
 		[BindProperty]
+        [DataType(DataType.Text)]
 		public string Temperatura { get; set; } = string.Empty;
 
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[Display(Name = "Porcentaje de agua")]
 		[BindProperty]
+        [DataType(DataType.Text)]
 		public string PorcentajeAgua { get; set; } = string.Empty;
 
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[Display(Name = "Acidez (°D)")]
 		[BindProperty]
+        [DataType(DataType.Text)]
 		public string Acidez { get; set; } = string.Empty;
 
 		[StringLength(1024)]
 		[Display(Name = "Notas adicionales")]
 		[BindProperty]
+        [DataType(DataType.Text)]
 		public string NotasAdicionales { get; set; } = string.Empty;
 
 		[Display(Name = "Cisterna")]

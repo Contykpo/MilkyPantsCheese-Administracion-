@@ -105,12 +105,14 @@ namespace MilkyPantsCheese.Pages
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[Display(Name = "Peso antes del curado")]
 		[StringLength(256)]
+        [DataType(DataType.Text)]
 		[BindProperty]
 		public string PesoPreCurado { get; set; }
 
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[Display(Name = "Peso despues del curado")]
 		[StringLength(256)]
+        [DataType(DataType.Text)]
 		[BindProperty]
 		public string PesoPostCurado { get; set; }
 

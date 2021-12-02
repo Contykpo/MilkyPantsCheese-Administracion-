@@ -85,6 +85,7 @@ namespace MilkyPantsCheese.Pages
         public DateTimeOffset FechaInicio { get; set; }
 
         [StringLength(1024)]
+        [DataType(DataType.Text)]
         [BindProperty]
         public string Observaciones { get; set; } = string.Empty;
 

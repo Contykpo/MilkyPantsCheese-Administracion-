@@ -27,10 +27,12 @@ namespace MilkyPantsCheese.Pages
         [BindProperty]
         [DisplayName("Nombre del fermento")]
         [Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
+        [DataType(DataType.Text)]
         public string Nombre { get; set; }
 
         [BindProperty]
         [DisplayName("Descripcion")]
+        [DataType(DataType.Text)]
         public string Descripcion { get; set; }
 
         public async Task<IActionResult> OnPost()

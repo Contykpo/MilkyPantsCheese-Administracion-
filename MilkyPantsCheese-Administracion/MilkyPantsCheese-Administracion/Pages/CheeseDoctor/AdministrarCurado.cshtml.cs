@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -37,10 +38,12 @@ namespace MilkyPantsCheese.Pages
 
         [BindProperty]
         [DisplayName("Peso pre-curado")]
+        [DataType(DataType.Text)]
         public string PesoPreCurado { get; set; }
 
         [BindProperty]
         [DisplayName("Peso post-curado")]
+        [DataType(DataType.Text)]
         public string PesoPostCurado { get; set; }
 
         [BindProperty]

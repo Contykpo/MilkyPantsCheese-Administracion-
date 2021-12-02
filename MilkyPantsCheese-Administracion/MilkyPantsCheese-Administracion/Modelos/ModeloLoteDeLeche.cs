@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MilkyPantsCheese
 {
@@ -32,7 +33,8 @@ namespace MilkyPantsCheese
 		/// <summary>
 		/// Imagen de la planilla de este lote
 		/// </summary>
-        [MaxLength(20971520)]
+        [MaxLength(2097062)]
+        [Column(TypeName = "image")]
 		public byte[] ImagenPlanilla { get; set; }
 
 		/// <summary>

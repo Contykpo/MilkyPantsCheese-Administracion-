@@ -28,22 +28,25 @@ namespace MilkyPantsCheese.Pages
 		[BindProperty]
 		[Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[DisplayName("Nombre del usuario")]
+        [DataType(DataType.Text)]
 		public string NombreUsuario { get; set; }
 
 		[BindProperty]
 		[Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[DisplayName("Tipo de usuario")]
-		public string RolSeleccionado { get; set; }
+        public string RolSeleccionado { get; set; }
 
 		[BindProperty]
 		[PasswordPropertyText]
 		[DisplayName("Nueva contraseña")]
+        [DataType(DataType.Text)]
 		public string NuevaContraseña { get; set; }
 
 		[BindProperty]
 		[PasswordPropertyText]
 		[Compare(nameof(NuevaContraseña), ErrorMessage = "Las contraseñas deben ser iguales")]
 		[DisplayName("Confirmacion contraseña")]
+        [DataType(DataType.Text)]
 		public string ConfirmacionNuevaContraseña { get; set; }
 
 		[BindProperty]

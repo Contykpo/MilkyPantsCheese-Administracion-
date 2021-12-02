@@ -309,7 +309,7 @@ namespace MilkyPantsCheese.Migrations
                     Temperatura = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     Acidez = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     EstaDisponible = table.Column<bool>(type: "bit", nullable: false),
-                    ImagenPlanilla = table.Column<byte[]>(type: "varbinary(max)", maxLength: 20971520, nullable: true),
+                    ImagenPlanilla = table.Column<byte[]>(type: "image(2097062)", maxLength: 2097062, nullable: true),
                     NotasAdicionales = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: true),
                     Fecha = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     TamboDeProvenienciaId = table.Column<int>(type: "int", nullable: true),

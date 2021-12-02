@@ -30,6 +30,7 @@ namespace MilkyPantsCheese.Pages
 
         [BindProperty]
         [DisplayName("Nombre")]
+        [DataType(DataType.Text)]
         public string NombreTipoFermento { get; set; }
 
         [BindProperty]

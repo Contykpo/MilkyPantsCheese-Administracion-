@@ -71,10 +71,12 @@ namespace MilkyPantsCheese.Pages
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [StringLength(256)]
         [BindProperty]
+        [DataType(DataType.Text)]
         public string Nombre { get; set; }
 
         [StringLength(1024)]
         [BindProperty]
+        [DataType(DataType.Text)]
         public string Notas { get; set; }
 
         #endregion

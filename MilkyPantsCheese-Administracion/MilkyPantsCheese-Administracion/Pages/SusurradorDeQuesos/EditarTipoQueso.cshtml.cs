@@ -28,6 +28,7 @@ namespace MilkyPantsCheese.Pages
 	    [BindProperty]
 	    [DisplayName("Nombre del queso")]
 	    [Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
+        [DataType(DataType.Text)]
 	    public string Nombre { get; set; }
 
 		[BindProperty]

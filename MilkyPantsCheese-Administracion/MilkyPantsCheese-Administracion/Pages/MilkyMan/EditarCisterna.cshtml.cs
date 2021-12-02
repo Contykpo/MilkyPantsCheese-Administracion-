@@ -76,12 +76,14 @@ namespace MilkyPantsCheese.Pages
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[StringLength(256)]
 		[BindProperty]
+        [DataType(DataType.Text)]
 		public string Nombre { get; set; }
 
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[Display(Name = "Capacidad en litros")]
 		[StringLength(256)]
 		[BindProperty]
+        [DataType(DataType.Text)]
 		public string CapacidadLitros { get; set; }
 
 		#endregion

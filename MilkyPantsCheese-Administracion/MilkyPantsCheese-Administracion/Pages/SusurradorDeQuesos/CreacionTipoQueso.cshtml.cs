@@ -70,6 +70,7 @@ namespace MilkyPantsCheese.Pages
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Nombre del queso")]
         [StringLength(256)]
+        [DataType(DataType.Text)]
         [BindProperty]
         public string NombreTipoQueso { get; set; }
 

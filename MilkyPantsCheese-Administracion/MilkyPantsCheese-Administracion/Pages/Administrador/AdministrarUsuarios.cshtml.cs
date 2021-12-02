@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace MilkyPantsCheese.Pages
 
 		[BindProperty]
 		[DisplayName("Nombre del usuario")]
+        [DataType(DataType.Text)]
 		public string NombreUsuario { get; set; }
 
 		[BindProperty]

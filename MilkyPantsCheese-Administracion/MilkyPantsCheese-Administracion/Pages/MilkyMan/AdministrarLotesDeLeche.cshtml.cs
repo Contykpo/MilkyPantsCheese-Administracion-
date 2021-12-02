@@ -140,26 +140,31 @@ namespace MilkyPantsCheese.Pages
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha de ingreso")]
+        [DataType(DataType.Text)]
         [BindProperty]
         public DateTimeOffset FechaIngreso { get; set; }
 
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Temperatura (°C)")]
+        [DataType(DataType.Text)]
         [BindProperty]
         public string Temperatura { get; set; } = string.Empty;
 
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Porcentaje de agua")]
+        [DataType(DataType.Text)]
         [BindProperty]
         public string PorcentajeAgua { get; set; } = string.Empty;
 
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Acidez (°D)")]
+        [DataType(DataType.Text)]
         [BindProperty]
         public string Acidez { get; set; } = string.Empty;
 
         [StringLength(1024)]
         [Display(Name = "Notas adicionales")]
+        [DataType(DataType.Text)]
         [BindProperty]
         public string NotasAdicionales { get; set; } = string.Empty;
 

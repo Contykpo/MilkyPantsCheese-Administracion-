@@ -29,10 +29,12 @@ namespace MilkyPantsCheese.Pages
 	    [BindProperty]
 	    [Required(AllowEmptyStrings = false, ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 	    [DisplayName("Peso del fermento (en KG)")]
+        [DataType(DataType.Text)]
 	    public string PesoFermento { get; set; }
 
 	    [BindProperty]
 	    [DisplayName("Observaciones")]
+        [DataType(DataType.Text)]
 	    public string Observaciones { get; set; }
 
 	    [BindProperty]
