@@ -19,16 +19,23 @@
           class="col-7 d-flex flex-row">
 
         <div class="d-flex flex-column col-md-11 col-10">
+
+            @*Texto intervalo*@
             <label asp-for="Intervalo"></label>
 
             <div class="form-inline">
+
+                @*Checkbox filtrado por intervalo activado*@
                 @await Html.PartialAsync("_CheckBox", new ModeloCheckbox
                 {
                     checkBox = Html.CheckBoxFor(m => m.UtilizarFiltradoPorIntervalo, new { @class = "custom-control-input" }),
                     nombrePropiedad = nameof(Model.UtilizarFiltradoPorIntervalo),
                     contenido = string.Empty
                 })
-                <input type="time" asp-for="Intervalo"/>
+
+                @*Ingreso del intervalo*@
+                <input type="time" asp-for="Intervalo" style="width: 120px;"/>
+
             </div>
         </div>
 
@@ -38,12 +45,14 @@
 
     </div>
     
+    @*Contenedor del historial*@
     <div class="row h-100" style="max-height: 100%; scroll-behavior: auto; overflow-y: auto;">
         
         <div class="col-12 d-flex flex-column flex-wrap border border-warning p-0">
             
-            <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center bg-warning">
-                <span class="col-2 pl-0 mr-5 ml-1 mr-md-0 bg-warning cheesy-text">Temperatura (°C)</span>
+            @*Cabecera del historial*@
+            <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center" style="background-color: #d29e00;">
+                <span class="col-2 pl-0 mr-5 ml-1 mr-md-0 cheesy-text">Temperatura (°C)</span>
 
                 <span class="col-2 pl-0 mr-4 mr-md-0 cheesy-text">Humedad</span>
 
@@ -52,6 +61,7 @@
                 <span class="col-2 pl-0 cheesy-text">Fecha</span>
             </div>
 
+            @*Historial*@
             <div id="contenedorHistorial">
 
                 <partial name="_HistorialDatosSensor">
@@ -79,6 +89,7 @@
 
         }, 7500);
 
+        @*Funcion llamada cuando el boton de actualizar es presionado*@
         function ActualizarPresionadoHandler(evento, form) {
 
             evento.preventDefault();
@@ -86,6 +97,7 @@
             ActulizarValorActualEHistorial($(form).serialize())
         }
 
+        @*Actualiza el historial y el valor actual del sensor*@
         function ActulizarValorActualEHistorial(formMonitoreoSerializada) {
 
             console.log(formMonitoreoSerializada);
@@ -112,8 +124,6 @@
                 url: "/Monitoreo/MonitoreoCurado?handler=ActualizarHistorial",
 
                 success: function (resultado) {
-
-                    console.log(resultado);
 
                     $('#contenedorHistorial').html(resultado);
                 },

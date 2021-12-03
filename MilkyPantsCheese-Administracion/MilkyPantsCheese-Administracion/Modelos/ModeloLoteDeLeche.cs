@@ -33,10 +33,7 @@ namespace MilkyPantsCheese
 		/// <summary>
 		/// Imagen de la planilla de este lote
 		/// </summary>
-<<<<<<< HEAD
-=======
         [MaxLength(2097062)]
->>>>>>> Scirica
 		public byte[] ImagenPlanilla { get; set; }
 
 		/// <summary>

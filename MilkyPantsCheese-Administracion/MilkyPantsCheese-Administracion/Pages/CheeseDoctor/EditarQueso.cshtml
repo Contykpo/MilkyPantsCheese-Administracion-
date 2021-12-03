@@ -12,7 +12,7 @@
 
       class="d-flex flex-column">
 
-    @Html.ValidationSummary(true)
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
 
     <div class="d-flex flex-row d-inline-block">
 
@@ -23,7 +23,7 @@
 
                 <label asp-for="PesoPreCurado"></label>
                 <input type="text" asp-for="PesoPreCurado" class="form-text" />
-                @Html.ValidationMessageFor(m => m.PesoPreCurado)
+                @Html.ValidationMessageFor(m => m.PesoPreCurado, string.Empty, new { @class = "text-danger" })
 
             </div>
 
@@ -32,7 +32,7 @@
 
                 <label asp-for="PesoPostCurado"></label>
                 <input type="text" asp-for="PesoPostCurado" class="form-text" />
-                @Html.ValidationMessageFor(m => m.PesoPostCurado)
+                @Html.ValidationMessageFor(m => m.PesoPostCurado, string.Empty, new { @class = "text-danger" })
 
             </div>
 
@@ -45,7 +45,7 @@
 
                 <label asp-for="IdLoteAlQuePertenece"></label>
                 <select asp-for="IdLoteAlQuePertenece" asp-items="@lotesQuesoDisponibles" class="custom-select"></select>
-                @Html.ValidationMessageFor(m => m.IdLoteAlQuePertenece)
+                @Html.ValidationMessageFor(m => m.IdLoteAlQuePertenece, string.Empty, new { @class = "text-danger" })
 
             </div>
 
@@ -64,7 +64,7 @@
 
             <label asp-for="EstadoQueso"></label>
             <select asp-for="EstadoQueso" asp-items="@Html.GetEnumSelectList<EEstadoQueso>()" class="custom-select"></select>
-            @Html.ValidationMessageFor(m => m.EstadoQueso)
+            @Html.ValidationMessageFor(m => m.EstadoQueso, string.Empty, new { @class = "text-danger" })
 
         </div>
 

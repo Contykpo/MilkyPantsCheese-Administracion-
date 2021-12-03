@@ -9,8 +9,8 @@ using MilkyPantsCheese;
 namespace MilkyPantsCheese.Migrations
 {
     [DbContext(typeof(MilkyDbContext))]
-    [Migration("20211202185758_Inicial")]
-    partial class Inicial
+    [Migration("20211202231806_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -290,6 +290,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("ImagenPlanilla")
+                        .HasMaxLength(2097062)
                         .HasColumnType("longblob");
 
                     b.Property<string>("NotasAdicionales")

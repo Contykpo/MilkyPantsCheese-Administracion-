@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace MilkyPantsCheese.Pages
 {
     [IgnoreAntiforgeryToken]
-    [Authorize(Roles = Constantes.NombreRolAdministrador + "," + Constantes.NombreRolCheeseScientist + "," + Constantes.NombreRolSusurradorDeQuesos)]
+    [Authorize(Roles = Constantes.NombreRolAdministrador + "," + Constantes.NombreRolCheeseScientist + "," + Constantes.NombreRolSusurradorDeQuesos + "," + Constantes.NombreRolMilkyMan + "," + Constantes.NombreRolMilkyWorker + "," + Constantes.NombreRolOficinista + "," + Constantes.NombreRolContador + "," + Constantes.NombreRolCheeseDoctor)]
     public class MonitoreoCuradoModel : PageModel
     {
         public readonly MilkyDbContext _dbContext;
@@ -38,19 +38,24 @@ namespace MilkyPantsCheese.Pages
 
         public async Task<PartialViewResult> OnPostActualizarHistorial()
         {
+            //Si estamos filtrando por intervalo...
             if(UtilizarFiltradoPorIntervalo)
             {
+                //Obtenemos el historial completo ordenado de manera descendente
                 var historial = await _dbContext.DatosSensorCurado.OrderByDescending(d => d.Fecha).ToListAsync();               
 
+                //Quitamos el primer valor ya que es el que se esta mostrando como valor actual
                 if (historial.Count > 1)
                 {
                     historial.RemoveAt(0);
                 }
 
+                //Creamos una nueva lista para almacenar las entradas del historial que terminaremos mostrando
                 var historialFinal = new List<ModeloDatosSensorCurado>();
 
                 foreach (var entradaActual in historial)
                 {
+                    //Si no hay ningun valor
                     if(historialFinal.Count == 0)
                     {
                         historialFinal.Add(entradaActual);
@@ -64,6 +69,7 @@ namespace MilkyPantsCheese.Pages
 
                 HistorialDatos = historialFinal;
             }
+            //Sino...
             else
             {
                 HistorialDatos = await _dbContext.DatosSensorCurado.OrderByDescending(d => d.Fecha).ToListAsync();

@@ -111,12 +111,12 @@ namespace MilkyPantsCheese.Pages
 		            ModoComparacionPesoSeleccionado);
             }
 
-            if (ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPostCuradoParseado))
+            if (ValidationHelpers.TryParseDecimal(PesoPostCurado, 4, 1, out var pesoPostCuradoParseado))
             {
 	            consulta.AñadirWhereConTipoDeComparacion(
-		            m => m.PesoPreCurado == pesoPostCuradoParseado,
-		            m => m.PesoPreCurado > pesoPostCuradoParseado,
-		            m => m.PesoPreCurado < pesoPostCuradoParseado,
+		            m => m.PesoPostCurado == pesoPostCuradoParseado,
+		            m => m.PesoPostCurado > pesoPostCuradoParseado,
+		            m => m.PesoPostCurado < pesoPostCuradoParseado,
 		            ModoComparacionPesoSeleccionado);
             }
 

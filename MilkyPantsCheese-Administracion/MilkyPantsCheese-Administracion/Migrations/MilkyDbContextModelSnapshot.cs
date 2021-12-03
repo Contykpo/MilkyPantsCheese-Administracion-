@@ -288,6 +288,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("ImagenPlanilla")
+                        .HasMaxLength(2097062)
                         .HasColumnType("longblob");
 
                     b.Property<string>("NotasAdicionales")
