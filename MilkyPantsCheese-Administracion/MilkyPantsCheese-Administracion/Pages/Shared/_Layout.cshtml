@@ -32,7 +32,10 @@
 
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                        <a class="nav-link text-warning" asp-page="/Monitoreo/MonitoreoCurado">Monitoreo</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="nav-link text-warning" asp-page="/Monitoreo/MonitoreoCurado">Monitoreo</a>
+                        }
 
                         <div class="align-self-end">
 
