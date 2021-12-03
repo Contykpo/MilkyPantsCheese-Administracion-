@@ -3,25 +3,21 @@
 @*Por cada tipo de fermento que satisface el filtro*@
 @foreach (var tipoFermento in Model.TiposDeFermentoConcordantes)
 {
-<div class="d-flex flex-row bg-dark rounded mb-2">
+<div class="d-flex flex-row border-bottom border-warning bg-dark mb-2 align-items-center">
 
     @*Id del tipo de fermento*@
-    <div class="col-md-1 col-2">
-        <label>Id: @tipoFermento.Id</label>
+    <div class="col-md-1 col-2 px-0 ml-1">
+        <label>@tipoFermento.Id</label>
     </div>
 
     @*Nombre del tipo de fermento*@
-    <div class="col-md-2 col-3">
-        <label>Nombre: @tipoFermento.Nombre</label>
+    <div class="col-md-2 col-3 p-0">
+        <label>@tipoFermento.Nombre</label>
     </div>
 
-    <div class="d-md-inline" style="display: none">
-        <label class="col-1 d-md-inline" style="padding: 0">Descripcion:</label>
-    </div>
-    
     @*Descripcion*@
-    <div class="col-md-4 col-6">
-        <textarea class="form-control d-inline-block" style="resize: none; width: 100%; height: 50px;" readonly="readonly">@tipoFermento.Descripcion</textarea>
+    <div class="col-md-4 col-6 px-0 my-1 d-md-inline-block d-none">
+        <textarea class="form-control" style="resize: none; width: 100%; height: 50px;" readonly="readonly">@tipoFermento.Descripcion</textarea>
     </div>
     
     <div class="col-md-1 d-md-inline" style="display: none"></div>

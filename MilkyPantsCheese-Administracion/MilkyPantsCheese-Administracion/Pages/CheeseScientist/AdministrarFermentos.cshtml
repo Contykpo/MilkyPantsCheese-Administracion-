@@ -1,7 +1,7 @@
 ﻿@page
 @model MilkyPantsCheese.Pages.AdministrarFermentosModel
 
-<div class="d-flex flex-column">
+<div class="d-flex flex-column h-100">
 
     <label for="selectTipoVista">Tipo de busqueda</label>
     
@@ -10,7 +10,7 @@
           data-ajax-method="post"
           data-ajax-mode="replace"
           data-ajax-update="#resultadoBusqueda"
-          class="d-flex flex-column border-bottom border-warning">
+          class="d-flex flex-column">
 
         @*Select tipo vista*@
         <select class="custom-select mb-4" asp-for="VistaSeleccionada" asp-items="@Html.GetEnumSelectList<EVistaAdministradorFermentos>()" onclick="VistaSeleccionadaCambioHandler(options[selectedIndex].value)"></select>
@@ -40,12 +40,12 @@
         </div>
 
         @*Modo de comparacion de la fecha*@
-    <div id="selectTipoComparacion" class="form-group">
+        <div id="selectTipoComparacion" class="form-group">
 
-        <label asp-for="ModoComparacionFechaSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho"></label>
-        <select id="inputModoComparacionFecha" asp-for="ModoComparacionFechaSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
+            <label asp-for="ModoComparacionFechaSeleccionado" data-toggle="tooltip" data-placement="top" title="Tipo de comparacion que se realizara entre la fecha del fermento y la fecha ingresada. La fecha del fermento queda del lado izquierdo y la ingresada en el derecho"></label>
+            <select id="inputModoComparacionFecha" asp-for="ModoComparacionFechaSeleccionado" asp-items="@Html.GetEnumSelectList<EModoComparacion>()" class="custom-select"></select>
 
-    </div>
+        </div>
 
         @*Botones inferiores*@
         <div class="d-flex flex-row mb-3">
@@ -67,12 +67,43 @@
 
     </form>
     
-    <div id="resultadoBusqueda" class="d-flex flex-column mt-3">
-        
+    <div class="d-flex flex-column h-100 border border-warning mt-3" style="max-height: 100%; overflow-y: auto;">
+
+        <div class="d-flex flex-row header-lista">
+
+            @*Header id*@
+            <div class="col-md-1 col-2 px-0 ml-1">
+                <label>ID</label>
+            </div>
+
+            @*Header nombre tipo*@
+            <div class="header-tipo-fermento col-md-2 col-3 px-0 d-none">
+                <label>Nombre</label>
+            </div>
+
+            @*Header peso*@
+            <div class="header-peso-fermento col-md-2 col-3 px-0 d-none d-md-inline">
+                <label>Peso (KG)</label>
+            </div>
+
+            @*Header disponibilidad*@
+            <div class="header-fermento col-md-2 col-3 px-0">
+                <label class="px-0">Disponibilidad</label>
+            </div>
+
+            @*Header descripcion*@
+            <div class="d-md-inline d-none col-3 px-0 mx-0">
+                <label class="px-0 mx-0">Descripcion</label>
+            </div>
+
+        </div>
+
+        <div id="resultadoBusqueda" class="d-flex flex-column h-100" style="overflow-y: auto; scroll-behavior: auto;">
+
+
+        </div>
 
     </div>
-
-</div>
 
 @section Scripts
 {
@@ -89,14 +120,25 @@
 
                 $('#inputNombreTipoFermento').addClass('d-none');
                 $('#inputFechaElaboracion').removeClass('d-none');
-                $('#inputModoComparacionFecha').removeClass('d-none');
+                $('#selectTipoComparacion').removeClass('d-none');
+
+                $('#resultadoBusqueda').html('');
+
+                $('.header-fermento').removeClass('d-none');
+                $('.header-peso-fermento').addClass('d-md-inline');
+                $('.header-tipo-fermento').addClass('d-none');
 
             } else {
 
                 $('#inputNombreTipoFermento').removeClass('d-none');
                 $('#inputFechaElaboracion').addClass('d-none');
-                $('#inputModoComparacionFecha').addClass('d-none');
+                $('#selectTipoComparacion').addClass('d-none');
 
+                $('#resultadoBusqueda').html('');
+
+                $('.header-fermento').addClass('d-none');
+                $('.header-peso-fermento').removeClass('d-md-inline');
+                $('.header-tipo-fermento').removeClass('d-none');
             }
         }
     </script>

@@ -3,9 +3,9 @@
 
 @inject MilkyDbContext dbContext
 
-<div class="table h-100">
+<div class="d-flex flex-column h-100">
     
-    <div class="row">
+    <div class="d-flex flex-row">
         
         @*Datos del monitoreo*@
         <div id="contenedorDatosSensor" class="col-4">
@@ -46,28 +46,24 @@
     </div>
     
     @*Contenedor del historial*@
-    <div class="row h-100" style="max-height: 100%; scroll-behavior: auto; overflow-y: auto;">
+    <div class="d-flex flex-column border border-warning h-100" style="overflow-y: auto;">
+
+        @*Cabecera del historial*@
+        <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center" style="background-color: #d29e00; min-height: 50px;">
+            <span class="col-2 pl-0 mr-md-5 mr-1 ml-1 mr-md-0 cheesy-text">Temperatura (°C)</span>
+
+            <span class="col-2 pl-0 mr-md-4 mr-2 cheesy-text">Humedad</span>
+
+            <span class="col-2 pl-0 mr-5 cheesy-text">CO2 (ppm)</span>
+
+            <span class="col-2 pl-0 cheesy-text">Fecha</span>
+        </div>
         
-        <div class="col-12 d-flex flex-column flex-wrap border border-warning p-0">
-            
-            @*Cabecera del historial*@
-            <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center" style="background-color: #d29e00;">
-                <span class="col-2 pl-0 mr-5 ml-1 mr-md-0 cheesy-text">Temperatura (°C)</span>
+        @*Historial*@
+        <div id="contenedorHistorial" class="d-flex flex-column" style="scroll-behavior: auto; overflow-y: auto;">
 
-                <span class="col-2 pl-0 mr-4 mr-md-0 cheesy-text">Humedad</span>
+            <partial name="_HistorialDatosSensor">
 
-                <span class="col-2 pl-0 mr-5 cheesy-text">CO2 (ppm)</span>
-
-                <span class="col-2 pl-0 cheesy-text">Fecha</span>
-            </div>
-
-            @*Historial*@
-            <div id="contenedorHistorial">
-
-                <partial name="_HistorialDatosSensor">
-
-            </div>
-            
         </div>
 
     </div>

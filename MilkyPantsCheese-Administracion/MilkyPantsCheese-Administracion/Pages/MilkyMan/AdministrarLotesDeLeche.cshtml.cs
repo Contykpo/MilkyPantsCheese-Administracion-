@@ -16,133 +16,149 @@ namespace MilkyPantsCheese.Pages
     /// <summary>
     /// Modelo de la pagina encargada de lidiar con la gestion de lotes de leche.
     /// </summary>
+    [ValidateAntiForgeryToken]
     public class AdministrarLotesDeLecheModel : PageModel
     {
-        private readonly MilkyDbContext _dbContext;
-        
-        private readonly IConfiguration _config;
+		#region Campos
 
-        public readonly ILogger<AdministrarLotesDeLecheModel> _logger;
+		private readonly MilkyDbContext _dbContext;
 
-        /// <summary>
-        /// Cisterna seleccionada para mostrar sus lotes.
-        /// </summary>
-        //[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
-        [Display(Name = "Cisterna")]
-        [BindProperty]
-        public int CisternaLotesId { get; set; }
+		private readonly IConfiguration _config;
 
-        /// <summary>
-        /// Lotes de leche disponibles.
-        /// </summary>
-        public List<ModeloLoteDeLeche> LotesDeLeche { get; set; } = new List<ModeloLoteDeLeche>();
+		public readonly ILogger<AdministrarLotesDeLecheModel> _logger; 
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="dbContext"></param>
-        /// <param name="userManager"></param>
-        public AdministrarLotesDeLecheModel(MilkyDbContext dbContext, IConfiguration config, ILogger<AdministrarLotesDeLecheModel> logger)
-        {
-            _dbContext = dbContext;
-            _config    = config;
-            _logger    = logger;
+		#endregion
 
-            LotesDeLeche = (from c in dbContext.LotesDeLeche select c).ToList();
-        }
+		#region Propiedades
 
-        public void OnGet()
-        {
-        }
+		/// <summary>
+		/// Cisterna seleccionada para mostrar sus lotes.
+		/// </summary>
+		[Display(Name = "Cisterna")]
+		[BindProperty]
+		public int CisternaLotesId { get; set; }
 
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnPost()
-        {
-            if (!ModelState.IsValid)
-                return Page();
+		/// <summary>
+		/// Lotes de leche disponibles.
+		/// </summary>
+		public List<ModeloLoteDeLeche> LotesDeLeche { get; set; } = new List<ModeloLoteDeLeche>(); 
 
-            if (!ValidationHelpers.TryParseDecimal(PorcentajeAgua, 5, 2, out var porcentajeAgua))
-                ModelState.AddModelError(nameof(PorcentajeAgua), "Porcentaje de agua solo puede contener caracteres numericos");
+		#endregion
 
-            if (!ValidationHelpers.TryParseDecimal(Temperatura, 5, 2, out var temperatura))
-                ModelState.AddModelError(nameof(Temperatura), "Temperatura solo puede contener caracteres numericos");
+		#region Constructor
 
-            if (!ValidationHelpers.TryParseDecimal(Acidez, 5, 2, out var acidez))
-                ModelState.AddModelError(nameof(Acidez), "Acidez solo puede contener caracteres numericos");
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="dbContext"></param>
+		/// <param name="userManager"></param>
+		public AdministrarLotesDeLecheModel(MilkyDbContext dbContext, IConfiguration config, ILogger<AdministrarLotesDeLecheModel> logger)
+		{
+			_dbContext = dbContext;
+			_config = config;
+			_logger = logger;
 
-            if (ImagenPlanillita is not null)
-            {
-                //Obtenemos el tamaño maximo permitido para un archivo desde la configuracion
-                var tamañoMaximoImagen = int.Parse(_config["TamanioMaximoArchivo"]);
+			LotesDeLeche = (from c in dbContext.LotesDeLeche select c).ToList();
+		} 
 
-                //Nos aseguramos de que el tamaño del archivo subido no sea mayor al maximo
-                if(ImagenPlanillita.Length > tamañoMaximoImagen)
-                    ModelState.AddModelError($"{nameof(ImagenPlanillita)}", "Imagen demasiado grande");
+		#endregion
 
-                //Nos aseguramos de que el formato del archivo subido sea valido
-                if (ImagenPlanillita.ImagenEsValida())
-                    ModelState.AddModelError($"{nameof(ImagenPlanillita)}", "Imagen no valida");
-            }
+		#region Metodos
 
-            if(ModelState.ErrorCount > 0)
-                return Page();
+		/// <summary>
+		/// Crea un nuevo <see cref="ModeloLoteDeLeche"/> con los datos ingresados por el usuario
+		/// </summary>
+		public async Task<IActionResult> OnPost()
+		{
+			if (!ModelState.IsValid)
+				return Page();
 
-            var cisternas = (from c in _dbContext.Cisternas select c).ToList();
-            var tambos = (from c in _dbContext.Tambos select c).ToList();
+			if (!ValidationHelpers.TryParseDecimal(PorcentajeAgua, 5, 2, out var porcentajeAgua))
+				ModelState.AddModelError(nameof(PorcentajeAgua), "Porcentaje de agua solo puede contener caracteres numericos");
 
-            //Creamos el nuevo lote de leche.
-            ModeloLoteDeLeche nuevoLoteDeLeche = new ModeloLoteDeLeche
-            {
-                Fecha               = FechaIngreso, 
-                PorcentajeDeAgua    = porcentajeAgua,
-                Temperatura         = temperatura,
-                Acidez              = acidez,
-                EstaDisponible      = EstaDisponible, 
-                NotasAdicionales    = NotasAdicionales,
-                Cisterna            = cisternas.Single(m => m.Id == CisternaId),
-                TamboDeProveniencia = tambos.Single(m => m.Id == TamboId)
-            };
+			if (!ValidationHelpers.TryParseDecimal(Temperatura, 5, 2, out var temperatura))
+				ModelState.AddModelError(nameof(Temperatura), "Temperatura solo puede contener caracteres numericos");
 
-            if (ImagenPlanillita is not null)
-            {
-                //Guardamos los bytes de la imagen
-                using (var bReader = new BinaryReader(ImagenPlanillita.OpenReadStream()))
-                {
-                    nuevoLoteDeLeche.ImagenPlanilla = bReader.ReadBytes((int) ImagenPlanillita.Length);
-                }
-            }
+			if (!ValidationHelpers.TryParseDecimal(Acidez, 5, 2, out var acidez))
+				ModelState.AddModelError(nameof(Acidez), "Acidez solo puede contener caracteres numericos");
 
-            //Intentamos crear al lote de leche y guardarlo en la base de datos
-            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
-            {
-                _dbContext.Add(nuevoLoteDeLeche);
+			if (ImagenPlanillita is not null)
+			{
+				//Obtenemos el tamaño maximo permitido para un archivo desde la configuracion
+				var tamañoMaximoImagen = int.Parse(_config["TamanioMaximoArchivo"]);
 
-                cisternas.Single(m => m.Id == CisternaId).LotesDeLeche.Add(nuevoLoteDeLeche);
+				//Nos aseguramos de que el tamaño del archivo subido no sea mayor al maximo
+				if (ImagenPlanillita.Length > tamañoMaximoImagen)
+					ModelState.AddModelError($"{nameof(ImagenPlanillita)}", "Imagen demasiado grande");
 
-                tambos.Single(m => m.Id == TamboId).LotesDeLecheDeEsteTambo.Add(nuevoLoteDeLeche);
-            }))
-            {
-                _logger.LogError("Error al guardar los nuevos datos.");
-            }
+				//Nos aseguramos de que el formato del archivo subido sea valido
+				if (ImagenPlanillita.ImagenEsValida())
+					ModelState.AddModelError($"{nameof(ImagenPlanillita)}", "Imagen no valida");
+			}
 
-            //Recargamos la pagina.
-            return RedirectToPage("AdministrarLotesDeLeche");
-        }
+			if (ModelState.ErrorCount > 0)
+				return Page();
 
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnPostFiltradoLotes()
-        {
-            return Partial("_Lotes", this);
-        }
+			var cisternas = (from c in _dbContext.Cisternas select c).ToList();
+			var tambos = (from c in _dbContext.Tambos select c).ToList();
 
-        #region Propiedades para la creacion de lotes de leche.
+			//Creamos el nuevo lote de leche.
+			ModeloLoteDeLeche nuevoLoteDeLeche = new ModeloLoteDeLeche
+			{
+				Fecha = FechaIngreso,
+				PorcentajeDeAgua = porcentajeAgua,
+				Temperatura = temperatura,
+				Acidez = acidez,
+				EstaDisponible = EstaDisponible,
+				NotasAdicionales = NotasAdicionales,
+				Cisterna = cisternas.Single(m => m.Id == CisternaId),
+				TamboDeProveniencia = tambos.Single(m => m.Id == TamboId)
+			};
 
-        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Fecha de ingreso")]
+			if (ImagenPlanillita is not null)
+			{
+				//Guardamos los bytes de la imagen
+				using (var bReader = new BinaryReader(ImagenPlanillita.OpenReadStream()))
+				{
+					nuevoLoteDeLeche.ImagenPlanilla = bReader.ReadBytes((int)ImagenPlanillita.Length);
+				}
+			}
+
+			//Intentamos crear al lote de leche y guardarlo en la base de datos
+			if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
+			{
+				_dbContext.Add(nuevoLoteDeLeche);
+
+				cisternas.Single(m => m.Id == CisternaId).LotesDeLeche.Add(nuevoLoteDeLeche);
+
+				tambos.Single(m => m.Id == TamboId).LotesDeLecheDeEsteTambo.Add(nuevoLoteDeLeche);
+			}))
+			{
+				_logger.LogError("Error al guardar los nuevos datos.");
+			}
+
+			//Recargamos la pagina.
+			return RedirectToPage("AdministrarLotesDeLeche");
+		}
+
+		/// <summary>
+		/// Devuelve una <see cref="PartialViewResult"/> con la lista de los <see cref="ModeloLoteDeLeche"/> que satisfacen el filtro ingresado
+		/// </summary>
+		/// <returns><see cref="PartialViewResult"/> con la lista de los <see cref="ModeloLoteDeLeche"/> que satisfacen el filtro ingresado</returns>
+		public async Task<PartialViewResult> OnPostFiltradoLotes()
+		{
+			return Partial("_Lotes", this);
+		} 
+
+		#endregion
+
+		#region Propiedades para la creacion de lotes de leche.
+
+		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
+		[Display(Name = "Fecha de ingreso")]
         [DataType(DataType.Text)]
         [BindProperty]
-        public DateTimeOffset FechaIngreso { get; set; }
+        public DateTimeOffset FechaIngreso { get; set; } = DateTimeOffset.Now;
 
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Temperatura (°C)")]
@@ -179,9 +195,8 @@ namespace MilkyPantsCheese.Pages
         public int TamboId { get; set; }
 
         [Display(Name = "Esta disponible")]
-        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [BindProperty]
-        public bool EstaDisponible { get; set; }
+        public bool EstaDisponible { get; set; } = true;
 
         [Display(Name = "Imagen planilla")]
         [BindProperty]
