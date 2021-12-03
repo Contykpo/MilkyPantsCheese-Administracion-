@@ -93,10 +93,9 @@ namespace MilkyPantsCheese.Pages
 
 		#region Propiedades para la edicion de quesos.
 
-		[DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
 		[Display(Name = "Fecha de finalizacion del curado")]
 		[BindProperty]
-		public DateTimeOffset FechaFinalCurado { get; set; }
+		public DateTimeOffset FechaFinalCurado { get; set; } = DateTimeOffset.MinValue;
 
 		[Display(Name = "Estado del queso")]
 		[BindProperty]
@@ -109,7 +108,6 @@ namespace MilkyPantsCheese.Pages
 		[BindProperty]
 		public string PesoPreCurado { get; set; }
 
-		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[Display(Name = "Peso despues del curado")]
 		[StringLength(256)]
         [DataType(DataType.Text)]

@@ -34,28 +34,32 @@
 
                 </div>
 
-                <!--Lotes de leche a utilizar-->
-                <div class="form-group mt-5">
+                <div class="d-flex flex-row flex-wrap">
 
-                    <label asp-for="LoteLecheId"></label>
-                    <select asp-for="LoteLecheId" asp-items="@SelectListItemHelpers.ToSelectListItemListLotesDeLeche(lotesLeche)" class="custom-select"></select>
+                    <!--Lotes de leche a utilizar-->
+                    <div class="form-group d-flex flex-column">
 
-                    @Html.ValidationMessageFor(m => m.LoteLecheId, "", new { @class = "text-danger" })
+                        <label asp-for="LoteLecheId"></label>
+                        <select asp-for="LoteLecheId" asp-items="@SelectListItemHelpers.ToSelectListItemListLotesDeLeche(lotesLeche)" class="custom-select"></select>
 
-                </div>
+                        @Html.ValidationMessageFor(m => m.LoteLecheId, "", new { @class = "text-danger" })
 
-                <!--Tipo de queso en el lote-->
-                <div class="form-group mt-5">
+                    </div>
 
-                    <label asp-for="TipoQuesoId"></label>
-                    <select asp-for="TipoQuesoId" asp-items="@SelectListItemHelpers.ToSelectListItemListTipoQueso(tiposQuesos)" class="custom-select"></select>
+                    <!--Tipo de queso en el lote-->
+                    <div class="form-group d-flex flex-column ml-2 flex-sm-wrap">
 
-                    @Html.ValidationMessageFor(m => m.TipoQuesoId, "", new { @class = "text-danger" })
+                        <label asp-for="TipoQuesoId"></label>
+                        <select asp-for="TipoQuesoId" asp-items="@SelectListItemHelpers.ToSelectListItemListTipoQueso(tiposQuesos)" class="custom-select"></select>
+
+                        @Html.ValidationMessageFor(m => m.TipoQuesoId, "", new { @class = "text-danger" })
+
+                    </div>
 
                 </div>
 
                 <!--Fermento a utilizar en el lote-->
-                <div class="form-group mt-5">
+                <div class="form-group">
 
                     <label asp-for="FermentoId"></label>
                     <select asp-for="FermentoId" asp-items="@SelectListItemHelpers.ToSelectListItemListFermento(fermentos)" class="custom-select"></select>

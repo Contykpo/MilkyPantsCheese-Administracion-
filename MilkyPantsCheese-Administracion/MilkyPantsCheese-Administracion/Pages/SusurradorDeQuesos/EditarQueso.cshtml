@@ -20,11 +20,19 @@
                 @*Mensaje de error general*@
                 @Html.ValidationMessageFor(m => m.IdQuesoEditado, string.Empty, new { @class = "text-danger" })
 
-                <!--Seleccion fecha y horario de finalizacion de curacion del queso-->
-                <div class="form-group">
+                <!--Lote donde el queso sera almacenado-->
+                <div class="mt-5 d-flex flex-column">
 
-                    <label asp-for="FechaFinalCurado"></label>
-                    <input asp-for="FechaFinalCurado" type="date" class="form-control" />
+                    <label asp-for="LoteId"></label>
+
+                    <div class="form-group d-flex flex-row">
+
+                        <select asp-for="LoteId" asp-items="@SelectListItemHelpers.ToSelectListItemListLotesDeQueso(lotesQueso)" class="custom-select mr-2"></select>
+
+                        <a class="nav-link form-text btn btn-warning align-self-center py-1 px-1 mt-0" asp-page="/SusurradorDeQuesos/AdministradorDeQuesos">+</a>
+                    </div>
+
+                    @Html.ValidationMessageFor(m => m.LoteId, "", new { @class = "text-danger" })
 
                 </div>
 
@@ -38,33 +46,35 @@
 
                 </div>
 
-                <!--Peso del queso antes de que ser curado-->
-                <div class="form-group">
+                <div class="d-flex flex-row flex-wrap">
 
-                    <label asp-for="PesoPreCurado"></label>
-                    <input type="text" class="form-text" asp-for="PesoPreCurado" />
+                    <!--Peso del queso antes de que ser curado-->
+                    <div class="form-group">
 
-                    @Html.ValidationMessageFor(m => m.PesoPreCurado, "", new { @class = "text-danger" })
+                        <label asp-for="PesoPreCurado"></label>
+                        <input type="text" class="form-text" asp-for="PesoPreCurado" />
+
+                        @Html.ValidationMessageFor(m => m.PesoPreCurado, "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <!--Peso del queso despues de ser curado-->
+                    <div class="form-group ml-2 flex-sm-wrap">
+
+                        <label asp-for="PesoPostCurado"></label>
+                        <input type="text" class="form-text" asp-for="PesoPostCurado" />
+
+                        @Html.ValidationMessageFor(m => m.PesoPostCurado, "", new { @class = "text-danger" })
+
+                    </div>
 
                 </div>
 
-                <!--Peso del queso despues de ser curado-->
+                <!--Seleccion fecha y horario de finalizacion de curacion del queso-->
                 <div class="form-group">
 
-                    <label asp-for="PesoPostCurado"></label>
-                    <input type="text" class="form-text" asp-for="PesoPostCurado" />
-
-                    @Html.ValidationMessageFor(m => m.PesoPostCurado, "", new { @class = "text-danger" })
-
-                </div>
-
-                <!--Lote donde el queso sera almacenado-->
-                <div class="form-group mt-5">
-
-                    <label asp-for="LoteId"></label>
-                    <select asp-for="LoteId" asp-items="@SelectListItemHelpers.ToSelectListItemListLotesDeQueso(lotesQueso)" class="custom-select"></select>
-
-                    @Html.ValidationMessageFor(m => m.LoteId, "", new { @class = "text-danger" })
+                    <label asp-for="FechaFinalCurado"></label>
+                    <input asp-for="FechaFinalCurado" type="date" class="form-control" />
 
                 </div>
 
