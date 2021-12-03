@@ -20,11 +20,10 @@
             <!-- Accesos a pestañas -->
             <div class="p-2 border border-warning rounded">
             
-                <button id="abiertaPorDefecto" class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Añadir')" style="width: 200px;">Añadir</button>
-                <button class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Ver')" style="width: 200px;">Ver</button>
+                <button id="botonPestañaAñadir" class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Añadir');" style="width: 200px;">Añadir</button>
+                <button id="botonPestañaVer" class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Ver');" style="width: 200px;">Ver</button>
             
             </div>
-            
 
             <div id="Añadir" class="contenidoPestaña mt-3 p-2 border border-warning rounded">
 
@@ -38,7 +37,7 @@
                     <div class="form-group">
 
                         <label asp-for="FechaIngreso"></label>
-                        <input asp-for="FechaIngreso" type="date" class="form-control" value="@DateTimeOffset.Now" />
+                        <input asp-for="FechaIngreso" type="date" class="form-control"/>
 
                         @Html.ValidationMessageFor(m => m.FechaIngreso, "", new { @class = "text-danger" })
 
@@ -47,7 +46,7 @@
                     <div class="d-flex flex-row flex-wrap">
 
                         <!--Porcentaje de agua en la leche-->
-                        <div class="form-group">
+                        <div class="form-group mr-2">
 
                             <label asp-for="PorcentajeAgua"></label>
                             <input type="text" class="form-text" asp-for="PorcentajeAgua" />
@@ -57,7 +56,7 @@
                         </div>
 
                         <!--Temperatura de la leche-->
-                        <div class="form-group ml-2 flex-sm-wrap">
+                        <div class="form-group mr-2 flex-sm-wrap">
 
                             <label asp-for="Temperatura"></label>
                             <input type="text" class="form-text" asp-for="Temperatura" />
@@ -67,7 +66,7 @@
                         </div>
 
                         <!--Acidez de la leche-->
-                        <div class="form-group ml-2 flex-sm-wrap">
+                        <div class="form-group flex-sm-wrap">
 
                             <label asp-for="Acidez"></label>
                             <input type="text" class="form-text" asp-for="Acidez" />
@@ -81,8 +80,13 @@
                     <!--Disponibilidad del lote-->
                     <div class="form-group d-flex flex-row">
 
-                        <input type="checkbox" value="true" class="form-text" asp-for="EstaDisponible" />
-                        <label asp-for="EstaDisponible" class="ml-3"></label>
+                        @await Html.PartialAsync("_CheckBox", new ModeloCheckbox
+                        {
+                            checkBox = Html.CheckBoxFor(m => m.EstaDisponible, new { @class = "custom-control-input mr-2" }),
+                            nombrePropiedad = nameof(Model.EstaDisponible),
+                            contenido = string.Empty
+                        })
+                        <label asp-for="EstaDisponible"></label>
 
                     </div>
 
@@ -151,7 +155,7 @@
 
             </div>
             
-            <div id="Ver" class="contenidoPestaña mt-3 p-2 border border-warning rounded">
+            <div id="Ver" class="contenidoPestaña mt-3 p-2 border border-warning rounded" style="display: none;">
 
                 <div class="pb-3">
                     <h4 class="text-left">Lotes:</h4>
@@ -188,7 +192,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
     <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
-                  
+
     <script type="text/javascript">
 
         $('#imagenPlantilla').on('change', archivoSeleccionadoHandler);
@@ -199,35 +203,21 @@
             $.ajax({
                 type: "post",
                 url: "/MilkyMan/AdministrarLotesDeLeche?handler=FiltradoLotes",
-                beforeSend: function (xhr) { xhr.setRequestHeader("RequestVerificationToken", $("input:hidden[name=__RequestVerificationToken]").val()) },
+                beforeSend: function(xhr) { xhr.setRequestHeader("RequestVerificationToken", $("input:hidden[name=__RequestVerificationToken]").val()) },
                 data: $('#formLotes').serialize()
-            }).done(function (resultado) { $('#listaLotes').html(resultado); console.log(resultado); });
+            }).done(function(resultado) { $('#listaLotes').html(resultado); });
         }
-
-        document.getElementById("abiertaPorDefecto").click();
 
         @* Metodo llamado cuando el boton de una pestaña es seleccionado *@
         function abrirSeccion(e, pestaña) {
-            
-            var i, contenido, vinculo;
 
-            contenido = document.getElementsByClassName(".contenidoPestaña");
+            $(".contenidoPestaña").each(function() {
+                $(this).css('display', $(this).attr('id') === pestaña ? "inline" : "none");
+            });
 
-            for (i = 0; i < contenido.length; ++i)
-            {
-                contenido[i].style.display = "none";
-            }
-
-            vinculo = document.getElementsByClassName("vinculoPestaña");
-
-            for (i = 0; i < vinculo.length; ++i)
-            {
-                vinculo[i].className = vinculo[i].className.replace(" active", "");
-            }
-            
-            document.getElementById(pestaña).style.display = "block";
-
-            e.currentTarget.className += " active";
+            $(".vinculoPestaña").each(function() {
+                $(this).css('color', $(this).attr('id').indexOf(pestaña) === -1 ? 'black' : '');
+            });
         }
 
         @* Metodo llamado cuando el archivo seleccionado cambio*@
@@ -237,25 +227,27 @@
             target.nextElementSibling.innerText = target.files[0].name;
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
 
-            $('.texto-input-archivo').each(function (indice, elemento) {
+            $('.texto-input-archivo').each(function(indice, elemento) {
 
                 $(elemento).val($(elemento).closest('.input-group').find('input:file').attr('title'));
             });
         });
-        $('input:file').on('change', function (e) {
+        $('input:file').on('change',
+            function(e) {
 
-            var input = $(this).get(0);
-            var etiqueta = input.files.length === 1 ? $(this).val() : input.files.length + ' archivos seleccionados';
+                var input = $(this).get(0);
+                var etiqueta = input.files.length === 1 ? $(this).val() : input.files.length + ' archivos seleccionados';
 
-            $(this).trigger('archivoseleccionado', [input.files.length, etiqueta]);
-        });
-        $('input:file').on('archivoseleccionado', function (e, numeroDeArchivos, etiqueta) {
+                $(this).trigger('archivoseleccionado', [input.files.length, etiqueta]);
+            });
+        $('input:file').on('archivoseleccionado',
+            function(e, numeroDeArchivos, etiqueta) {
 
-            $(this).closest('.input-group').children('input:text').val(numeroDeArchivos > 0 ? etiqueta : $(this).attr('title'));
+                $(this).closest('.input-group').children('input:text').val(numeroDeArchivos > 0 ? etiqueta : $(this).attr('title'));
 
-        });
+            });
 
     </script>
 }

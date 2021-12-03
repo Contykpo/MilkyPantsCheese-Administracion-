@@ -2,14 +2,14 @@
 
 @foreach (var registro in Model.HistorialDatos)
 {
-    <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center" style="height: 75px;">
+    <div class="d-flex flex-row flex-wrap border-bottom border-warning align-items-center" style="min-height: 75px;">
 
-        <span class="col-2 pl-0 mr-5 ml-1 mr-md-0">Temperatura: @registro.Temperatura °C</span>
+        <span class="col-2 pl-0 mr-md-5 mr-1 ml-1 mr-md-0">@registro.Temperatura °C</span>
 
-        <span class="col-2 pl-0 mr-4 mr-md-0">Humedad: @registro.Humedad%</span>
+        <span class="col-2 pl-0 mr-md-4 mr-2">@registro.Humedad%</span>
 
-        <span class="col-2 pl-0 mr-5">CO2: @registro.DioxidoDeCarbono ppm</span>
+        <span class="col-2 pl-0 mr-5">@registro.DioxidoDeCarbono ppm</span>
 
-        <span class="col-2 pl-0"> @registro.Fecha.ToLocalTime().ToString("g")</span>
+        <span class="col-2 pl-0">@registro.Fecha.ToLocalTime().ToString("g")</span>
     </div>
 }

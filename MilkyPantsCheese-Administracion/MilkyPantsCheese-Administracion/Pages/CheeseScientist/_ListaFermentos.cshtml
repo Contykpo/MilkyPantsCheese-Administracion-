@@ -2,39 +2,36 @@
 
 @foreach (var fermento in Model.FermentosConcordantes)
 {
-    <div id="@fermento.Id" class="d-flex flex-row bg-dark rounded mb-3">
+
+    <div id="@fermento.Id" class="d-flex flex-row bg-dark border-bottom border-warning align-items-center">
     
         @*Id del fermento*@
-        <div class="col-md-1 col-2 px-0">
-            <label>Id: @fermento.Id</label>
+        <div class="col-md-1 col-2 px-0 ml-1">
+            <label>@fermento.Id</label>
         </div>
         
         @*Peso*@
-        <div class="col-md-1 col-2 px-0 d-md-inline d-none">
-            <label>Peso: @fermento.Peso.ToString("F") KG</label>
+        <div class="col-md-2 col-3 px-0 d-md-inline d-none">
+            <label>@fermento.Peso.ToString("F") KG</label>
         </div>
     
         @*Disponibilidad*@
-        <div class="col-md-1 col-2 px-0">
+        <div class="col-md-2 col-3 px-0">
             <label>@(fermento.EstaDisponible ? "Disponible" : "No disponible")</label>
         </div>
-        
-        <div class="d-md-inline col-1 px-0" style="display: none">
-            <label>Descripcion:</label>
-        </div>
-    
+
         @*Descripcion*@
-        <div class="col-md-2 d-md-inline d-none" style="padding: 0">
+        <div class="col-md-2 d-md-inline d-none mt-1 px-0">
             <textarea class="form-control d-inline-block" style="resize: none; width: 100%; height: 50px;" readonly="readonly">@fermento.Observaciones</textarea>
         </div>
     
         @*Boton editar*@
-        <div class="col-md-1 col-2 text-center" style="padding: 0;">
+        <div class="col-md-1 col-2 text-center align-self-center">
             <a asp-page="/CheeseScientist/EditarFermento" asp-route-id="@fermento.Id" class="btn btn-warning">Editar</a>
         </div>
         
         @*Boton eliminar*@
-        <div class="col-md-1 col-2 px-sm-0 px-md-2">
+        <div class="col-md-1 col-2 px-sm-0 px-md-2 align-self-center">
             
             @*Si el fermento ya se ha utilizado en algun lote entonces no debemos permitir que sea eliminado*@
             @if (fermento.LoteEnElQueSeLoUtilizo == null)

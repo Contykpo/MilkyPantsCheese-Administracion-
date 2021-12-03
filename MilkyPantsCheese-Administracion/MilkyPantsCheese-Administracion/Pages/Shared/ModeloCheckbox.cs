@@ -15,7 +15,7 @@ namespace MilkyPantsCheese.Pages
 		public string nombrePropiedad;
 
 		/// <summary>
-		/// Contenido de la etiqueta del cehckbox
+		/// Contenido de la etiqueta del checkbox
 		/// </summary>
 		public string contenido;
 

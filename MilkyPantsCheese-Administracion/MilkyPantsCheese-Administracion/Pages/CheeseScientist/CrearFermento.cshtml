@@ -19,8 +19,14 @@
     
     @*Checkbox obtener fecha automaticamente*@
     <div class="form-group">
-        <label asp-for="ObtenerFechaAutomaticamente"></label>
-        <input type="checkbox" asp-for="ObtenerFechaAutomaticamente" class="custom-checkbox" onchange="ObtenerFechaAutomaticamenteCambio(checked)">
+        
+        @await Html.PartialAsync("_CheckBox", new ModeloCheckbox
+        {
+            checkBox = Html.CheckBoxFor(m => m.ObtenerFechaAutomaticamente, new { @class = "custom-control-input mr-2", @onchange = "ObtenerFechaAutomaticamenteCambio(checked)" }),
+            nombrePropiedad = nameof(Model.ObtenerFechaAutomaticamente),
+            contenido = Html.DisplayNameFor(m => m.ObtenerFechaAutomaticamente)
+        })
+
     </div>
 
     @*Ingreso fecha*@

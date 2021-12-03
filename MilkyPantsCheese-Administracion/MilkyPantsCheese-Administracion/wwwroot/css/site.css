@@ -30,6 +30,14 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
+.header-lista {
+    background-color: #d29e00;
+}
+
+.header-lista label {
+    color: #ffff71;
+}
+
 button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
