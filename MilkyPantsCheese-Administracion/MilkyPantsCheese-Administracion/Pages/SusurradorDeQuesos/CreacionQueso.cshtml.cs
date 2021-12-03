@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace MilkyPantsCheese.Pages
 {
@@ -45,10 +46,17 @@ namespace MilkyPantsCheese.Pages
             if (!ValidationHelpers.TryParseDecimal(PesoPreCurado, 5, 2, out var pesoPreCurado))
                 ModelState.AddModelError(nameof(PesoPreCurado), "El peso del queso precurado solo puede contener caracteres numericos");
 
-            if (!ValidationHelpers.TryParseDecimal(PesoPostCurado, 5, 2, out var pesoPostCurado))
-                ModelState.AddModelError(nameof(PesoPostCurado), "El peso del queso postcurado solo puede contener caracteres numericos");
+            if (!decimal.TryParse(PesoPostCurado, out var pesoPostCurado))
+            {
+                //Si la conversion fallo, pero no se habia ingresado un numero en primer lugar entonces solamente asignamos
+                //el peso a 0 y continuamos sin añadir errores
+                if (string.IsNullOrWhiteSpace(PesoPostCurado))
+                    pesoPostCurado = 0;
+                else
+                    ModelState.AddModelError(nameof(PesoPostCurado), "El peso debe ser un numero decimal");
+            }
 
-            if(ModelState.ErrorCount > 0)
+            if (ModelState.ErrorCount > 0)
                 return Page();
 
             var lotes = (from c in _dbContext.LotesDeQuesos select c).ToList();
@@ -73,23 +81,22 @@ namespace MilkyPantsCheese.Pages
             {
                 _logger.LogError("Error al guardar los nuevos datos.");
             }
-
+            
             //De llegar hasta aqui, significa que la creacion del queso fue exitosa.
-            return RedirectToPage("AdministradorDeQuesos");
+            return RedirectToPage("CreacionQueso");
         }
 
 
         #region Propiedades para la creacion de quesos.
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Fecha de finalizacion del curado")]
         [BindProperty]
-        public DateTimeOffset FechaFinalCurado { get; set; }
+        [DisplayName("Fecha en la que finalizo la curacion")]
+        public DateTimeOffset FechaFinalCurado { get; set; } = DateTimeOffset.MinValue;
 
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Estado del queso")]
         [BindProperty]
-        public EEstadoQueso EstadoQueso { get; set; }
+        public EEstadoQueso EstadoQueso { get; set; } = EEstadoQueso.EnCuracion;
 
         [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Peso antes del curado")]

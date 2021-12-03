@@ -363,7 +363,7 @@ namespace MilkyPantsCheese.Migrations
                     Temperatura = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     Acidez = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
                     EstaDisponible = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ImagenPlanilla = table.Column<byte[]>(type: "longblob", nullable: true),
+                    ImagenPlanilla = table.Column<byte[]>(type: "longblob", maxLength: 2097062, nullable: true),
                     NotasAdicionales = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Fecha = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: false),
