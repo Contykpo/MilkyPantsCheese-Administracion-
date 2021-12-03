@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,6 +18,7 @@ namespace MilkyPantsCheese.Pages
     /// Modelo de la pagina encargada de lidiar con la gestion de lotes de leche.
     /// </summary>
     [ValidateAntiForgeryToken]
+	[Authorize(Roles = Constantes.NombreRolMilkyMan)]
     public class AdministrarLotesDeLecheModel : PageModel
     {
 		#region Campos
@@ -92,7 +94,7 @@ namespace MilkyPantsCheese.Pages
 					ModelState.AddModelError($"{nameof(ImagenPlanillita)}", "Imagen demasiado grande");
 
 				//Nos aseguramos de que el formato del archivo subido sea valido
-				if (ImagenPlanillita.ImagenEsValida())
+				if (!ImagenPlanillita.ImagenEsValida())
 					ModelState.AddModelError($"{nameof(ImagenPlanillita)}", "Imagen no valida");
 			}
 

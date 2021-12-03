@@ -8,182 +8,178 @@
 @inject MilkyDbContext dbContext
 
 @{
-    //Verificamos si el usuario actual tiene el rol de 'MilkyMan'.
-    if (User.IsInRole(Constantes.NombreRolMilkyMan))
-    {
-        var cisternas = (from c in dbContext.Cisternas select c).ToList();
+    var cisternas = (from c in dbContext.Cisternas select c).ToList();
 
-        var tambos = (from c in dbContext.Tambos select c).ToList();
-        
-        <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
-            
-            <!-- Accesos a pestañas -->
-            <div class="p-2 border border-warning rounded">
-            
-                <button id="botonPestañaAñadir" class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Añadir');" style="width: 200px;">Añadir</button>
-                <button id="botonPestañaVer" class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Ver');" style="width: 200px;">Ver</button>
-            
+    var tambos = (from c in dbContext.Tambos select c).ToList();
+
+    <div class="d-flex flex-column h-75 w-75 position-absolute" style="margin-right: auto; margin-left: auto; left: 0; right: 0;">
+
+        <!-- Accesos a pestañas -->
+        <div class="p-2 border border-warning rounded">
+
+            <button id="botonPestañaAñadir" class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Añadir');" style="width: 200px;">Añadir</button>
+            <button id="botonPestañaVer" class="form-text btn btn-warning vinculoPestaña d-inline-block" onclick="abrirSeccion(event, 'Ver');" style="width: 200px;">Ver</button>
+
+        </div>
+
+        <div id="Añadir" class="contenidoPestaña mt-3 p-2 border border-warning rounded">
+
+            <div class="pb-3">
+                <h4 class="text-left">Añadir lote:</h4>
             </div>
 
-            <div id="Añadir" class="contenidoPestaña mt-3 p-2 border border-warning rounded">
+            <form enctype="multipart/form-data" method="post">
 
-                <div class="pb-3">
-                    <h4 class="text-left">Añadir lote:</h4>
+                <!--Seleccion fecha y horario de ingreso del nuevo lote-->
+                <div class="form-group">
+
+                    <label asp-for="FechaIngreso"></label>
+                    <input asp-for="FechaIngreso" type="datetime-local" class="form-control" />
+
+                    @Html.ValidationMessageFor(m => m.FechaIngreso, "", new { @class = "text-danger" })
+
                 </div>
 
-                <form method="post">
+                <div class="d-flex flex-row flex-wrap">
 
-                    <!--Seleccion fecha y horario de ingreso del nuevo lote-->
-                    <div class="form-group">
+                    <!--Porcentaje de agua en la leche-->
+                    <div class="form-group mr-2">
 
-                        <label asp-for="FechaIngreso"></label>
-                        <input asp-for="FechaIngreso" type="datetime-local" class="form-control"/>
+                        <label asp-for="PorcentajeAgua"></label>
+                        <input type="text" class="form-text" asp-for="PorcentajeAgua" />
 
-                        @Html.ValidationMessageFor(m => m.FechaIngreso, "", new { @class = "text-danger" })
-
-                    </div>
-                    
-                    <div class="d-flex flex-row flex-wrap">
-
-                        <!--Porcentaje de agua en la leche-->
-                        <div class="form-group mr-2">
-
-                            <label asp-for="PorcentajeAgua"></label>
-                            <input type="text" class="form-text" asp-for="PorcentajeAgua" />
-
-                            @Html.ValidationMessageFor(m => m.PorcentajeAgua, "", new { @class = "text-danger" })
-
-                        </div>
-
-                        <!--Temperatura de la leche-->
-                        <div class="form-group mr-2 flex-sm-wrap">
-
-                            <label asp-for="Temperatura"></label>
-                            <input type="text" class="form-text" asp-for="Temperatura" />
-
-                            @Html.ValidationMessageFor(m => m.Temperatura, "", new { @class = "text-danger" })
-
-                        </div>
-
-                        <!--Acidez de la leche-->
-                        <div class="form-group flex-sm-wrap">
-
-                            <label asp-for="Acidez"></label>
-                            <input type="text" class="form-text" asp-for="Acidez" />
-
-                            @Html.ValidationMessageFor(m => m.Acidez, "", new { @class = "text-danger" })
-
-                        </div>
+                        @Html.ValidationMessageFor(m => m.PorcentajeAgua, "", new { @class = "text-danger" })
 
                     </div>
 
-                    <!--Disponibilidad del lote-->
-                    <div class="form-group d-flex flex-row">
+                    <!--Temperatura de la leche-->
+                    <div class="form-group mr-2 flex-sm-wrap">
 
-                        @await Html.PartialAsync("_CheckBox", new ModeloCheckbox
-                        {
-                            checkBox = Html.CheckBoxFor(m => m.EstaDisponible, new { @class = "custom-control-input mr-2" }),
-                            nombrePropiedad = nameof(Model.EstaDisponible),
-                            contenido = string.Empty
-                        })
-                        <label asp-for="EstaDisponible"></label>
+                        <label asp-for="Temperatura"></label>
+                        <input type="text" class="form-text" asp-for="Temperatura" />
+
+                        @Html.ValidationMessageFor(m => m.Temperatura, "", new { @class = "text-danger" })
 
                     </div>
 
-                    <div class="d-flex flex-row flex-wrap">
-                        
-                        <!--Cisterna donde se almacenara-->
-                        <div class="form-group d-flex flex-column">
+                    <!--Acidez de la leche-->
+                    <div class="form-group flex-sm-wrap">
 
-                            <label asp-for="CisternaId"></label>
-                            <select asp-for="CisternaId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select" style="min-width: 150px; max-width: 300px;"></select>
+                        <label asp-for="Acidez"></label>
+                        <input type="text" class="form-text" asp-for="Acidez" />
 
-                            @Html.ValidationMessageFor(m => m.CisternaId, "", new { @class = "text-danger" })
-
-                        </div>
-
-                        <!--Tambo del que proviene la leche-->
-                        <div class="form-group d-flex flex-column ml-2 flex-sm-wrap">
-
-                            <label asp-for="TamboId"></label>
-                            <select asp-for="TamboId" asp-items="@SelectListItemHelpers.ToSelectListItemListTambos(tambos)" class="custom-select" style="min-width: 150px; max-width: 300px;"></select>
-
-                            @Html.ValidationMessageFor(m => m.TamboId, "", new { @class = "text-danger" })
-
-                        </div>
+                        @Html.ValidationMessageFor(m => m.Acidez, "", new { @class = "text-danger" })
 
                     </div>
 
-                    <!--Notas adicionales sobre la leche -->
-                    <div class="form-group">
+                </div>
 
-                        <label asp-for="NotasAdicionales"></label>
-                        <textarea class="form-text overflow-auto w-100" asp-for="NotasAdicionales"></textarea>
+                <!--Disponibilidad del lote-->
+                <div class="form-group d-flex flex-row">
 
-                    </div>
+                    @await Html.PartialAsync("_CheckBox", new ModeloCheckbox
+                    {
+                        checkBox = Html.CheckBoxFor(m => m.EstaDisponible, new { @class = "custom-control-input mr-2" }),
+                        nombrePropiedad = nameof(Model.EstaDisponible),
+                        contenido = string.Empty
+                    })
+                    <label asp-for="EstaDisponible"></label>
 
+                </div>
 
-                    <!--Imagen de planilla opcional con mayores detalles-->
-                    <div class="col-md-9 col-12 pl-0">
+                <div class="d-flex flex-row flex-wrap">
 
-                        <div class="input-group">
+                    <!--Cisterna donde se almacenara-->
+                    <div class="form-group d-flex flex-column">
 
-                            <label class="input-group-btn">
+                        <label asp-for="CisternaId"></label>
+                        <select asp-for="CisternaId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" class="custom-select" style="min-width: 150px; max-width: 300px;"></select>
 
-                                <span class="btn btn-warning rounded-left rounded-right-0">
-                                    Seleccionar archivo <input type="file" class="d-none" title="Imagen planillita">
-                                </span>
-
-                            </label>
-
-                            <input type="text" class="form-control texto-input-archivo" readonly>
-
-                            @Html.ValidationMessageFor(m => m.ImagenPlanillita, "", new { @class = "text-danger" })
-
-                        </div>
+                        @Html.ValidationMessageFor(m => m.CisternaId, "", new { @class = "text-danger" })
 
                     </div>
 
-                    <!--Boton submit-->
-                    <div class="mt-3">
+                    <!--Tambo del que proviene la leche-->
+                    <div class="form-group d-flex flex-column ml-2 flex-sm-wrap">
 
-                        <input type="submit" value="Añadir" class="form-text btn btn-warning" />
+                        <label asp-for="TamboId"></label>
+                        <select asp-for="TamboId" asp-items="@SelectListItemHelpers.ToSelectListItemListTambos(tambos)" class="custom-select" style="min-width: 150px; max-width: 300px;"></select>
+
+                        @Html.ValidationMessageFor(m => m.TamboId, "", new { @class = "text-danger" })
 
                     </div>
 
-                </form>
+                </div>
 
+                <!--Notas adicionales sobre la leche -->
+                <div class="form-group">
+
+                    <label asp-for="NotasAdicionales"></label>
+                    <textarea class="form-text overflow-auto w-100" asp-for="NotasAdicionales"></textarea>
+
+                </div>
+
+
+                <!--Imagen de planilla opcional con mayores detalles-->
+                <div class="col-md-9 col-12 pl-0">
+
+                    <div class="input-group">
+
+                        <label class="input-group-btn">
+
+                            <span class="btn btn-warning rounded-left rounded-right-0">
+                                Seleccionar archivo <input type="file" asp-for="ImagenPlanillita" class="d-none" title="Imagen planillita">
+                            </span>
+
+                        </label>
+
+                        <input type="text" class="form-control texto-input-archivo" readonly>
+
+                        @Html.ValidationMessageFor(m => m.ImagenPlanillita, "", new { @class = "text-danger" })
+
+                    </div>
+
+                </div>
+
+                <!--Boton submit-->
+                <div class="mt-3">
+
+                    <input type="submit" value="Añadir" class="form-text btn btn-warning" />
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div id="Ver" class="contenidoPestaña mt-3 p-2 border border-warning rounded" style="display: none;">
+
+            <div class="pb-3">
+                <h4 class="text-left">Lotes:</h4>
             </div>
-            
-            <div id="Ver" class="contenidoPestaña mt-3 p-2 border border-warning rounded" style="display: none;">
 
-                <div class="pb-3">
-                    <h4 class="text-left">Lotes:</h4>
-                </div>
-                
-                <form id="formLotes">
-                    
-                    <div>
+            <form id="formLotes">
 
-                        <label asp-for="CisternaLotesId"></label>
-                        <select asp-for="CisternaLotesId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" onchange="cambioItemSeleccionado()" class="custom-select"></select>
+                <div>
 
-                        @Html.ValidationMessageFor(m => m.CisternaLotesId, "", new { @class = "text-danger" })
+                    <label asp-for="CisternaLotesId"></label>
+                    <select asp-for="CisternaLotesId" asp-items="@SelectListItemHelpers.ToSelectListItemListCisterna(cisternas)" onchange="cambioItemSeleccionado()" class="custom-select"></select>
 
-                    </div>
-
-                </form>
-
-                <div id="listaLotes">
-                    
-                    <partial name="_Lotes"/>
+                    @Html.ValidationMessageFor(m => m.CisternaLotesId, "", new { @class = "text-danger" })
 
                 </div>
+
+            </form>
+
+            <div id="listaLotes">
+
+                <partial name="_Lotes" />
 
             </div>
 
         </div>
-    }
+
+    </div>
 }
 
 @section Scripts

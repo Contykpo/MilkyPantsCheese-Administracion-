@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -13,20 +14,23 @@ namespace MilkyPantsCheese.Pages
 	/// <summary>
 	/// Modelo de la pagina para la edicion de <see cref="EditarLoteLecheModel"/>
 	/// </summary>
+	[Authorize(Roles = Constantes.NombreRolMilkyMan)]
+	[ValidateAntiForgeryToken]
 	public class EditarLoteLecheModel : PageModel
     {
 	    public readonly MilkyDbContext _dbContext;
 	    public readonly ILogger<EditarLoteLecheModel> _logger;
+
+	    /// <summary>
+	    /// Lote de leche siendo editado
+	    /// </summary>
+	    public ModeloLoteDeLeche loteSiendoEditado;
 
 		/// <summary>
 		/// Id del lote de leche que estamos editando
 		/// </summary>
 		[BindProperty]
 		public int IdLoteLecheEditado { get; set; }
-
-		[BindProperty]
-		public byte[] ImagenPlanilla { get; set; }
-
 
 		public EditarLoteLecheModel(MilkyDbContext dbContext, ILogger<EditarLoteLecheModel> logger)
 	    {
@@ -50,9 +54,7 @@ namespace MilkyPantsCheese.Pages
 				NotasAdicionales = lotelecheSiendoEditado.NotasAdicionales;
 				CisternaId       = lotelecheSiendoEditado.Cisterna.Id;
 				TamboId          = lotelecheSiendoEditado.TamboDeProveniencia.Id;
-
-				ImagenPlanilla = lotelecheSiendoEditado.ImagenPlanilla;
-			}
+	        }
         }
 
 		/// <summary>
@@ -63,28 +65,25 @@ namespace MilkyPantsCheese.Pages
 			var lotelecheSiendoEditado = await _dbContext.LotesDeLeche.ValidarIDYObtenerModelo(IdLoteLecheEditado, ModelState, nameof(IdLoteLecheEditado));
 
 			if (lotelecheSiendoEditado is null)
-				return Page();
+				ModelState.AddModelError(string.Empty, "Algo salio mal al intentar editar este lote. Si el problema persiste, contactese con soporte.");
 
 			if (!decimal.TryParse(PorcentajeAgua, out var nuevoPorcentajeAgua))
 			{
 				ModelState.AddModelError(nameof(PorcentajeAgua), "El peso debe ser un valor numerico");
-
-				return Page();
 			}
 
 			if (!decimal.TryParse(Temperatura, out var nuevaTemperatura))
 			{
 				ModelState.AddModelError(nameof(Temperatura), "El peso debe ser un valor numerico");
-
-				return Page();
 			}
 
 			if (!decimal.TryParse(Acidez, out var nuevaAcidez))
 			{
 				ModelState.AddModelError(nameof(Acidez), "El peso debe ser un valor numerico");
-
-				return Page();
 			}
+
+			if (ModelState.ErrorCount > 0)
+				return Page();
 
 			//Si llegamos a este punto, significa que las validanciones anteriores tuvieron exito, asi que actualizamos todas las propiedades del modelo.
 

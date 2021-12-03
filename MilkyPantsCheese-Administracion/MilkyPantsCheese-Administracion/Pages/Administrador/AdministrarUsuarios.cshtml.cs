@@ -53,10 +53,6 @@ namespace MilkyPantsCheese.Pages
 
 		#endregion
 
-		public void OnGet()
-        {
-        }
-
 	    public async Task<IActionResult> OnPost()
 	    {
 		    IQueryable<ModeloUsuario> query = _dbContext.Users.AsQueryable();
