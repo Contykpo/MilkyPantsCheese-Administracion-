@@ -37,7 +37,7 @@
                     <div class="form-group">
 
                         <label asp-for="FechaIngreso"></label>
-                        <input asp-for="FechaIngreso" type="date" class="form-control"/>
+                        <input asp-for="FechaIngreso" type="datetime-local" class="form-control"/>
 
                         @Html.ValidationMessageFor(m => m.FechaIngreso, "", new { @class = "text-danger" })
 

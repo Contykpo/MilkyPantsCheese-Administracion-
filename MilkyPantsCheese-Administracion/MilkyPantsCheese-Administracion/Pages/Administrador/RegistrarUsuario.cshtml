@@ -19,7 +19,7 @@
         <div class="form-group">
             <label asp-for="Contraseña"></label>
             <input asp-for="Contraseña" type="password" class="form-text" />
-            @Html.ValidationMessageFor(m => m.Contraseña, string.Empty, new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.Contraseña, string.Empty, new { @class = "text-danger d-inline-block", @style="max-width: 200px;"})
         </div>
 
         <div class="form-group ml-2 flex-sm-wrap">

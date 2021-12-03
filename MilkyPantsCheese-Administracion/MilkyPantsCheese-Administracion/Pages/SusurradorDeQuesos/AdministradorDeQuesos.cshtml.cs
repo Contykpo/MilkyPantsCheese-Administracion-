@@ -13,76 +13,87 @@ namespace MilkyPantsCheese.Pages
     /// <summary>
     /// Modelo de la pagina encargada de lidiar con la admnistracion de quesos.
     /// </summary>
+    [ValidateAntiForgeryToken]
     public class AdministradorDeQuesosModel : PageModel
     {
-        private readonly MilkyDbContext _dbContext;
+		#region Campos
 
-        public readonly ILogger<AdministradorDeQuesosModel> _logger;
+		private readonly MilkyDbContext _dbContext;
 
-        /// <summary>
-        /// Lotes de queso disponibles.
-        /// </summary>
-        public List<ModeloLoteDeQueso> LotesDeQueso { get; set; } = new List<ModeloLoteDeQueso>();
+		public readonly ILogger<AdministradorDeQuesosModel> _logger; 
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="dbContext"></param>
-        /// <param name="userManager"></param>
-        public AdministradorDeQuesosModel(MilkyDbContext dbContext, ILogger<AdministradorDeQuesosModel> logger)
-        {
-            _dbContext = dbContext;
+		#endregion
 
-            LotesDeQueso = (from c in dbContext.LotesDeQuesos select c).ToList();
-        }
+		#region Propiedades
 
-        public void OnGet()
-        {
-        }
+		/// <summary>
+		/// Lotes de queso disponibles.
+		/// </summary>
+		public List<ModeloLoteDeQueso> LotesDeQueso { get; set; } = new List<ModeloLoteDeQueso>(); 
 
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnPost()
-        {
-            if (!ModelState.IsValid)
-                return Page();
+		#endregion
 
-            if(ModelState.ErrorCount > 0)
-                return Page();
+		#region Constructor
 
-            var lotesLeche = (from c in _dbContext.LotesDeLeche select c).ToList();
-            var tiposQuesos = (from c in _dbContext.TiposDeQuesos select c).ToList();
-            var fermentos = (from c in _dbContext.Fermentos select c).ToList();
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="dbContext"></param>
+		/// <param name="userManager"></param>
+		public AdministradorDeQuesosModel(MilkyDbContext dbContext, ILogger<AdministradorDeQuesosModel> logger)
+		{
+			_dbContext = dbContext;
 
-            //Creamos el nuevo lote de queso.
-            ModeloLoteDeQueso nuevoLoteDeQueso = new ModeloLoteDeQueso
-            {
-                FechaInicioCuracion = FechaInicio, 
-                Observaciones       = Observaciones,
-                LoteDeLeche         = lotesLeche.Single(m => m.Id == LoteLecheId),
-                TipoQueso           = tiposQuesos.Single(m => m.Id == TipoQuesoId),
-                Fermento            = fermentos.Single(m => m.Id == FermentoId),
-            };
+			LotesDeQueso = (from c in dbContext.LotesDeQuesos select c).ToList();
+		} 
 
-            //Intentamos crear al lote de queso y guardarlo en la base de datos
-            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
-            {
-                _dbContext.Add(nuevoLoteDeQueso);
-            }))
-            {
-                _logger.LogError("Error al guardar los nuevos datos.");
-            }
+		#endregion
 
-            //Recargamos la pagina.
-            return RedirectToPage("AdministradorDeQuesos");
-        }
+		#region Metodos
 
-        #region Propiedades para la creacion / edicion de lotes de queso.
+		public async Task<IActionResult> OnPost()
+		{
+			if (!ModelState.IsValid)
+				return Page();
 
-        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
+			if (ModelState.ErrorCount > 0)
+				return Page();
+
+			var lotesLeche = (from c in _dbContext.LotesDeLeche select c).ToList();
+			var tiposQuesos = (from c in _dbContext.TiposDeQuesos select c).ToList();
+			var fermentos = (from c in _dbContext.Fermentos select c).ToList();
+
+			//Creamos el nuevo lote de queso.
+			ModeloLoteDeQueso nuevoLoteDeQueso = new ModeloLoteDeQueso
+			{
+				FechaInicioCuracion = FechaInicio,
+				Observaciones = Observaciones,
+				LoteDeLeche = lotesLeche.Single(m => m.Id == LoteLecheId),
+				TipoQueso = tiposQuesos.Single(m => m.Id == TipoQuesoId),
+				Fermento = fermentos.Single(m => m.Id == FermentoId),
+			};
+
+			//Intentamos crear al lote de queso y guardarlo en la base de datos
+			if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
+			{
+				_dbContext.Add(nuevoLoteDeQueso);
+			}))
+			{
+				_logger.LogError("Error al guardar los nuevos datos.");
+			}
+
+			//Recargamos la pagina.
+			return RedirectToPage("AdministradorDeQuesos");
+		} 
+
+		#endregion
+
+		#region Propiedades para la creacion / edicion de lotes de queso.
+
+		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Fecha inicial de curacion")]
         [BindProperty]
-        public DateTimeOffset FechaInicio { get; set; }
+        public DateTimeOffset FechaInicio { get; set; } = DateTimeOffset.Now;
 
         [StringLength(1024)]
         [DataType(DataType.Text)]

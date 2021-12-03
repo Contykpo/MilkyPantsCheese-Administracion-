@@ -32,7 +32,9 @@
                     <div class="form-group">
 
                         <label asp-for="FechaInicio"></label>
-                        <input asp-for="FechaInicio" type="date" class="form-control" value="@DateTimeOffset.Now" />
+                        <input asp-for="FechaInicio" type="datetime-local" class="form-control"/>
+
+                        @Html.ValidationMessageFor(m => m.FechaInicio, "", new { @class = "text-danger" })
 
                     </div>
 

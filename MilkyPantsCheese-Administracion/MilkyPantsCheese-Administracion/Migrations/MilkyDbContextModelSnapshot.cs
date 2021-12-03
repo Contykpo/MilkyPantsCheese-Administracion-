@@ -180,8 +180,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -249,8 +248,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Observaciones")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<decimal>("Peso")
                         .HasPrecision(5, 2)
@@ -292,8 +290,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("longblob");
 
                     b.Property<string>("NotasAdicionales")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<decimal>("PorcentajeDeAgua")
                         .HasPrecision(5, 2)
@@ -331,8 +328,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Observaciones")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<int?>("TipoQuesoId")
                         .HasColumnType("int");
@@ -412,12 +408,10 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Notas")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("nvarchar(1024)");
 
                     b.HasKey("Id");
 
@@ -431,13 +425,11 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Descripcion")
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -451,8 +443,7 @@ namespace MilkyPantsCheese.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -522,7 +513,7 @@ namespace MilkyPantsCheese.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 

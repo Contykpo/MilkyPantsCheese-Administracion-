@@ -102,12 +102,23 @@ namespace MilkyPantsCheese.Pages
 		        DuracionSesion = DuracionSesion,
 	        };
 
+            //Validamos el nombre de usuario
+	        foreach (var validator in _userManager.UserValidators)
+	        {
+		        if (await validator.ValidateAsync(_userManager, nuevoUsuario) != IdentityResult.Success)
+		        {
+                    ModelState.AddModelError(nameof(NombreUsuario), "Se han utilizado caracteres invalidos en el nombre");
+
+                    return Page();
+		        }
+	        }
+
             //Nos aseguramos de que la contraseña cumpla con los requisitos de seguridad
 	        foreach (var passwordValidator in _userManager.PasswordValidators)
 	        {
 		        if (passwordValidator.ValidateAsync(_userManager, nuevoUsuario, Contraseña).Result != IdentityResult.Success)
 		        {
-                    ModelState.AddModelError(nameof(Contraseña), "La contraseña no cumple con los requisitos de seguridad");
+                    ModelState.AddModelError(nameof(Contraseña), "La contraseña no cumple con los requisitos de seguridad. Asegurese de que contenga al menos 4 caracteres, 3 caracteres unicos, una mayuscula y una minuscula");
 
                     return Page();
 		        }

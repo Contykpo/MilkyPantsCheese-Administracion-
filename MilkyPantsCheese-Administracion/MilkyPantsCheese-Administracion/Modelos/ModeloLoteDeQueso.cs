@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MilkyPantsCheese
 {
@@ -12,7 +13,7 @@ namespace MilkyPantsCheese
         /// <summary>
         /// Observaciones adicionales acerca del lote.
         /// </summary>
-        [StringLength(1024)]
+        [Column(TypeName = "nvarchar(1024)")]
         public string Observaciones { get; set; }
 
         /// <summary>

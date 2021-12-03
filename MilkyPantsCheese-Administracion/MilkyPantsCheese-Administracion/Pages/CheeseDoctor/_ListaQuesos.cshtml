@@ -3,26 +3,22 @@
 @*Por cada queso que satisface el filtro...*@
 @foreach (var queso in Model.QuesosConcordantes)
 {
-    <div class="table text-warning bg-dark">
+    <div class="d-flex flex-row text-warning bg-dark border-bottom border-warning py-2">
         
-        <div class="row">
+        @*Id del queso*@
+        <div class="col-2 ml-0 ml-md-2">@queso.Id</div>
             
-            @*Id del queso*@
-            <div class="col-2 ml-0 ml-md-2">Id: @queso.Id</div>
+        @*Tipo del queso*@
+        <div class="col-2">@queso.Lote.TipoQueso.Nombre</div>
             
-            @*Tipo del queso*@
-            <div class="col-2">Tipo: @queso.Lote.TipoQueso.Nombre</div>
+        @*Estado del queso*@
+        <div class="col-2 d-none d-md-inline">@queso.EstadoQueso</div>
             
-            @*Estado del queso*@
-            <div class="col-2 d-none d-md-inline">Estado: @queso.EstadoQueso</div>
+        @*Id del lote al que pertenece el queso*@
+        <div class="col-2">@queso.Lote.Id</div>
             
-            @*Id del lote al que pertenece el queso*@
-            <div class="col-2">Id Lote: @queso.Lote.Id</div>
-            
-            @*Boton editar*@
-            <a class="col-2" asp-page="/CheeseDoctor/EditarQueso" asp-route-id="@queso.Id">Editar</a>
-
-        </div>
+        @*Boton editar*@
+        <a class="col-2" asp-page="/CheeseDoctor/EditarQueso" asp-route-id="@queso.Id">Editar</a>
 
     </div>
 }

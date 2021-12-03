@@ -50,6 +50,10 @@ namespace MilkyPantsCheese
 	            .HasMany(u => u.Roles)
 	            .WithMany(r => r.Usuarios);
 
+            builder.Entity<ModeloUsuario>()
+	            .Property(u => u.UserName)
+	            .HasColumnType("nvarchar(200)");
+
             #endregion
 
             #region Lote de leche

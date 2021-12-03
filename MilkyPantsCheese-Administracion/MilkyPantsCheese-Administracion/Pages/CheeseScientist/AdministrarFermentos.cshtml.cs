@@ -150,7 +150,7 @@ namespace MilkyPantsCheese.Pages
 		        queryFiltrarFermentos = queryFiltrarFermentos.Where(f => f.Id == IdFermento);
 
             if(!string.IsNullOrWhiteSpace(NombreTipoFermento))
-	            queryFiltrarFermentos = queryFiltrarFermentos.Where(f => f.Nombre == NombreTipoFermento);
+	            queryFiltrarFermentos = queryFiltrarFermentos.Where(f => f.Nombre.Contains(NombreTipoFermento));
 
             TiposDeFermentoConcordantes = await queryFiltrarFermentos.ToListAsync();
 

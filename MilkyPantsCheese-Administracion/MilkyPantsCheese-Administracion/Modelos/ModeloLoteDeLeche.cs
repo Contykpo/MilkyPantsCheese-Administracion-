@@ -39,7 +39,7 @@ namespace MilkyPantsCheese
 		/// <summary>
 		/// Notas adicionales sobre este lote
 		/// </summary>
-		[StringLength(1024)]
+		[Column(TypeName = "nvarchar(1024)")]
 		public string NotasAdicionales { get; set; }
 
 		/// <summary>

@@ -104,7 +104,7 @@ namespace MilkyPantsCheese.Pages
             //Intentamos parsear los nuevos pesos
             if(ValidationHelpers.TryParseDecimal(PesoPreCurado, 4, 1, out var pesoPreCuradoParseado))
             {
-	            consulta.AñadirWhereConTipoDeComparacion(
+	            consulta = consulta.AñadirWhereConTipoDeComparacion(
 		            m => m.PesoPreCurado == pesoPreCuradoParseado,
 		            m => m.PesoPreCurado > pesoPreCuradoParseado,
 		            m => m.PesoPreCurado < pesoPreCuradoParseado,
@@ -113,7 +113,7 @@ namespace MilkyPantsCheese.Pages
 
             if (ValidationHelpers.TryParseDecimal(PesoPostCurado, 4, 1, out var pesoPostCuradoParseado))
             {
-	            consulta.AñadirWhereConTipoDeComparacion(
+	            consulta = consulta.AñadirWhereConTipoDeComparacion(
 		            m => m.PesoPostCurado == pesoPostCuradoParseado,
 		            m => m.PesoPostCurado > pesoPostCuradoParseado,
 		            m => m.PesoPostCurado < pesoPostCuradoParseado,

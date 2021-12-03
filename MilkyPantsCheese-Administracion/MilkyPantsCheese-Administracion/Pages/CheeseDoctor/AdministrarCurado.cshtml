@@ -164,8 +164,32 @@
     </div>
 
     @*Lista de los quesos que satisfacen el filtro ingresado*@
-    <div id="resultadoBusqueda" class="d-flex flex-column h-100 border border-warning p-0 p-md-2 mt-3">
+    <div class="d-flex flex-column h-100 border border-warning mt-3" style="overflow-y: auto;">
+        
+        <div class="d-flex flex-row header-lista">
+            @*Id del queso*@
+            <div class="col-2 ml-0 ml-md-2">
+                <label>ID</label>
+            </div>
 
+            @*Tipo del queso*@
+            <div class="col-2">
+                <label>Tipo</label>
+            </div>
+
+            @*Estado del queso*@
+            <div class="col-2 d-none d-md-inline">
+                <label>Estado</label>
+            </div>
+
+            @*Id del lote al que pertenece el queso*@
+            <div class="col-2">
+                <label>ID Lote</label>
+            </div>
+        </div>
+            
+        <div id="resultadoBusqueda" class="d-flex flex-column d-inline-block" style="overflow-y: auto; overflow-x: hidden; scroll-behavior: auto;"></div>
+        
     </div>
 
 </form>

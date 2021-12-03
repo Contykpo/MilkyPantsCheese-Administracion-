@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MilkyPantsCheese
 {
@@ -10,14 +11,14 @@ namespace MilkyPantsCheese
         /// <summary>
         /// Nombre del tipo de fermento.
         /// </summary>
-        [StringLength(256)]
+        [Column(TypeName = "nvarchar(256)")]
         [Required]
         public string Nombre { get; set; }
 
         /// <summary>
         /// Descripcion del fermento
         /// </summary>
-        [StringLength(1024)]
+        [Column(TypeName = "nvarchar(1024)")]
         public string Descripcion { get; set; }
     }
 }

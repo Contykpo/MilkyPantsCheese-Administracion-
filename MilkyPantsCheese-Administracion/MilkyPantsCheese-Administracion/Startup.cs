@@ -90,7 +90,7 @@ namespace MilkyPantsCheese
 	            //Configuracion de las restricciones para crearse un usuario
 	            configIdentity.User = new UserOptions
 	            {
-		            AllowedUserNameCharacters = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789@. ",
+		            AllowedUserNameCharacters = "abcdefghijklmnñopqrstuvwxyzáéíóúABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789@. ",
 		            RequireUniqueEmail = false
 	            };
 

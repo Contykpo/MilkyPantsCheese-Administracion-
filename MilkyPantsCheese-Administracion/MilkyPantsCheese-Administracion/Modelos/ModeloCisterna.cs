@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MilkyPantsCheese
 {
@@ -16,7 +17,7 @@ namespace MilkyPantsCheese
         /// <summary>
         /// Nombre de la cisterna.
         /// </summary>
-        [StringLength(256)]
+        [Column(TypeName = "nvarchar(256)")]
         public string Nombre { get; set; }
 
         /// <summary>
