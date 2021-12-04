@@ -21,24 +21,28 @@ namespace MilkyPantsCheese.Pages
 		[BindProperty]
 		public int IdTambo { get; set; }
 
+		#region Campos
 		public EditarTambo(MilkyDbContext dbContext, ILogger<EditarTambo> logger)
-	    {
-		    _dbContext = dbContext;
-		    _logger = logger;
-	    }
+		{
+			_dbContext = dbContext;
+			_logger = logger;
+		}
+
+		#endregion
+		#region Metodos
 
 		public async Task OnGet([FromQuery(Name = "id")] int id)
-        {
+		{
 			IdTambo = id;
 
-	        var tamboSiendoEditado = await _dbContext.Tambos.FirstOrDefaultAsync(f => f.Id == IdTambo);
+			var tamboSiendoEditado = await _dbContext.Tambos.FirstOrDefaultAsync(f => f.Id == IdTambo);
 
-	        if (tamboSiendoEditado != null)
-	        {
+			if (tamboSiendoEditado != null)
+			{
 				Nombre = tamboSiendoEditado.Nombre;
-				Notas  = tamboSiendoEditado.Notas;
+				Notas = tamboSiendoEditado.Notas;
 			}
-        }
+		}
 
 		/// <summary>
 		/// Valida y aplica los cambios al tambo siendo editado.
@@ -52,7 +56,7 @@ namespace MilkyPantsCheese.Pages
 
 			//Si llegamos a este punto, significa que las validanciones anteriores tuvieron exito, asi que actualizamos todas las propiedades del modelo.
 			tamboSiendoEditado.Nombre = Nombre;
-			tamboSiendoEditado.Notas  = Notas;
+			tamboSiendoEditado.Notas = Notas;
 
 			//Si guardamos los datos con exito, volvemos a la pagina de administrar lotes de leches.
 			if (await _dbContext.IntentarGuardarCambios(_logger, ModelState, nameof(IdTambo)))
@@ -61,8 +65,10 @@ namespace MilkyPantsCheese.Pages
 			//Si llegamos a este punto significa que ocurrio un error al intentar guardar los datos
 			ModelState.AddModelError(nameof(IdTambo), "Ocurrio un error al intentar guardar los cambios. Si el problema persiste, contactese con soporte.");
 
-	        return Page();
-        }
+			return Page();
+		} 
+
+		#endregion
 
 		#region Propiedades para la edicion de tambos.
 

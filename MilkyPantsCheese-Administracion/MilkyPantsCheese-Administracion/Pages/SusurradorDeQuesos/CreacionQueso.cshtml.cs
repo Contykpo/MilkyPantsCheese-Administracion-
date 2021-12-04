@@ -8,88 +8,104 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MilkyPantsCheese.Pages
 {
     /// <summary>
     /// Modelo de la pagina encargada de lidiar con la creacion de quesos.
     /// </summary>
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Constantes.NombreRolSusurradorDeQuesos + "," + Constantes.NombreRolCheeseDoctor)]
     public class CreacionQuesoModel : PageModel
     {
-        private readonly MilkyDbContext _dbContext;
+		#region Campos
 
-        public readonly ILogger<CreacionQuesoModel> _logger;
+		private readonly MilkyDbContext _dbContext;
 
-        /// <summary>
-        /// Quesos disponibles.
-        /// </summary>
-        public List<ModeloQueso> Quesos { get; set; } = new List<ModeloQueso>();
+		public readonly ILogger<CreacionQuesoModel> _logger; 
 
-        public CreacionQuesoModel(MilkyDbContext dbContext, ILogger<CreacionQuesoModel> logger)
-        {
-            _dbContext = dbContext;
-            _logger    = logger;
-        
-            Quesos = (from c in dbContext.Quesos select c).ToList();
-        }
+		#endregion
 
-        public void OnGet()
-        {
-        }
+		#region Propiedades
 
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnPost()
-        {
-            if (!ModelState.IsValid)
-                return Page();
+		/// <summary>
+		/// Quesos disponibles.
+		/// </summary>
+		public List<ModeloQueso> Quesos { get; set; } = new List<ModeloQueso>(); 
 
-            if (!ValidationHelpers.TryParseDecimal(PesoPreCurado, 5, 2, out var pesoPreCurado))
-                ModelState.AddModelError(nameof(PesoPreCurado), "El peso del queso precurado solo puede contener caracteres numericos");
+		#endregion
 
-            if (!decimal.TryParse(PesoPostCurado, out var pesoPostCurado))
-            {
-                //Si la conversion fallo, pero no se habia ingresado un numero en primer lugar entonces solamente asignamos
-                //el peso a 0 y continuamos sin añadir errores
-                if (string.IsNullOrWhiteSpace(PesoPostCurado))
-                    pesoPostCurado = 0;
-                else
-                    ModelState.AddModelError(nameof(PesoPostCurado), "El peso debe ser un numero decimal");
-            }
+		#region Constructor
 
-            if (ModelState.ErrorCount > 0)
-                return Page();
+		public CreacionQuesoModel(MilkyDbContext dbContext, ILogger<CreacionQuesoModel> logger)
+		{
+			_dbContext = dbContext;
+			_logger = logger;
 
-            var lotes = (from c in _dbContext.LotesDeQuesos select c).ToList();
+			Quesos = (from c in dbContext.Quesos select c).ToList();
+		} 
 
-            //Creamos el nuevo queso.
-            ModeloQueso nuevoQueso = new ModeloQueso
-            {
-                FechaFinCuracion = FechaFinalCurado,
-                EstadoQueso    = EstadoQueso,
-                PesoPreCurado  = pesoPreCurado,
-                PesoPostCurado = pesoPostCurado,
-                Lote           = lotes.Single(m => m.Id == LoteId)
-            };
+		#endregion
 
-            //Intentamos crear el queso y guardarlo en la base de datos
-            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
-            {
-                _dbContext.Add(nuevoQueso);
+		#region Metodos
 
-                lotes.Single(m => m.Id == LoteId).Quesos.Add(nuevoQueso);
-            }))
-            {
-                _logger.LogError("Error al guardar los nuevos datos.");
-            }
-            
-            //De llegar hasta aqui, significa que la creacion del queso fue exitosa.
-            return RedirectToPage("CreacionQueso");
-        }
+		/// <summary>
+		/// Crea un nuevo <see cref="ModeloQueso"/> con los datos ingresados por el usuario
+		/// </summary>
+		public async Task<IActionResult> OnPost()
+		{
+			if (!ModelState.IsValid)
+				return Page();
 
+			if (!ValidationHelpers.TryParseDecimal(PesoPreCurado, 5, 2, out var pesoPreCurado))
+				ModelState.AddModelError(nameof(PesoPreCurado), "El peso del queso precurado solo puede contener caracteres numericos");
 
-        #region Propiedades para la creacion de quesos.
+			if (!decimal.TryParse(PesoPostCurado, out var pesoPostCurado))
+			{
+				//Si la conversion fallo, pero no se habia ingresado un numero en primer lugar entonces solamente asignamos
+				//el peso a 0 y continuamos sin añadir errores
+				if (string.IsNullOrWhiteSpace(PesoPostCurado))
+					pesoPostCurado = 0;
+				else
+					ModelState.AddModelError(nameof(PesoPostCurado), "El peso debe ser un numero decimal");
+			}
 
-        [BindProperty]
+			if (ModelState.ErrorCount > 0)
+				return Page();
+
+			var lotes = (from c in _dbContext.LotesDeQuesos select c).ToList();
+
+			//Creamos el nuevo queso.
+			ModeloQueso nuevoQueso = new ModeloQueso
+			{
+				FechaFinCuracion = FechaFinalCurado,
+				EstadoQueso = EstadoQueso,
+				PesoPreCurado = pesoPreCurado,
+				PesoPostCurado = pesoPostCurado,
+				Lote = lotes.Single(m => m.Id == LoteId)
+			};
+
+			//Intentamos crear el queso y guardarlo en la base de datos
+			if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
+			{
+				_dbContext.Add(nuevoQueso);
+
+				lotes.Single(m => m.Id == LoteId).Quesos.Add(nuevoQueso);
+			}))
+			{
+				_logger.LogError("Error al guardar los nuevos datos.");
+			}
+
+			//De llegar hasta aqui, significa que la creacion del queso fue exitosa.
+			return RedirectToPage("CreacionQueso");
+		} 
+
+		#endregion
+
+		#region Propiedades para la creacion de quesos.
+
+		[BindProperty]
         [DisplayName("Fecha en la que finalizo la curacion")]
         public DateTimeOffset FechaFinalCurado { get; set; } = DateTimeOffset.MinValue;
 

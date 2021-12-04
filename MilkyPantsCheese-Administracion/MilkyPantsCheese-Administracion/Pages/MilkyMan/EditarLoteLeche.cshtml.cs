@@ -18,47 +18,51 @@ namespace MilkyPantsCheese.Pages
 	[ValidateAntiForgeryToken]
 	public class EditarLoteLecheModel : PageModel
     {
-	    public readonly MilkyDbContext _dbContext;
-	    public readonly ILogger<EditarLoteLecheModel> _logger;
+		#region Campos
 
-	    /// <summary>
-	    /// Lote de leche siendo editado
-	    /// </summary>
-	    public ModeloLoteDeLeche loteSiendoEditado;
+		public readonly MilkyDbContext _dbContext;
+		public readonly ILogger<EditarLoteLecheModel> _logger;
 
 		/// <summary>
-		/// Id del lote de leche que estamos editando
+		/// Lote de leche siendo editado
 		/// </summary>
-		[BindProperty]
-		public int IdLoteLecheEditado { get; set; }
+		public ModeloLoteDeLeche loteSiendoEditado; 
+
+		#endregion
+
+		#region Constructores
 
 		public EditarLoteLecheModel(MilkyDbContext dbContext, ILogger<EditarLoteLecheModel> logger)
-	    {
-		    _dbContext = dbContext;
-		    _logger = logger;
-	    }
+		{
+			_dbContext = dbContext;
+			_logger = logger;
+		} 
+
+		#endregion
+
+		#region Metodos
 
 		public async Task OnGet([FromQuery(Name = "id")] int id)
-        {
+		{
 			IdLoteLecheEditado = id;
 
-	        var lotelecheSiendoEditado = await _dbContext.LotesDeLeche.FirstOrDefaultAsync(f => f.Id == IdLoteLecheEditado);
+			var lotelecheSiendoEditado = await _dbContext.LotesDeLeche.FirstOrDefaultAsync(f => f.Id == IdLoteLecheEditado);
 
-	        if (lotelecheSiendoEditado != null)
-	        {
-				FechaIngreso     = lotelecheSiendoEditado.Fecha;
-				PorcentajeAgua   = lotelecheSiendoEditado.PorcentajeDeAgua.ToString("F");
-				Temperatura      = lotelecheSiendoEditado.Temperatura.ToString("F");
-				Acidez           = lotelecheSiendoEditado.Acidez.ToString("F");
-				EstaDisponible   = lotelecheSiendoEditado.EstaDisponible;
+			if (lotelecheSiendoEditado != null)
+			{
+				FechaIngreso = lotelecheSiendoEditado.Fecha;
+				PorcentajeAgua = lotelecheSiendoEditado.PorcentajeDeAgua.ToString("F");
+				Temperatura = lotelecheSiendoEditado.Temperatura.ToString("F");
+				Acidez = lotelecheSiendoEditado.Acidez.ToString("F");
+				EstaDisponible = lotelecheSiendoEditado.EstaDisponible;
 				NotasAdicionales = lotelecheSiendoEditado.NotasAdicionales;
-				CisternaId       = lotelecheSiendoEditado.Cisterna.Id;
-				TamboId          = lotelecheSiendoEditado.TamboDeProveniencia.Id;
-	        }
-        }
+				CisternaId = lotelecheSiendoEditado.Cisterna.Id;
+				TamboId = lotelecheSiendoEditado.TamboDeProveniencia.Id;
+			}
+		}
 
 		/// <summary>
-		/// Valida y aplica los cambios al lote de leche siendo editado.
+		/// Valida y aplica los cambios al <see cref="loteSiendoEditado"/>.
 		/// </summary>
 		public async Task<IActionResult> OnPost()
 		{
@@ -88,15 +92,15 @@ namespace MilkyPantsCheese.Pages
 			//Si llegamos a este punto, significa que las validanciones anteriores tuvieron exito, asi que actualizamos todas las propiedades del modelo.
 
 			var cisternas = (from c in _dbContext.Cisternas select c).ToList();
-			var tambos  = (from c in _dbContext.Tambos select c).ToList();
+			var tambos = (from c in _dbContext.Tambos select c).ToList();
 
-			lotelecheSiendoEditado.Fecha               = FechaIngreso;
-			lotelecheSiendoEditado.PorcentajeDeAgua    = nuevoPorcentajeAgua;
-			lotelecheSiendoEditado.Temperatura         = nuevaTemperatura;
-			lotelecheSiendoEditado.Acidez              = nuevaAcidez;
-			lotelecheSiendoEditado.EstaDisponible      = EstaDisponible;
-			lotelecheSiendoEditado.NotasAdicionales    = NotasAdicionales;
-			lotelecheSiendoEditado.Cisterna            = cisternas.Single(m => m.Id == CisternaId);
+			lotelecheSiendoEditado.Fecha = FechaIngreso;
+			lotelecheSiendoEditado.PorcentajeDeAgua = nuevoPorcentajeAgua;
+			lotelecheSiendoEditado.Temperatura = nuevaTemperatura;
+			lotelecheSiendoEditado.Acidez = nuevaAcidez;
+			lotelecheSiendoEditado.EstaDisponible = EstaDisponible;
+			lotelecheSiendoEditado.NotasAdicionales = NotasAdicionales;
+			lotelecheSiendoEditado.Cisterna = cisternas.Single(m => m.Id == CisternaId);
 			lotelecheSiendoEditado.TamboDeProveniencia = tambos.Single(m => m.Id == TamboId);
 
 			if (ImagenPlanillita is not null)
@@ -115,13 +119,20 @@ namespace MilkyPantsCheese.Pages
 			//Si llegamos a este punto significa que ocurrio un error al intentar guardar los datos
 			ModelState.AddModelError(nameof(IdLoteLecheEditado), "Ocurrio un error al intentar guardar los cambios. Si el problema persiste, contactese con soporte.");
 
-	        return Page();
-        }
+			return Page();
+		}
+
+		#endregion
 
 		#region Propiedades para la edicion de lote de leches.
 
+		/// <summary>
+		/// Id del lote de leche que estamos editando
+		/// </summary>
+		[BindProperty]
+		public int IdLoteLecheEditado { get; set; }
+
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
-		[DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
 		[Display(Name = "Fecha de ingreso")]
 		[BindProperty]
 		public DateTimeOffset FechaIngreso { get; set; }

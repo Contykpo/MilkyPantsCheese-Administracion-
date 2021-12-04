@@ -38,7 +38,7 @@
         <div class="col-md-1 col-2 px-sm-0 px-md-2">
 
             @*Si el lote ya se ha utilizado en algun queso entonces no debemos permitir que sea eliminado*@
-            @if (loteQueso.Quesos == null)
+            @if (loteQueso.Quesos.Count == 0)
             {
                 <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteQueso.Id)" />
             }

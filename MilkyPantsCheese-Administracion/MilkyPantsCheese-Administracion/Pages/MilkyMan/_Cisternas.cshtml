@@ -28,7 +28,7 @@
         <div class="col-md-1 col-2 px-sm-0 px-md-2">
 
             @*Si la cisterna ya se ha utilizado en algun lote de leche entonces no debemos permitir que sea eliminado*@
-            @if (cisterna.LotesDeLeche == null)
+            @if (cisterna.LotesDeLeche.Count == 0)
             {
                 <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @cisterna.Id)" />
             }

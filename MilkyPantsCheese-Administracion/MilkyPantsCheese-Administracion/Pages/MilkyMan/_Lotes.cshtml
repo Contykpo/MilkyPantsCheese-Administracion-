@@ -33,21 +33,6 @@
             <a asp-page="/MilkyMan/EditarLoteLeche" asp-route-id="@loteLeche.Id" class="btn btn-warning">Editar</a>
         </div>
 
-        @*Boton eliminar*@
-        <div class="col-md-1 col-2 px-sm-0 px-md-2">
-
-            @*Si el lote ya se ha utilizado en alguna cisterna entonces no debemos permitir que sea eliminado*@
-            @if (loteLeche.Cisterna == null)
-            {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteLeche.Id)" />
-            }
-            else
-            {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @loteLeche.Id)" disabled="disabled" />
-            }
-
-        </div>
-
         <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarLoteLeche" asp-route-id="@loteLeche.Id" class="d-none" />
 
     </div>

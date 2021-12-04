@@ -24,21 +24,6 @@
             <a asp-page="/SusurradorDeQuesos/EditarQueso" asp-route-id="@queso.Id" class="btn btn-warning">Editar</a>
         </div>
 
-        @*Boton eliminar*@
-        <div class="col-md-1 col-2 px-sm-0 px-md-2">
-
-            @*Si el queso ya se ha utilizado en algun lote entonces no debemos permitir que sea eliminado*@
-            @if (queso.Lote == null)
-            {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @queso.Id)" />
-            }
-            else
-            {
-                <input type="submit" class="btn btn-warning" value="Eliminar" onclick="BotonEliminarPresionadoHandler(event, @queso.Id)" disabled="disabled" />
-            }
-
-        </div>
-
         <input id="botonEliminarDirecto" type="submit" asp-page-handler="EliminarQueso" asp-route-id="@queso.Id" class="d-none" />
     
     </div>

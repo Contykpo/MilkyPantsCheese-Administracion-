@@ -147,7 +147,7 @@ namespace MilkyPantsCheese.Pages
 		/// Devuelve una <see cref="PartialViewResult"/> con la lista de los <see cref="ModeloLoteDeLeche"/> que satisfacen el filtro ingresado
 		/// </summary>
 		/// <returns><see cref="PartialViewResult"/> con la lista de los <see cref="ModeloLoteDeLeche"/> que satisfacen el filtro ingresado</returns>
-		public async Task<PartialViewResult> OnPostFiltradoLotes()
+		public PartialViewResult OnPostFiltradoLotes()
 		{
 			return Partial("_Lotes", this);
 		} 
@@ -158,11 +158,11 @@ namespace MilkyPantsCheese.Pages
 
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
 		[Display(Name = "Fecha de ingreso")]
-        [DataType(DataType.Text)]
-        [BindProperty]
-        public DateTimeOffset FechaIngreso { get; set; } = DateTimeOffset.Now;
+		[DataType(DataType.Text)]
+		[BindProperty]
+		public DateTimeOffset FechaIngreso { get; set; }
 
-        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
+		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [Display(Name = "Temperatura (°C)")]
         [DataType(DataType.Text)]
         [BindProperty]
