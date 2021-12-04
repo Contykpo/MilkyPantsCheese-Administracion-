@@ -43,7 +43,7 @@ namespace MilkyPantsCheese
 
 	        services.AddDbContext<MilkyDbContext>(config =>
 		        config.UseLazyLoadingProxies()
-			        .UseMySql(connString, new MariaDbServerVersion(Environment.IsDevelopment() ? "10.6.5" : "10.3.31")));
+			        .UseSqlServer(connString));
 
             services.AddIdentity<ModeloUsuario, ModeloRol>()
 	            .AddEntityFrameworkStores<MilkyDbContext>()
@@ -121,7 +121,7 @@ namespace MilkyPantsCheese
 
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
             
             //app.UseHttpsRedirection();
