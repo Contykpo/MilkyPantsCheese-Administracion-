@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,61 +15,77 @@ namespace MilkyPantsCheese.Pages
     /// <summary>
     /// Modelo de la pagina encargada de lidiar con la creacion de tambos.
     /// </summary>
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Constantes.NombreRolMilkyMan)]
     public class CreacionTamboModel : PageModel
     {
-        private readonly MilkyDbContext _dbContext;
+		#region Campos
 
-        public readonly ILogger<CreacionTamboModel> _logger;
+		private readonly MilkyDbContext _dbContext;
 
-        /// <summary>
-        /// Tambos disponibles.
-        /// </summary>
-        public List<ModeloTambo> Tambos { get; set; } = new List<ModeloTambo>();
+		public readonly ILogger<CreacionTamboModel> _logger; 
 
-        public CreacionTamboModel(MilkyDbContext dbContext, ILogger<CreacionTamboModel> logger)
-        {
-            _dbContext   = dbContext;
-            _logger = logger;
+		#endregion
 
-            Tambos = (from t in _dbContext.Tambos select t).ToList();
-        }
+		#region Propiedades
 
-        public void OnGet()
-        {
-        }
+		/// <summary>
+		/// Tambos disponibles.
+		/// </summary>
+		public List<ModeloTambo> Tambos { get; set; } = new List<ModeloTambo>(); 
 
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnPost()
-        {
-            if (!ModelState.IsValid)
-                return Page();
+		#endregion
 
-            if(ModelState.ErrorCount > 0)
-                return Page();
+		#region Constructor
 
-            //Creamos el nuevo tambo.
-            ModeloTambo nuevoTambo = new ModeloTambo
-            {
-                Nombre = Nombre,
-                Notas  = Notas
-            };
+		public CreacionTamboModel(MilkyDbContext dbContext, ILogger<CreacionTamboModel> logger)
+		{
+			_dbContext = dbContext;
+			_logger = logger;
 
-            //Intentamos crear el tambo y guardarlo en la base de datos
-            if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
-            {
-                _dbContext.Add(nuevoTambo);
-            }))
-            {
-                _logger.LogError("Error al guardar los nuevos datos.");
-            }
+			Tambos = (from t in _dbContext.Tambos select t).ToList();
+		} 
 
-            //Volvemos a la pagina principal.
-            return RedirectToPage("CreacionTambo");
-        }
+		#endregion
 
-        #region Propiedades para la creacion de tambos.
+		#region Metodos
 
-        [Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
+		/// <summary>
+		/// Crea un nuevo <see cref="ModeloTambo"/> con los datos ingresados por el usuario
+		/// </summary>
+		public async Task<IActionResult> OnPost()
+		{
+			if (!ModelState.IsValid)
+				return Page();
+
+			if (ModelState.ErrorCount > 0)
+				return Page();
+
+			//Creamos el nuevo tambo.
+			ModeloTambo nuevoTambo = new ModeloTambo
+			{
+				Nombre = Nombre,
+				Notas = Notas
+			};
+
+			//Intentamos crear el tambo y guardarlo en la base de datos
+			if (!await _dbContext.IntentarGuardarCambios(_logger, ModelState, string.Empty, () =>
+			{
+				_dbContext.Add(nuevoTambo);
+			}))
+			{
+				_logger.LogError("Error al guardar los nuevos datos.");
+			}
+
+			//Volvemos a la pagina principal.
+			return RedirectToPage("CreacionTambo");
+		} 
+
+		#endregion
+
+		#region Propiedades para la creacion de tambos.
+
+		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
         [StringLength(256)]
         [BindProperty]
         [DataType(DataType.Text)]

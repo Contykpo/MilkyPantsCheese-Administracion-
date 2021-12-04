@@ -147,7 +147,7 @@ namespace MilkyPantsCheese.Pages
 		/// Devuelve una <see cref="PartialViewResult"/> con la lista de los <see cref="ModeloLoteDeLeche"/> que satisfacen el filtro ingresado
 		/// </summary>
 		/// <returns><see cref="PartialViewResult"/> con la lista de los <see cref="ModeloLoteDeLeche"/> que satisfacen el filtro ingresado</returns>
-		public async Task<PartialViewResult> OnPostFiltradoLotes()
+		public PartialViewResult OnPostFiltradoLotes()
 		{
 			return Partial("_Lotes", this);
 		} 
