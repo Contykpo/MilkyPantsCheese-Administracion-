@@ -121,7 +121,6 @@ namespace MilkyPantsCheese.Pages
 		#region Propiedades para la edicion de lote de leches.
 
 		[Required(ErrorMessage = Constantes.MensajeErrorCampoNoPuedeQuedarVacio)]
-		[DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
 		[Display(Name = "Fecha de ingreso")]
 		[BindProperty]
 		public DateTimeOffset FechaIngreso { get; set; }
