@@ -1,3 +1,5 @@
 # MilkyPantsCheese-Administracion-
 
-Aplicación web para la administración de registros y producción para la quesería Milky Pants Cheese.
+Assignment for INET - ETP National Olympics 2021
+
+Web application dedicated to creation and management of production and stock logs of a fictional cheese factory, Milky Pants Cheese.
